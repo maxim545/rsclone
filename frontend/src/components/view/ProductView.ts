@@ -15,7 +15,8 @@ class ProductView extends Element {
         this.controller = new Controller();
     }
 
-    create(userIsAuth: boolean, id: string) {
+    create() {
+        const id = window.location.hash.replace("#", "").slice(3);
         const productEl = this.createEl('div', '', 'container', null);
         (async () => {
             const product = <IProduct | undefined>await this.api.getProduct(id);

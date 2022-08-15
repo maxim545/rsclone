@@ -15,7 +15,7 @@ class PurchaseView extends Element {
         this.controller = new Controller();
     }
 
-    create(userIsAuth: boolean, id: string) {
+    create() {
         const purchaseEl = this.createEl('div', '', 'purchase', null);
         (async () => {
             const userData = JSON.parse(localStorage.getItem('userData'))

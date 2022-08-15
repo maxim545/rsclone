@@ -14,8 +14,9 @@ class AccountView extends Element {
         this.updateView = new UpdateView();
     }
 
-    create(userIsAuth: boolean) {
+    create() {
         const accountEl = this.createEl('div', '', 'account', null);
+        const userIsAuth = !!JSON.parse(localStorage.getItem('userData'));
         if (!userIsAuth) {
             const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
             const registerLink = `<a class="acoount__link" href="#/register">register</a>`

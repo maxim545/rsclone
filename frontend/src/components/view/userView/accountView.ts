@@ -1,7 +1,18 @@
 import Element from "../../common/Element";
+import Controller from "../../Controller";
+import UpdateView from "../../Update";
 
 class AccountView extends Element {
 
+    private controller: Controller;
+
+    private updateView: UpdateView
+
+    constructor() {
+        super()
+        this.controller = new Controller();
+        this.updateView = new UpdateView();
+    }
 
     create(userIsAuth: boolean) {
         const accountEl = this.createEl('div', '', 'account', null);
@@ -41,7 +52,14 @@ class AccountView extends Element {
 
             const submit = this.createEl('button', 'submit', 'account__btn', accountEl);
 
-
+            submit.addEventListener('click', () => {
+                if (inputNewPassword.value === inputRepeatPas.value) {
+                    this.controller.changeUserData(inputName.value, inputEmail.value, inputNewPassword.value)
+                        .then(() => { this.updateView.updateHeader() })
+                } else {
+                    alert("Your passwords dont matches")
+                }
+            });
         }
 
         return accountEl;

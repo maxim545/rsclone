@@ -1,7 +1,14 @@
+import Api from "../api";
 import Element from "../common/Element";
 
 class CatalogView extends Element {
 
+    private api: Api
+
+    constructor() {
+        super();
+        this.api = new Api();
+    }
 
     create() {
         const main = this.createEl('div', '', 'item__container', null);

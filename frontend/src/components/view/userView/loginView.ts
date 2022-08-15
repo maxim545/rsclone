@@ -1,7 +1,19 @@
 import Element from "../../common/Element";
-
+import Controller from "../../Controller";
+import UpdateView from "../../Update";
 
 class LoginView extends Element {
+
+
+    private controller: Controller
+
+    private updateView: UpdateView
+
+    constructor() {
+        super()
+        this.controller = new Controller();
+        this.updateView = new UpdateView();
+    }
 
     create() {
         const loginEl = this.createEl('div', '', 'login', null);
@@ -21,6 +33,12 @@ class LoginView extends Element {
         const submit = this.createEl('button', 'submit', 'login__btn', loginEl);
         const register = this.createEl('a', 'Register new account', 'login__register', loginEl) as HTMLAnchorElement;
         register.href = `#/register`;
+
+        submit.addEventListener('click', () => {
+            this.controller.loginUser(inputEmail.value, inputPassword.value)
+                .then(() => { this.updateView.updateHeader() })
+        });
+
         return loginEl;
     }
 

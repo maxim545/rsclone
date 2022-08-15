@@ -29,6 +29,7 @@ module.exports = {
         "no-alert": 0,
         "class-methods-use-this": "off",
         "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-floating-promises": "off",
         "no-param-reassign": "off",
         "no-restricted-syntax": "off"
     }

@@ -1,11 +1,24 @@
+import Api from "../api";
 import Element from "../common/Element";
+import Controller from "../Controller";
 
 class PurchaseView extends Element {
 
+    private api: Api
+
+    private controller: Controller;
+
+
+    constructor() {
+        super();
+        this.api = new Api();
+        this.controller = new Controller();
+    }
 
     create(userIsAuth: boolean, id: string) {
         const purchaseEl = this.createEl('div', '', 'purchase', null);
         (async () => {
+            const userData = JSON.parse(tlocalStorage.getItem('userData'))
             const purchases = await this.api.getPurchases(userData);
             purchases.forEach(item => {
                 const purchaseItem = this.createEl('div', item._id, 'purchase__id', purchaseEl);

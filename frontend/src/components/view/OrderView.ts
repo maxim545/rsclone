@@ -1,10 +1,23 @@
+import Api from "../api";
 import Element from "../common/Element";
+import Controller from "../Controller";
 
 class ProductView extends Element {
 
+    private api: Api
+
+    private controller: Controller;
+
+
+    constructor() {
+        super();
+        this.api = new Api();
+        this.controller = new Controller();
+    }
 
     create(userIsAuth: boolean, id: string) {
         const productEl = this.createEl('div', '', 'container', null);
+        const userData = JSON.parse(localStorage.getItem('userData'));
         (async () => {
             const product = await this.api.getOrder(id, userData);
             const itemEl = this.createEl('div', '', 'item', productEl);

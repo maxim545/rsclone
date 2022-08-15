@@ -8,17 +8,17 @@ class Router {
         let productIndex = '';
         let renderInstanse;
         if (hashArr.includes('p')) {
-            renderInstanse = routerData['/p/'];
+            renderInstanse = routerData['/p/'].instance;
             productIndex = location.slice(3);
         } else if (hashArr.includes('order')) {
-            renderInstanse = routerData['/order/'];
+            renderInstanse = routerData['/order/'].instance;
             productIndex = location.slice(7);
         } else if (location === '') {
-            renderInstanse = routerData['/'];
+            renderInstanse = routerData['/'].instance;
         } else if (!routerData[location as keyof typeof routerData]) {
-            renderInstanse = routerData['404'];
+            renderInstanse = routerData['404'].instance;
         } else {
-            renderInstanse = routerData[location as keyof typeof routerData]
+            renderInstanse = routerData[location as keyof typeof routerData].instance
         }
         mainEl.innerHTML = '';
         mainEl.append(renderInstanse.create(userIsAuth, productIndex))

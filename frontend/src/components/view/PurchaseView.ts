@@ -18,7 +18,7 @@ class PurchaseView extends Element {
     create(userIsAuth: boolean, id: string) {
         const purchaseEl = this.createEl('div', '', 'purchase', null);
         (async () => {
-            const userData = JSON.parse(tlocalStorage.getItem('userData'))
+            const userData = JSON.parse(localStorage.getItem('userData'))
             const purchases = await this.api.getPurchases(userData);
             purchases.forEach(item => {
                 const purchaseItem = this.createEl('div', item._id, 'purchase__id', purchaseEl);

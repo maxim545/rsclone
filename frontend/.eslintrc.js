@@ -17,16 +17,17 @@ module.exports = {
         "ecmaVersion": "latest",
         "sourceType": "module",
         tsconfigRootDir: __dirname,
-        "project":["./tsconfig.json"]
+        "project": ["./tsconfig.json"]
     },
     "plugins": [
         "prettier",
-        "import", 
+        "import",
         "@typescript-eslint"
     ],
     "rules": {
         "no-console": 0,
         "class-methods-use-this": "off",
-        "@typescript-eslint/no-explicit-any": "error"
+        "@typescript-eslint/no-explicit-any": "error",
+        "no-param-reassign": "off",
     }
 }

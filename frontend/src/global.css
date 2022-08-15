@@ -1,0 +1,20 @@
+body {
+    color: rgb(0, 0, 0);
+    background: #ececec;
+    font-family: sans-serif;
+}
+
+header {
+    padding: 10px 30px;
+}
+
+header h1 {
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.header__nav {
+    display: flex;
+    justify-content: space-between;
+    max-width: 200px;
+}

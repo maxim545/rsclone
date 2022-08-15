@@ -26,6 +26,7 @@ module.exports = {
     ],
     "rules": {
         "no-console": 0,
+        "no-alert": 0,
         "class-methods-use-this": "off",
         "@typescript-eslint/no-explicit-any": "error",
         "no-param-reassign": "off",

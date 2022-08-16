@@ -13,10 +13,8 @@ class HeaderView extends Element {
     create() {
         const headerContainer = this.createEl('div', '', 'container', null);
         const nav = this.createEl('nav', '', 'nav', headerContainer);
-        const linkHome = this.createEl('a', 'home', 'nav__link', nav) as HTMLAnchorElement;
-        linkHome.href = `#/`;
-        const linkCart = this.createEl('a', 'cart', 'nav__link', nav) as HTMLAnchorElement;
-        linkCart.href = `#/cart`;
+        const linkHome = this.createEl('a', 'home', 'nav__link', nav, `#/`) as HTMLAnchorElement;
+        const linkCart = this.createEl('a', 'cart', 'nav__link', nav, `#/cart`) as HTMLAnchorElement;
         const userData = JSON.parse(localStorage.getItem('userData'));
         if (userData) {
             const profile = this.createEl('div', '', 'dropdown', nav);
@@ -27,17 +25,14 @@ class HeaderView extends Element {
 
             const userLinks = ['cart', 'account', 'favorites', 'purchase'];
             userLinks.forEach(link => {
-                const linkEL = this.createEl('a', link, '', profileList) as HTMLAnchorElement;
-                linkEL.href = `#/${link}`
+                const linkEL = this.createEl('a', link, '', profileList, `#/${link}`) as HTMLAnchorElement;
             })
 
-            const logoutLink = this.createEl('a', 'logout', '', profileList) as HTMLAnchorElement;
-            logoutLink.href = `/`;
+            const logoutLink = this.createEl('a', 'logout', '', profileList, `/`) as HTMLAnchorElement;
             logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
 
         } else {
-            const linkLogin = this.createEl('a', 'login', 'nav__link', nav) as HTMLAnchorElement;
-            linkLogin.href = `#/login`;
+            const linkLogin = this.createEl('a', 'login', 'nav__link', nav, `#/login`) as HTMLAnchorElement;
         }
 
         return headerContainer;

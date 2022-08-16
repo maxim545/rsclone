@@ -40,9 +40,7 @@ class RegisterView extends Element {
         inputRepeatPas.type = 'password';
 
         const submit = this.createEl('button', 'submit', 'register__btn', registerEl);
-        const login = this.createEl('a', 'I have account', 'register__login', registerEl) as HTMLAnchorElement;
-        login.href = `#/login`;
-
+        const login = this.createEl('a', 'I have account', 'register__login', registerEl, `#/login`) as HTMLAnchorElement;
         submit.addEventListener('click', () => {
             this.controller.registerUser(inputName.value, inputEmail.value, inputPassword.value, inputRepeatPas.value)
                 .then(() => { this.updateView.updateHeader() })

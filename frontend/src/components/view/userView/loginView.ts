@@ -31,9 +31,7 @@ class LoginView extends Element {
         inputPassword.type = 'password';
 
         const submit = this.createEl('button', 'submit', 'login__btn', loginEl);
-        const register = this.createEl('a', 'Register new account', 'login__register', loginEl) as HTMLAnchorElement;
-        register.href = `#/register`;
-
+        const register = this.createEl('a', 'Register new account', 'login__register', loginEl, `#/register`) as HTMLAnchorElement;
         submit.addEventListener('click', () => {
             this.controller.loginUser(inputEmail.value, inputPassword.value)
                 .then(() => { this.updateView.updateHeader() })

@@ -1,6 +1,6 @@
 import express from 'express';
 import Order from './orderModel';
-import { verifyToken } from './utils';
+import { verifyToken } from '../utils';
 
 const orderRouter = express.Router();
 

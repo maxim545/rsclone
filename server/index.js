@@ -3,9 +3,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
-import { products } from './data';
-import userRouter from './userRouter';
-import orderRouter from './orderRouter';
+import { products } from './src/product/data';
+import userRouter from './src/user/userRouter';
+import orderRouter from './src/order/orderRouter';
 
 dotenv.config();
 mongoose.connect(

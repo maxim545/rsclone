@@ -30,7 +30,7 @@ class Controller {
     }
 
     async loginUser(email: string, password: string) {
-        const loginData = { email: '', password: '' };
+        const loginData: IUserData = {};
         if (email && password) {
             loginData.email = email;
             loginData.password = password;
@@ -41,6 +41,11 @@ class Controller {
                 window.location.hash = '/';
                 const curUser = {
                     name: userData.name,
+                    email: userData.email,
+                    surname: userData.surname,
+                    phone: userData.phone,
+                    adress: userData.adress,
+                    thirdname: userData.thirdname,
                     id: userData._id,
                     token: userData.token
                 }
@@ -56,7 +61,7 @@ class Controller {
     }
 
     async registerUser(name: string, email: string, password: string, repeatPassword: string) {
-        const registerData = { name: '', email: '', password: '' };
+        const registerData: IUserData = {};
         const passwordIsSame = password === repeatPassword
         if (name && email && password && passwordIsSame) {
             registerData.name = name;
@@ -69,6 +74,11 @@ class Controller {
                 window.location.hash = '/';
                 const curUser = {
                     name: userData.name,
+                    email: userData.email,
+                    surname: userData.surname,
+                    phone: userData.phone,
+                    adress: userData.adress,
+                    thirdname: userData.thirdname,
                     id: userData._id,
                     token: userData.token
                 }
@@ -80,17 +90,25 @@ class Controller {
         }
     }
 
-    async changeUserData(name: string, email: string, password: string) {
-        const userNewData = { name: '', email: '', password: '', token: '' };
+    async changeUserData(name: string, email: string, password: string, surname: string, phone: string, adress: string, thirdname: string, newPasswordOne: string, newPasswordTwo: string) {
+        if (newPasswordOne !== newPasswordTwo) {
+            throw new Error('Your passwords must match');
+        }
+        const userNewData: IUserData = {};
         const curUser = JSON.parse(localStorage.getItem('userData'));
-        if (name && email && password && curUser) {
+        if (name && surname && phone && adress && thirdname && email && password && curUser) {
             userNewData.name = name;
+            userNewData.surname = surname;
+            userNewData.phone = phone;
+            userNewData.adress = adress;
+            userNewData.thirdname = thirdname;
             userNewData.email = email;
             userNewData.password = password;
             userNewData.token = curUser.token
-            const userData = await this.api.updateUser(userNewData, curUser.id)
-            curUser.name = userData.name
-            localStorage.setItem('userData', JSON.stringify(curUser));
+            const [userData, status] = await this.api.updateUser(userNewData, curUser.id);
+            userNewData.id = userData._id;
+            userNewData.token = userData.token
+            localStorage.setItem('userData', JSON.stringify(userNewData));
         } else {
             alert('Please fill all fields');
         }

@@ -1,5 +1,6 @@
 import Element from "../../common/Element";
 import Controller from "../../Controller";
+import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 class AccountView extends Element {
@@ -16,8 +17,8 @@ class AccountView extends Element {
 
     create() {
         const accountEl = this.createEl('div', '', 'account', null);
-        const userIsAuth = !!JSON.parse(localStorage.getItem('userData'));
-        if (!userIsAuth) {
+        const userData: IUserData = JSON.parse(localStorage.getItem('userData'));
+        if (!userData) {
             const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
             const registerLink = `<a class="acoount__link" href="#/register">register</a>`
             this.createEl('div', `Please ${enterLink} in your account or ${registerLink}`, 'account__warning', accountEl);
@@ -25,41 +26,33 @@ class AccountView extends Element {
         else {
             this.createEl('h2', 'My data', 'account__title', accountEl);
             const inpustList = this.createEl('div', '', 'account__list', accountEl);
-
-            const nameEl = this.createEl('div', '', 'login__item', inpustList);
-            this.createEl('p', 'change name', 'login__title', nameEl);
-            const inputName = this.createEl('input', '', `login__email`, nameEl) as HTMLInputElement;
-            inputName.type = 'name';
-
-            const emailEl = this.createEl('div', '', 'login__item', inpustList);
-            this.createEl('p', 'change email', 'login__title', emailEl);
-            const inputEmail = this.createEl('input', '', `login__email`, emailEl) as HTMLInputElement;
-            inputEmail.type = 'email';
-
-            const curPasswordEl = this.createEl('div', '', 'login__item', inpustList);
-            this.createEl('p', 'enter current password', 'login__title', curPasswordEl);
-            const inputPassword = this.createEl('input', '', `login__password`, curPasswordEl) as HTMLInputElement;
-            inputPassword.type = 'password';
-
-            const newPasswordEl = this.createEl('div', '', 'login__item', inpustList);
-            this.createEl('p', 'enter new password', 'login__title', newPasswordEl);
-            const inputNewPassword = this.createEl('input', '', `login__password`, newPasswordEl) as HTMLInputElement;
-            inputNewPassword.type = 'password';
-
-            const repeatPasEl = this.createEl('div', '', 'login__item', inpustList);
-            this.createEl('p', 'repeat new password', 'login__title', repeatPasEl);
-            const inputRepeatPas = this.createEl('input', '', `login__password`, repeatPasEl) as HTMLInputElement;
-            inputRepeatPas.type = 'password';
+            const inputs = ['name:text', 'email:email', 'password:password', 'surname:text', 'thirdname:text', 'phone:text', 'adress:text', 'newPasswordOne:password', 'newPasswordTwo:password']
+            const test = {}
+            inputs.forEach(item => {
+                const [name, type] = item.split(':');
+                const inputContainer = this.createEl('div', '', 'login__item', inpustList);
+                this.createEl('p', `change ${name}`, 'login__title', inputContainer);
+                const input = this.createEl('input', '', name, inputContainer) as HTMLInputElement;
+                input.type = type;
+                input.addEventListener('change', () => { test[name] = input.value })
+                if (userData[name] !== undefined) {
+                    input.value = userData[name];
+                    test[name] = input.value;
+                } else if (type === 'password') {
+                    test[name] = input.value;
+                }
+            })
 
             const submit = this.createEl('button', 'submit', 'account__btn', accountEl);
-
             submit.addEventListener('click', () => {
-                if (inputNewPassword.value === inputRepeatPas.value) {
-                    this.controller.changeUserData(inputName.value, inputEmail.value, inputNewPassword.value)
-                        .then(() => { this.updateView.updateHeader() })
-                } else {
-                    alert("Your passwords dont matches")
-                }
+                const inputs = Object.values(test)
+                this.controller.changeUserData(...Object.values(test))
+                    .then(() => {
+                        this.updateView.updateHeader();
+                        /* const main = document.querySelector('.main') as HTMLElement;
+                        main.innerHTML = '';
+                        main.append(this.create()) */
+                    })
             });
         }
 

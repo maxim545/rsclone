@@ -19,10 +19,15 @@ export interface ILogin {
 
 export interface IUserData {
   _id?: string,
-  name: string,
-  email: string,
+  name?: string,
+  surname?: string,
+  adress?: string,
+  phone?: string,
+  thirdname?: string,
+  email?: string,
   isAdmin?: boolean,
-  token: string
+  token?: string,
+  password?: string
 }
 
 export type TOptions = {

@@ -80,7 +80,8 @@ class Api {
                 body: JSON.stringify(data),
             });
             const userData = await response.json() as IUserData;
-            return userData;
+            const { status } = response
+            return [userData, status];
         } catch (err) {
             console.error(err);
             throw err;

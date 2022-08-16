@@ -5,13 +5,18 @@ import { getToken, verifyToken } from '../utils';
 const userRouter = express.Router();
 
 userRouter.get(
-    '/createadmin',
+    '/admin',
     async (req, res) => {
         try {
             const user = new User({
                 name: 'admin',
+                surname: 'admin',
+                phone: '+3',
+                adress: 'str',
+                thirdname: 'admin',
                 email: 'admin@admin.com',
                 password: '123',
+                role: 'admin'
             });
             const admin = await user.save();
             res.send(admin);
@@ -20,6 +25,27 @@ userRouter.get(
         }
     }
 );
+
+
+/* userRouter.get(
+    '/manager',
+    async (req, res) => {
+        try {
+            const user = new User({
+                name: 'manager-1',
+                surname: 'manager-1',
+                email: 'manager@manager.com',
+                password: '123',
+                role: 'manager',
+            });
+            const admin = await user.save();
+            res.send(admin);
+        } catch (err) {
+            res.status(500).send({ message: err.message });
+        }
+    }
+); */
+
 
 userRouter.post(
     '/login',
@@ -36,7 +62,11 @@ userRouter.post(
             res.send({
                 _id: loginUser._id,
                 name: loginUser.name,
+                surname: loginUser.surname,
                 email: loginUser.email,
+                phone: loginUser.phone,
+                adress: loginUser.adress,
+                thirdname: loginUser.thirdname,
                 token: getToken(loginUser),
             });
         }
@@ -76,7 +106,11 @@ userRouter.post(
                 res.send({
                     _id: newUser._id,
                     name: newUser.name,
+                    surname: newUser.surname,
                     email: newUser.email,
+                    phone: newUser.phone,
+                    adress: newUser.adress,
+                    thirdname: newUser.thirdname,
                     token: getToken(newUser),
                 });
             }
@@ -89,19 +123,34 @@ userRouter.put(
     verifyToken,
     async (req, res) => {
         const user = await User.findById(req.params.id);
+        const emailIsRegister = await User.findOne({
+            email: req.body.email,
+        });
         if (!user) {
             res.status(404).send({
                 message: 'User Not Found',
             });
+        } else if (emailIsRegister.email !== user.email) {
+            res.status(409).send({
+                message: 'This is Email already registered another user',
+            });
         } else {
             user.name = req.body.name || user.name;
+            user.surname = req.body.surname || user.surname;
             user.email = req.body.email || user.email;
             user.password = req.body.password || user.password;
+            user.phone = req.body.phone || user.phone;
+            user.adress = req.body.adress || user.adress;
+            user.thirdname = req.body.thirdname || user.thirdname;
             const updatedUser = await user.save();
             res.send({
                 _id: updatedUser._id,
                 name: updatedUser.name,
+                surname: updatedUser.surname,
                 email: updatedUser.email,
+                phone: updatedUser.phone,
+                adress: updatedUser.adress,
+                thirdname: updatedUser.thirdname,
                 token: getToken(updatedUser),
             });
         }

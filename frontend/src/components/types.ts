@@ -1,19 +1,23 @@
+export interface IVariant {
+  size: string;
+  stock: number
+}
+
 export interface IProduct {
   id: string,
   name: string,
-  count: string,
   year: string,
   color: string,
-  size: string,
-  type: string,
+  category: string,
   price: string,
+  image: string,
   brand: string,
-  popular: boolean,
+  variant: IVariant,
 }
 
 export interface ILogin {
-  email: string,
-  password: string
+  email?: string,
+  password?: string
 
 }
 
@@ -25,7 +29,6 @@ export interface IUserData {
   phone?: string,
   thirdname?: string,
   email?: string,
-  isAdmin?: boolean,
   token?: string,
   password?: string
 }
@@ -33,6 +36,20 @@ export interface IUserData {
 export type TOptions = {
   [prop: string]: string;
 };
+
+
+export interface IOrder {
+  _id: string,
+  name: string
+}
+
+export interface IOrders {
+  _id: string,
+  orderItems: IOrder[],
+  updatedAt: string,
+  user: string,
+  __v: number,
+}
 
 
 

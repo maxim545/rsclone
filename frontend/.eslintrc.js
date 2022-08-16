@@ -31,6 +31,7 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-floating-promises": "off",
         "no-param-reassign": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "no-underscore-dangle": "off",
     }
 }

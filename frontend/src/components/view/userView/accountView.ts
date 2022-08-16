@@ -17,7 +17,7 @@ class AccountView extends Element {
 
     create() {
         const accountEl = this.createEl('div', '', 'account', null);
-        const userData: IUserData = JSON.parse(localStorage.getItem('userData'));
+        const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         if (!userData) {
             const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
             const registerLink = `<a class="acoount__link" href="#/register">register</a>`
@@ -26,33 +26,30 @@ class AccountView extends Element {
         else {
             this.createEl('h2', 'My data', 'account__title', accountEl);
             const inpustList = this.createEl('div', '', 'account__list', accountEl);
-            const inputs = ['name:text', 'email:email', 'password:password', 'surname:text', 'thirdname:text', 'phone:text', 'adress:text', 'newPasswordOne:password', 'newPasswordTwo:password']
-            const test = {}
+            const inputs = ['name:text', 'email:email', 'password:password', 'surname:text', 'thirdname:text', 'phone:text', 'adress:text']
+            const unputsValues: Record<string, string> = {}
             inputs.forEach(item => {
                 const [name, type] = item.split(':');
                 const inputContainer = this.createEl('div', '', 'login__item', inpustList);
                 this.createEl('p', `change ${name}`, 'login__title', inputContainer);
                 const input = this.createEl('input', '', name, inputContainer) as HTMLInputElement;
                 input.type = type;
-                input.addEventListener('change', () => { test[name] = input.value })
-                if (userData[name] !== undefined) {
-                    input.value = userData[name];
-                    test[name] = input.value;
-                } else if (type === 'password') {
-                    test[name] = input.value;
+                input.addEventListener('change', () => { unputsValues[name] = input.value })
+                if (userData[name as keyof typeof userData] !== undefined) {
+                    input.value = userData[name as keyof typeof userData];
+                    unputsValues[name] = input.value;
                 }
             })
-
             const submit = this.createEl('button', 'submit', 'account__btn', accountEl);
             submit.addEventListener('click', () => {
-                const inputs = Object.values(test)
-                this.controller.changeUserData(...Object.values(test))
+                this.controller.changeUserData(unputsValues)
                     .then(() => {
                         this.updateView.updateHeader();
-                        /* const main = document.querySelector('.main') as HTMLElement;
+                        const main = document.querySelector('.main') as HTMLElement;
                         main.innerHTML = '';
-                        main.append(this.create()) */
+                        main.append(this.create())
                     })
+
             });
         }
 

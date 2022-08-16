@@ -3,10 +3,10 @@ module.exports = {
         {
             id: '111111111111111111111111',
             name: 'Blue adidas jeans 2010',
-            year: 2010,
+            year: '2010',
             color: 'blue',
             category: 'jeans',
-            price: 255,
+            price: '255',
             brand: 'adidas',
             image: '',
             variant: [
@@ -23,10 +23,10 @@ module.exports = {
         {
             id: '222222222222222222222222',
             name: 'Grey sneakers 2016',
-            year: 2016,
+            year: '2016',
             color: 'grey',
             category: 'sneakers',
-            price: 125,
+            price: '125',
             brand: 'nike',
             image: '',
             variant: [
@@ -44,10 +44,10 @@ module.exports = {
         {
             id: '3',
             name: 'Blue jeans 2020',
-            year: 2020,
+            year: '2020',
             color: 'blue',
             category: 'jeans',
-            price: 154,
+            price: '154',
             brand: 'adidas',
             image: '',
             variant: [
@@ -64,10 +64,10 @@ module.exports = {
         {
             id: '4',
             name: 'Pink body shirt 2020',
-            year: 2020,
+            year: '2020',
             color: 'pink',
             category: 'body shirt',
-            price: 55,
+            price: '55',
             brand: 'puma',
             image: '',
             variant: [

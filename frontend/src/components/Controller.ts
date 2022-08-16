@@ -1,5 +1,5 @@
 import Api from './api';
-import { IUserData } from './types';
+import { IProduct, IUserData } from './types';
 
 class Controller {
 
@@ -11,7 +11,7 @@ class Controller {
 
 
     addToCart(id: string) {
-        let cartData = JSON.parse(localStorage.getItem('cartData'));
+        let cartData = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         if (!cartData) {
             cartData = [id];
             localStorage.setItem('cartData', JSON.stringify(cartData))
@@ -46,7 +46,7 @@ class Controller {
                     phone: userData.phone,
                     adress: userData.adress,
                     thirdname: userData.thirdname,
-                    id: userData._id,
+                    _id: userData._id,
                     token: userData.token
                 }
                 localStorage.setItem('userData', JSON.stringify(curUser))
@@ -79,7 +79,7 @@ class Controller {
                     phone: userData.phone,
                     adress: userData.adress,
                     thirdname: userData.thirdname,
-                    id: userData._id,
+                    _id: userData._id,
                     token: userData.token
                 }
                 localStorage.setItem('userData', JSON.stringify(curUser))
@@ -90,23 +90,13 @@ class Controller {
         }
     }
 
-    async changeUserData(name: string, email: string, password: string, surname: string, phone: string, adress: string, thirdname: string, newPasswordOne: string, newPasswordTwo: string) {
-        if (newPasswordOne !== newPasswordTwo) {
-            throw new Error('Your passwords must match');
-        }
-        const userNewData: IUserData = {};
-        const curUser = JSON.parse(localStorage.getItem('userData'));
-        if (name && surname && phone && adress && thirdname && email && password && curUser) {
-            userNewData.name = name;
-            userNewData.surname = surname;
-            userNewData.phone = phone;
-            userNewData.adress = adress;
-            userNewData.thirdname = thirdname;
-            userNewData.email = email;
-            userNewData.password = password;
+    async changeUserData(unputsValues: IUserData) {
+        const userNewData: IUserData = { ...unputsValues };
+        const curUser = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+        if (unputsValues && curUser) {
             userNewData.token = curUser.token
-            const [userData, status] = await this.api.updateUser(userNewData, curUser.id);
-            userNewData.id = userData._id;
+            const [userData, status] = await this.api.updateUser(userNewData, (curUser._id as string)) as [IUserData, number];
+            userNewData._id = userData._id;
             userNewData.token = userData.token
             localStorage.setItem('userData', JSON.stringify(userNewData));
         } else {
@@ -114,8 +104,8 @@ class Controller {
         }
     }
 
-    async makeOrder(cartsData: string[]) {
-        const userData = JSON.parse(localStorage.getItem('userData'));
+    async makeOrder(cartsData: IProduct[]) {
+        const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');
         window.location.hash = '/purchase'

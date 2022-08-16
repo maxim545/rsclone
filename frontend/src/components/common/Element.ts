@@ -1,6 +1,6 @@
 class Element {
-    createEl(elementName: string, elementInner: string, className: string, insertTag: HTMLElement | null, href = ""): HTMLElement {
-        const element = document.createElement(elementName);
+    createEl(elementTag: string, elementInner: string, className: string, insertTag: HTMLElement | null, href = ""): HTMLElement {
+        const element = document.createElement(elementTag)
         element.innerHTML = elementInner;
         element.className = className;
         if (insertTag) {

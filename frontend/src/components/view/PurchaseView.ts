@@ -1,6 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
+import { IUserData } from "../types";
 
 class PurchaseView extends Element {
 
@@ -18,11 +19,11 @@ class PurchaseView extends Element {
     create() {
         const purchaseEl = this.createEl('div', '', 'purchase', null);
         (async () => {
-            const userData = JSON.parse(localStorage.getItem('userData'))
+            const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null')
             const purchases = await this.api.getPurchases(userData);
             purchases.forEach(item => {
                 const purchaseItem = this.createEl('div', item._id, 'purchase__id', purchaseEl);
-                const purchaseLink = this.createEl('a', 'Go to details', 'purchase__link', purchaseItem, `/#/order/${item._id}`);
+                this.createEl('a', 'Go to details', 'purchase__link', purchaseItem, `/#/order/${item._id}`);
                 item.orderItems.forEach(product => {
                     this.createEl('div', product.name, 'purchase__name', purchaseItem);
                 })

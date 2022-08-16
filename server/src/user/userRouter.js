@@ -130,7 +130,7 @@ userRouter.put(
             res.status(404).send({
                 message: 'User Not Found',
             });
-        } else if (emailIsRegister.email !== user.email) {
+        } else if (emailIsRegister && user && emailIsRegister.email !== user.email) {
             res.status(409).send({
                 message: 'This is Email already registered another user',
             });

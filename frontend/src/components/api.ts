@@ -1,4 +1,4 @@
-import { ILogin, IProduct, IUserData } from "./types";
+import { ILogin, IOrders, IProduct, IUserData } from "./types";
 
 class Api {
 
@@ -75,7 +75,7 @@ class Api {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${data.token}`
+                    Authorization: `Bearer ${(data.token) as string}`
                 },
                 body: JSON.stringify(data),
             });
@@ -88,16 +88,14 @@ class Api {
         }
     }
 
-    async makeOrder(cartsData: string[], userData: IUserData) {
+    async makeOrder(cartsData: IProduct[], userData: IUserData) {
         try {
-            const data = {
-                orderItems: cartsData,
-            }
+            const data = { orderItems: cartsData }
             const response = await fetch(`${this.server}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${userData.token}`
+                    Authorization: `Bearer ${(userData.token) as string}`
                 },
                 body: JSON.stringify(data),
             });
@@ -115,10 +113,10 @@ class Api {
             const response = await fetch(`${this.server}/orders/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${userData.token}`
+                    Authorization: `Bearer ${(userData.token) as string}`
                 },
             });
-            const orderData = await response.json() as Response;
+            const orderData = await response.json() as IOrders;
             return orderData
         } catch (err) {
             console.error(err);
@@ -131,10 +129,10 @@ class Api {
             const response = await fetch(`${this.server}/orders/purchase`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${userData.token}`
+                    Authorization: `Bearer ${(userData.token) as string}`
                 },
             });
-            const orderData = await response.json() as Response;
+            const orderData = await response.json() as IOrders[];
             return orderData;
         } catch (err) {
             console.error(err);

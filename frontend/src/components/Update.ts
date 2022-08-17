@@ -1,15 +1,12 @@
-import CartView from "./view/CartView";
 import HeaderView from "./view/HeaderView";
 
 class UpdateView {
 
     private header: HeaderView
 
-    private cart: CartView;
 
     constructor() {
         this.header = new HeaderView();
-        this.cart = new CartView();
     }
 
     updateHeader() {

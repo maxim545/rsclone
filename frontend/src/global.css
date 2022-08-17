@@ -1,5 +1,7 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('./assets/css/reset.css');
+@import url('./assets/css/normalize.css');
 
 body {
     color: rgb(0, 0, 0);

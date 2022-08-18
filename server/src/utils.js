@@ -8,6 +8,7 @@ export const getToken = (user) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
     }
     return jwt.sign(data, process.env.JWT_SECRET)
 }
@@ -26,5 +27,13 @@ export const verifyToken = (req, res, next) => {
                 next();
             }
         });
+    }
+};
+
+export const isAccess = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(401).send({ message: `You are not admin` });
     }
 };

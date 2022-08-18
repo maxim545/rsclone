@@ -1,3 +1,7 @@
+import AdminOrdersView from "./view/adminView/AdminOrdersView";
+import AdminProductsView from "./view/adminView/adminProductsView";
+import ChnageProductView from "./view/adminView/UpdateProductView";
+import CreateProductView from "./view/adminView/CreateProductView";
 import CartView from "./view/CartView";
 import CatalogView from "./view/CatalogView";
 import ErrorView from "./view/ErrorView";
@@ -55,6 +59,26 @@ const renderingData = {
         description: '',
         instance: new ErrorView(),
     },
+    '/adminpanel/products': {
+        title: 'Admin Products',
+        description: '',
+        instance: new AdminProductsView(),
+    },
+    '/adminpanel/orders': {
+        title: 'Admin Orders',
+        description: '',
+        instance: new AdminOrdersView(),
+    },
+    '/adminpanel/createproduct': {
+        title: 'Admin create product',
+        description: '',
+        instance: new CreateProductView(),
+    },
+    '/adminpanel/products/update/': {
+        title: 'Admin update product',
+        description: '',
+        instance: new ChnageProductView(),
+    }
 };
 
 

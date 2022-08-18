@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 import { products } from './src/product/data';
 import userRouter from './src/user/userRouter';
 import orderRouter from './src/order/orderRouter';
+import productRouter from './src/product/productRouter';
 
 dotenv.config();
 mongoose.connect(
@@ -23,6 +24,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users', userRouter)
+
+app.use('/products', productRouter)
 
 app.use('/orders', orderRouter)
 

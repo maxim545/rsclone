@@ -9,16 +9,7 @@ module.exports = {
             price: '255',
             brand: 'adidas',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "S",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '222222222222222222222222',
@@ -29,16 +20,7 @@ module.exports = {
             price: '125',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "42",
-                    stock: 5
-                },
-                {
-                    size: "43",
-                    stock: 12
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
 
         },
         {
@@ -50,16 +32,7 @@ module.exports = {
             price: '154',
             brand: 'adidas',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '4',
@@ -70,16 +43,7 @@ module.exports = {
             price: '55',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '5',
@@ -90,16 +54,7 @@ module.exports = {
             price: '103',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '6',
@@ -110,16 +65,7 @@ module.exports = {
             price: '299',
             brand: 'columbia',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '7',
@@ -130,16 +76,7 @@ module.exports = {
             price: '147',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '8',
@@ -150,16 +87,7 @@ module.exports = {
             price: '15',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '9',
@@ -170,16 +98,7 @@ module.exports = {
             price: '183',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '10',
@@ -190,16 +109,7 @@ module.exports = {
             price: '285',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '11',
@@ -210,16 +120,7 @@ module.exports = {
             price: '145',
             brand: 'adidas',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '12',
@@ -230,16 +131,7 @@ module.exports = {
             price: '24',
             brand: 'columbia',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '13',
@@ -250,16 +142,7 @@ module.exports = {
             price: '165',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '14',
@@ -270,16 +153,7 @@ module.exports = {
             price: '300',
             brand: 'adidas',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '15',
@@ -290,16 +164,7 @@ module.exports = {
             price: '38',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '16',
@@ -310,16 +175,7 @@ module.exports = {
             price: '259',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '17',
@@ -330,16 +186,7 @@ module.exports = {
             price: '45',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '18',
@@ -350,16 +197,7 @@ module.exports = {
             price: '241',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '19',
@@ -370,16 +208,7 @@ module.exports = {
             price: '175',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '20',
@@ -390,16 +219,7 @@ module.exports = {
             price: '199',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '21',
@@ -410,16 +230,7 @@ module.exports = {
             price: '99',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '22',
@@ -430,16 +241,7 @@ module.exports = {
             price: '49',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '23',
@@ -450,16 +252,7 @@ module.exports = {
             price: '12',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '24',
@@ -470,16 +263,7 @@ module.exports = {
             price: '7',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '25',
@@ -490,16 +274,7 @@ module.exports = {
             price: '47',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '26',
@@ -510,16 +285,7 @@ module.exports = {
             price: '12',
             brand: 'armani',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '27',
@@ -530,16 +296,7 @@ module.exports = {
             price: '299',
             brand: 'adidas',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '28',
@@ -550,16 +307,7 @@ module.exports = {
             price: '122',
             brand: 'nike',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '29',
@@ -570,16 +318,7 @@ module.exports = {
             price: '257',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "L",
-                    stock: 5
-                },
-                {
-                    size: "M",
-                    stock: 2
-                }
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
         {
             id: '30',
@@ -590,16 +329,7 @@ module.exports = {
             price: '200',
             brand: 'puma',
             image: '',
-            variant: [
-                {
-                    size: "42",
-                    stock: 5
-                },
-                {
-                    size: "43",
-                    stock: 2
-                },
-            ]
+            variant: '42:5, 34:5, 44:6'
         },
     ],
 };

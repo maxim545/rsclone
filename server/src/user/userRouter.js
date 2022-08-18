@@ -67,6 +67,7 @@ userRouter.post(
                 phone: loginUser.phone,
                 adress: loginUser.adress,
                 thirdname: loginUser.thirdname,
+                role: loginUser.role,
                 token: getToken(loginUser),
             });
         }
@@ -151,6 +152,7 @@ userRouter.put(
                 phone: updatedUser.phone,
                 adress: updatedUser.adress,
                 thirdname: updatedUser.thirdname,
+                role: user.role,
                 token: getToken(updatedUser),
             });
         }

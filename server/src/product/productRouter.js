@@ -9,9 +9,8 @@ productRouter.get(
     async (req, res) => {
         const product = await Product.find({});
         res.send(product);
-    }
+    },
 );
-
 
 productRouter.get(
     '/:id',
@@ -22,16 +21,15 @@ productRouter.get(
         } else {
             res.status(404).send({ message: 'Product Not Found' });
         }
-    }
+    },
 );
-
 
 productRouter.put(
     '/:id',
     verifyToken,
     isAccess,
     async (req, res) => {
-        const id = req.params.id;
+        const { id } = req.params;
         const product = await Product.findById(id);
         if (product) {
             product.name = req.body.name;
@@ -50,7 +48,7 @@ productRouter.put(
         } else {
             res.status(404).send({ message: 'Product Not Found' });
         }
-    }
+    },
 );
 
 productRouter.post(
@@ -83,11 +81,7 @@ productRouter.post(
         } else {
             res.status(500).send({ message: 'Can not create the product' });
         }
-    }
+    },
 );
-
-
-
-
 
 export default productRouter;

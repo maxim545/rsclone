@@ -9,6 +9,7 @@ export interface IProduct {
   image: string,
   brand: string,
   variant: string,
+  discount: string
 }
 
 export interface ILogin {

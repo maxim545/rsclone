@@ -39,6 +39,7 @@ productRouter.put(
             product.image = req.body.image;
             product.brand = req.body.brand;
             product.variant = req.body.variant;
+            product.discount = req.body.discount;
             const newProduct = await product.save();
             if (newProduct) {
                 res.send({ message: 'Product is updated' });
@@ -65,6 +66,7 @@ productRouter.post(
             brand: req.body.brand,
             image: req.body.image,
             variant: req.body.variant,
+            discount: req.body.discount,
         });
         const newProduct = await product.save();
         if (newProduct) {
@@ -77,6 +79,7 @@ productRouter.post(
                 brand: req.body.brand,
                 image: req.body.image,
                 variant: req.body.variant,
+                discount: req.body.discount,
             });
         } else {
             res.status(500).send({ message: 'Can not create the product' });

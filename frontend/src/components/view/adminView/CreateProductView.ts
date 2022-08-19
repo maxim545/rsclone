@@ -21,7 +21,7 @@ class CreateProductView extends Element {
 
     create() {
         const container = this.createEl('div', 'Create product', 'container', null);
-        const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant'];
+        const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant', 'discount'];
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const inputsValues: IProduct = {}
         inputs.forEach(item => {

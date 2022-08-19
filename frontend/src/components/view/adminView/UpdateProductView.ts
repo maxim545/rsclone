@@ -23,7 +23,7 @@ class ChnageProductView extends Element {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const id = window.location.hash.replace("#", "").slice(28);
         const container = this.createEl('div', `Change product ${id}`, 'container', null);
-        const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant'];
+        const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant', 'discount'];
         (async () => {
             const product = await this.api.getProduct(id);
             const inputsValues: IProduct = { _id: id }

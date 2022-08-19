@@ -84,7 +84,7 @@ const renderingData = {
     '/adminpanel/products/update/': {
         title: 'Admin update product',
         description: '',
-        instance: new UpdateOrderView(),
+        instance: new UpdateProductView(),
     },
     '/adminpanel/orders/update/': {
         title: 'Admin update order',

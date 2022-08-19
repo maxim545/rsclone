@@ -37,6 +37,76 @@ class Api {
         }
     }
 
+    async createProduct(userData: IUserData, data: IProduct) {
+        try {
+            const response = await fetch(`${this.server}/products`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+                body: JSON.stringify(data),
+            });
+            const productData = await response.json() as IProduct;
+            return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async updateProduct(userData: IUserData, data: IProduct) {
+        try {
+            const response = await fetch(`${this.server}/products/${data._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+                body: JSON.stringify(data),
+            });
+            const productData = await response.json() as IProduct;
+            return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async removeProduct(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const productData = await response.json() as IProduct;
+            return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async addProductImage(userData: IUserData, data) {
+        try {
+            const response = await fetch(`${this.server}/uploads`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${(userData.token) as string}`,
+                },
+                body: data,
+            });
+            const image = await response.json() as Response;
+            return image;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
     async loginUser(data: ILogin) {
         try {
             const response = await fetch(`${this.server}/users/login`, {

@@ -54,7 +54,7 @@ class CartView extends Element {
                         this.createEl('div', product.color, 'item__year', cartEl);
                         const removeBtn = this.createEl('button', 'Remove', 'item__remove-btn', cartEl);
                         removeBtn.addEventListener('click', () => {
-                            this.controller.removeFromCart(cartsId, product.id)
+                            this.controller.removeFromCart(cartsId, product._id)
                             const main = document.querySelector('.main') as HTMLElement;
                             main.innerHTML = '';
                             main.append(this.create())

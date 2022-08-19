@@ -16,7 +16,9 @@ class CatalogView extends Element {
             const products = await this.api.getAllProduct();
             products.forEach(item => {
                 const itemEl = this.createEl('div', '', 'item', main);
-                this.createEl('a', item.name, 'item__name', itemEl, `/#/p/${item.id}`);
+                this.createEl('a', item.name, 'item__name', itemEl, `/#/p/${item._id}`);
+                const image = `<img src="${item.image}" class="img-thumbnail" alt="image">`
+                this.createEl('div', image, 'image-container', itemEl)
                 this.createEl('div', item.year, 'item__year', itemEl);
             });
         })().catch(err => { console.error(err) });

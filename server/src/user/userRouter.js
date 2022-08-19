@@ -16,16 +16,15 @@ userRouter.get(
                 thirdname: 'admin',
                 email: 'admin@admin.com',
                 password: '123',
-                role: 'admin'
+                role: 'admin',
             });
             const admin = await user.save();
             res.send(admin);
         } catch (err) {
             res.status(500).send({ message: err.message });
         }
-    }
+    },
 );
-
 
 /* userRouter.get(
     '/manager',
@@ -45,7 +44,6 @@ userRouter.get(
         }
     }
 ); */
-
 
 userRouter.post(
     '/login',
@@ -67,12 +65,13 @@ userRouter.post(
                 phone: loginUser.phone,
                 adress: loginUser.adress,
                 thirdname: loginUser.thirdname,
+                role: loginUser.role,
+                password: req.body.password,
                 token: getToken(loginUser),
             });
         }
-    }
+    },
 );
-
 
 userRouter.post(
     '/register',
@@ -115,7 +114,7 @@ userRouter.post(
                 });
             }
         }
-    }
+    },
 );
 
 userRouter.put(
@@ -151,12 +150,11 @@ userRouter.put(
                 phone: updatedUser.phone,
                 adress: updatedUser.adress,
                 thirdname: updatedUser.thirdname,
+                role: user.role,
                 token: getToken(updatedUser),
             });
         }
-    }
+    },
 );
-
-
 
 export default userRouter;

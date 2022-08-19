@@ -1,10 +1,6 @@
-export interface IVariant {
-  size: string;
-  stock: number
-}
 
 export interface IProduct {
-  id: string,
+  _id: string,
   name: string,
   year: string,
   color: string,
@@ -12,7 +8,7 @@ export interface IProduct {
   price: string,
   image: string,
   brand: string,
-  variant: IVariant,
+  variant: string,
 }
 
 export interface ILogin {

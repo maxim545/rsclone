@@ -24,7 +24,9 @@ class CartView extends Element {
         const cartEl = this.createEl('div', '', 'container', null);
         const cartsId = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const cartsData: IProduct[] = [];
+        const cartsData = {
+            orderItems: [],
+        };
         if (cartsId && cartsId.length) {
             (async () => {
                 this.createEl('h2', 'Fill in all the data to place an order', 'account__title', cartEl);
@@ -47,7 +49,8 @@ class CartView extends Element {
                 // Functional showing carts of pruduct
                 for await (const item of cartsId) {
                     const product = <IProduct>await this.api.getProduct(item);
-                    cartsData.push(product);
+                    cartsData.status = 'processing';
+                    cartsData.orderItems.push(product);
                     if (product) {
                         this.createEl('div', product.name, 'item__name', cartEl);
                         this.createEl('div', product.year, 'item__year', cartEl);
@@ -61,7 +64,7 @@ class CartView extends Element {
                         });
                     }
                 }
-                if (cartsData.length) {
+                if (cartsData.orderItems.length) {
                     this.createPurchases(cartEl, cartsData, userData, unputsValues)
                 }
             })().catch(err => { console.error(err) });
@@ -69,7 +72,7 @@ class CartView extends Element {
         return cartEl;
     }
 
-    createPurchases(cartEl: HTMLElement, cartsData: IProduct[], userData: IUserData, unputsValues: Record<string, string>) {
+    createPurchases(cartEl: HTMLElement, cartsData, userData: IUserData, unputsValues: Record<string, string>) {
         const purchases = this.createEl('div', 'Your purchases list with prices', 'purchases', cartEl);
         const orderBtn = this.createEl('button', 'create order', 'purchases__btn', purchases);
         orderBtn.addEventListener('click', () => {

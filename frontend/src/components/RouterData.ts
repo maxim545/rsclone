@@ -1,5 +1,5 @@
 import AdminOrdersView from "./view/adminView/AdminOrdersView";
-import ChnageProductView from "./view/adminView/UpdateProductView";
+import UpdateProductView from "./view/adminView/UpdateProductView";
 import CreateProductView from "./view/adminView/CreateProductView";
 import CartView from "./view/CartView";
 import CatalogView from "./view/CatalogView";
@@ -12,6 +12,7 @@ import LoginView from "./view/userView/loginView";
 import RegisterView from "./view/userView/registerView";
 import AdminPanelView from "./view/adminView/AdminPanelView";
 import AdminProductsView from "./view/adminView/adminProductsView";
+import UpdateOrderView from "./view/adminView/UpdateOrderView";
 
 
 const renderingData = {
@@ -83,7 +84,12 @@ const renderingData = {
     '/adminpanel/products/update/': {
         title: 'Admin update product',
         description: '',
-        instance: new ChnageProductView(),
+        instance: new UpdateOrderView(),
+    },
+    '/adminpanel/orders/update/': {
+        title: 'Admin update order',
+        description: '',
+        instance: new UpdateOrderView(),
     }
 };
 

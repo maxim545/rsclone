@@ -11,6 +11,8 @@ class Router {
             renderInstanse = routerData['/purchases/order/'].instance;
         } else if (hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/products/update/'].instance;
+        } else if (hashArr.includes('orders') && hashArr.includes('update')) {
+            renderInstanse = routerData['/adminpanel/orders/update/'].instance;
         } else if (location === '') {
             renderInstanse = routerData['/'].instance;
         } else if (!routerData[location as keyof typeof routerData]) {

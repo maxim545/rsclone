@@ -2,6 +2,19 @@ import mongoose from 'mongoose';
 
 const orderSchema = new mongoose.Schema(
     {
+        orderStatus: {
+            type: String,
+            required: true,
+            default: 'processing',
+        },
+        /* price: {
+            type: String,
+            required: true,
+        },
+        amount: {
+            type: Number,
+            required: true,
+        }, */
         orderItems: [
             {
                 name: { type: String, required: true },

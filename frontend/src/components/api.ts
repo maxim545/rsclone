@@ -158,16 +158,15 @@ class Api {
         }
     }
 
-    async makeOrder(cartsData: IProduct[], userData: IUserData) {
+    async makeOrder(cartsData, userData: IUserData) {
         try {
-            const data = { orderItems: cartsData }
             const response = await fetch(`${this.server}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${(userData.token) as string}`
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(cartsData),
             });
             const orderData = await response.json() as Response;
             const { status } = response
@@ -194,6 +193,23 @@ class Api {
         }
     }
 
+    async updateOrder(userData: IUserData, data: IProduct) {
+        try {
+            const response = await fetch(`${this.server}/orders/${data._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+                body: JSON.stringify(data),
+            });
+            const orderData = await response.json()
+            return orderData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
 
     async getAllPurchases() {
         try {

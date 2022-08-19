@@ -8,8 +8,8 @@ module.exports = {
             category: 'jeans',
             price: '255',
             brand: 'adidas',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/1.jpg',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '222222222222222222222222',
@@ -19,8 +19,8 @@ module.exports = {
             category: 'sneakers',
             price: '125',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/2.png',
+            variant: '42:5, 34:5, 44:6',
 
         },
         {
@@ -31,8 +31,8 @@ module.exports = {
             category: 'jeans',
             price: '154',
             brand: 'adidas',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/3.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '4',
@@ -42,8 +42,8 @@ module.exports = {
             category: 'body shirt',
             price: '55',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/4.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '5',
@@ -53,8 +53,8 @@ module.exports = {
             category: 'sneakers',
             price: '103',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/5.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '6',
@@ -64,8 +64,8 @@ module.exports = {
             category: 'coat',
             price: '299',
             brand: 'columbia',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/6.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '7',
@@ -75,8 +75,8 @@ module.exports = {
             category: 'T-shirt',
             price: '147',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/7.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '8',
@@ -86,8 +86,8 @@ module.exports = {
             category: 'Cap',
             price: '15',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/8.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '9',
@@ -97,8 +97,8 @@ module.exports = {
             category: 'T-shirt',
             price: '183',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/9.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '10',
@@ -108,8 +108,8 @@ module.exports = {
             category: 'coat',
             price: '285',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/10.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '11',
@@ -119,8 +119,8 @@ module.exports = {
             category: 'T-shirt',
             price: '145',
             brand: 'adidas',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/11.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '12',
@@ -130,8 +130,8 @@ module.exports = {
             category: 'T-shirt',
             price: '24',
             brand: 'columbia',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/12.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '13',
@@ -141,8 +141,8 @@ module.exports = {
             category: 'boots',
             price: '165',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/13.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '14',
@@ -152,8 +152,8 @@ module.exports = {
             category: 'jacket',
             price: '300',
             brand: 'adidas',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/14.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '15',
@@ -163,8 +163,8 @@ module.exports = {
             category: 'jacket',
             price: '38',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/15.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '16',
@@ -174,8 +174,8 @@ module.exports = {
             category: 'jacket',
             price: '259',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/16.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '17',
@@ -185,8 +185,8 @@ module.exports = {
             category: 'sneakers',
             price: '45',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/17.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '18',
@@ -196,8 +196,8 @@ module.exports = {
             category: 'jeans',
             price: '241',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/18.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '19',
@@ -207,8 +207,8 @@ module.exports = {
             category: 'jeans',
             price: '175',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/19.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '20',
@@ -218,8 +218,8 @@ module.exports = {
             category: 'shirt',
             price: '199',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/20.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '21',
@@ -229,8 +229,8 @@ module.exports = {
             category: 'boots',
             price: '99',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/21.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '22',
@@ -240,8 +240,8 @@ module.exports = {
             category: 'cap',
             price: '49',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/22.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '23',
@@ -251,8 +251,8 @@ module.exports = {
             category: 'cap',
             price: '12',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/23.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '24',
@@ -262,8 +262,8 @@ module.exports = {
             category: 'cap',
             price: '7',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/24.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '25',
@@ -273,8 +273,8 @@ module.exports = {
             category: 'cap',
             price: '47',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/25.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '26',
@@ -284,8 +284,8 @@ module.exports = {
             category: 'cap',
             price: '12',
             brand: 'armani',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/26.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '27',
@@ -295,8 +295,8 @@ module.exports = {
             category: 'sneakers',
             price: '299',
             brand: 'adidas',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/27.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '28',
@@ -306,8 +306,8 @@ module.exports = {
             category: 'sneakers',
             price: '122',
             brand: 'nike',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/28.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '29',
@@ -317,8 +317,8 @@ module.exports = {
             category: 'coat',
             price: '257',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/29.png',
+            variant: '42:5, 34:5, 44:6',
         },
         {
             id: '30',
@@ -328,8 +328,8 @@ module.exports = {
             category: 'boots',
             price: '200',
             brand: 'puma',
-            image: '',
-            variant: '42:5, 34:5, 44:6'
+            image: '/images/cards/30.png',
+            variant: '42:5, 34:5, 44:6',
         },
     ],
 };

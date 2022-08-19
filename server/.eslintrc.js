@@ -12,5 +12,7 @@ module.exports = {
   },
   rules: {
     indent: 'off',
+    'no-underscore-dangle': 'off',
+    'no-console': 'off',
   },
 };

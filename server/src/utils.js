@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -9,9 +9,9 @@ export const getToken = (user) => {
         name: user.name,
         email: user.email,
         role: user.role,
-    }
-    return jwt.sign(data, process.env.JWT_SECRET)
-}
+    };
+    return jwt.sign(data, process.env.JWT_SECRET);
+};
 
 export const verifyToken = (req, res, next) => {
     const bearerToken = req.headers.authorization;
@@ -34,6 +34,6 @@ export const isAccess = (req, res, next) => {
     if (req.user && req.user.role === 'admin') {
         next();
     } else {
-        res.status(401).send({ message: `You are not admin` });
+        res.status(401).send({ message: 'You are not admin' });
     }
 };

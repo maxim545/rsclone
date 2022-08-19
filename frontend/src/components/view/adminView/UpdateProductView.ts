@@ -34,9 +34,18 @@ class ChnageProductView extends Element {
                 input.type = 'text';
                 input.value = product[item];
                 inputsValues[item] = input.value;
+                if (item === 'image') {
+                    const imageInput = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
+                    imageInput.type = 'file'
+                    imageInput.addEventListener('change', () => {
+                        const fd = new FormData();
+                        fd.append('img', imageInput.files[0]);
+                        this.api.addProductImage(userData, fd)
+                    })
+                }
+
                 input.addEventListener('change', () => { inputsValues[item] = input.value; })
             })
-            console.log(inputsValues);
             const updateBtn = this.createEl('button', `Update`, 'btn-update', container);
             updateBtn.addEventListener('click', () => {
                 this.api.updateProduct(userData, inputsValues).then(() => {

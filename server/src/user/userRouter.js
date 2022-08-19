@@ -16,16 +16,15 @@ userRouter.get(
                 thirdname: 'admin',
                 email: 'admin@admin.com',
                 password: '123',
-                role: 'admin'
+                role: 'admin',
             });
             const admin = await user.save();
             res.send(admin);
         } catch (err) {
             res.status(500).send({ message: err.message });
         }
-    }
+    },
 );
-
 
 /* userRouter.get(
     '/manager',
@@ -45,7 +44,6 @@ userRouter.get(
         }
     }
 ); */
-
 
 userRouter.post(
     '/login',
@@ -71,9 +69,8 @@ userRouter.post(
                 token: getToken(loginUser),
             });
         }
-    }
+    },
 );
-
 
 userRouter.post(
     '/register',
@@ -116,7 +113,7 @@ userRouter.post(
                 });
             }
         }
-    }
+    },
 );
 
 userRouter.put(
@@ -156,9 +153,7 @@ userRouter.put(
                 token: getToken(updatedUser),
             });
         }
-    }
+    },
 );
-
-
 
 export default userRouter;

@@ -58,7 +58,7 @@ class Api {
     async updateProduct(userData: IUserData, data: IProduct) {
         try {
             const response = await fetch(`${this.server}/products/${data._id}`, {
-                method: 'put',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${(userData.token) as string}`
@@ -67,6 +67,23 @@ class Api {
             });
             const productData = await response.json() as IProduct;
             return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async addProductImage(userData: IUserData, data) {
+        try {
+            const response = await fetch(`${this.server}/uploads`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${(userData.token) as string}`,
+                },
+                body: data,
+            });
+            const image = await response.json() as Response;
+            return image;
         } catch (err) {
             console.error(err);
             throw err;

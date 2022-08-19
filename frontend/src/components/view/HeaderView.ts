@@ -58,15 +58,62 @@ class HeaderView extends Element {
     this.createEl('a', 'Boys', 'navbar__nav__link link__boys', navbarContentNav, '#/b');
     this.createEl('a', 'Sale', 'navbar__nav__link link__sale', navbarContentNav, '#/s');
 
-    const navbarSearch = this.createEl('div', '', 'navbar__content__search', headerNavbarContent);
+    const headerSearchMenuMobile = this.createEl('div', '', 'header__search__menu__mobile', headerNavbarContent);
+    this.createEl('div', `<div class="hamburger-menu">
+    <input id="menu__toggle" type="checkbox" />
+    <label class="menu__btn" for="menu__toggle">
+      <span></span>
+    </label>
+
+    <ul class="menu__box">
+      <li><a class="menu__item navbar__nav__link link__home" href="#/">Home</a></li>
+			<li><a class="menu__item navbar__nav__link link__women" href="#/w">Women</a></li>
+			<li><a class="menu__item navbar__nav__link link__men" href="#/m">Men</a></li>
+			<li><a class="menu__item navbar__nav__link link__girls" href="#/g">Girls</a></li>
+			<li><a class="menu__item navbar__nav__link link__boys" href="#/b">Boys</a></li>
+      <li><a class="menu__item navbar__nav__link link__sale" href="#/s">Sale</a></li>
+    </ul>
+  </div>`, 'navbar__content__hamburger-menu', headerSearchMenuMobile);
+
+
+    const navbarSearch = this.createEl('div', '', 'navbar__content__search search-desktop', headerNavbarContent);
     const navbarSearchContent = this.createEl('div', '', 'navbar__search', navbarSearch);
     const navbarSearchLine = this.createEl('input', '', 'navbar__search-line', navbarSearchContent, 'autofocus') as HTMLInputElement;
     /* const navbarSearchButton = */ this.createEl('button', '<i class="bi bi-search"></i>', 'navbar__search-button', navbarSearchContent);
     navbarSearchLine.placeholder = 'Search for products...';
     navbarSearchLine.type = 'search';
-    const navbarBasket = this.createEl('a', '', 'navbar__content__basket', headerNavbarContent, '#/cart');
+
+    const basketFavorites = this.createEl('div', '', 'navbar__content__fb', headerNavbarContent);
+
+    const navbarFavorites = this.createEl('a', '', 'navbar__content__favorites', basketFavorites, '');
+    /* const navbarBasketImg = */ this.createEl('div', '<i class="bi bi-heart"></i>', 'navbar__favorites__img', navbarFavorites);
+    /* const navbarBasketCount = */ this.createEl('div', '2', 'navbar__favorites__count', navbarFavorites);
+    this.createEl('div', '', 'navbar__content__fb__separator', basketFavorites);
+    const navbarBasket = this.createEl('a', '', 'navbar__content__basket', basketFavorites, '#/cart');
     /* const navbarBasketImg = */ this.createEl('div', '<i class="bi bi-cart3"></i>', 'navbar__basket__img', navbarBasket);
     /* const navbarBasketCount = */ this.createEl('div', '4', 'navbar__content__count', navbarBasket);
+
+
+
+    const navbarSearchMobileWrapper = this.createEl('div', '', 'navbar__search-mobile__wrapper', headerContainer);
+    const navbarSearchMobile = this.createEl('div', '', 'navbar__content__search search-mobile', navbarSearchMobileWrapper);
+    const navbarSearchContentMobile = this.createEl('div', '', 'navbar__search', navbarSearchMobile);
+    const navbarSearchLineMobile = this.createEl('input', '', 'navbar__search-line', navbarSearchContentMobile, 'autofocus') as HTMLInputElement;
+    /* const navbarSearchButton = */ this.createEl('button', '<i class="bi bi-search"></i>', 'navbar__search-button', navbarSearchContentMobile);
+    navbarSearchLineMobile.placeholder = 'Search for products...';
+    navbarSearchLineMobile.type = 'search';
+    const navbarContentSearchMobile = this.createEl('label', '<i class="bi bi-search"></i>', 'navbar__content__search-mobile', headerSearchMenuMobile)
+    const searchMobileInput = this.createEl('input', '', 'search-mobile__checkbox', navbarContentSearchMobile) as HTMLInputElement;
+    searchMobileInput.type = 'checkbox'
+    searchMobileInput.onclick = () => {
+      if (searchMobileInput.checked === true) {
+        navbarSearchMobileWrapper.style.display = 'flex';
+      }
+      else {
+        navbarSearchMobileWrapper.style.display = 'none';
+      }
+    }
+
 
     const bottomBarWrapper = this.createEl('div', '', 'header__bottom__wrapper', headerContainer);
     const bottomContent = this.createEl('div', '', 'header__bottom__content', bottomBarWrapper);
@@ -91,6 +138,13 @@ class HeaderView extends Element {
           userLinks.push('Admin Panel:adminpanel/products')
         }
 
+<<<<<<< HEAD
+=======
+      const logoutLink = this.createEl('a', 'Logout', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
+      logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
+      const closeProfile = this.createEl('div', '<div class="bi bi-x-lg"></div>', 'topbar__profile-box__close', profileBoxWelcome);
+      closeProfile.addEventListener('click', () => { topbarContentProfileBox.style.display = 'none'; });
+>>>>>>> e6b8cf9 (feat: add mobile design for header)
 
         userLinks.forEach(item => {
           const [name, link] = item.split(':')

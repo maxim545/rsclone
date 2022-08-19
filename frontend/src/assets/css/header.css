@@ -159,7 +159,7 @@ header {
 .navbar__content__logo {
   display: flex;
   flex-wrap: nowrap;
-  margin-right: 15px;
+  margin: 15px;
 }
 
 .navbar__content__logo:hover>.navbar__logo__img_right {
@@ -291,6 +291,7 @@ header {
   align-items: center;
   width: 23px;
   height: 20px;
+  font-size: 13px;
   border-radius: 4px;
   background: #03CEA4;
   color: #FFFFFF;
@@ -354,6 +355,7 @@ header {
   color: #FFFFFF;
   opacity: 0.6;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .header__topbar__content__profile:hover {
@@ -403,13 +405,305 @@ header {
   height: 30px;
 }
 
-.bi-x-circle {
-  font-size: 21px;
+.topbar__profile-box__close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s;
+  box-shadow: 0px 0px 0px 0px rgba(34, 60, 80, 0.3);
+  transition: 0.3s;
 }
 
-.bi-x-circle:hover {
-  transform: scale(1.1);
-  transition: all 0.3s;
+.topbar__profile-box__close:hover {
+  box-shadow: 0px 0px 5px 3px rgba(34, 60, 80, 0.3);
+  transition: 0.3s;
+}
+
+.navbar__content__fb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 130px;
+  width: 100%;
+  height: 26px;
+}
+
+.navbar__content__favorites {
+  display: flex;
+  width: 53px;
+  height: auto;
+  text-decoration: none;
+  cursor: pointer;
+  color: #424551;
+}
+
+.navbar__content__favorites:hover {
+  color: #424551;
+}
+
+.navbar__content__favorites:hover>.navbar__favorites__count {
+  transform: perspective(50px) rotateX(360deg);
+  transition: all 1s;
+}
+
+.navbar__favorites__img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 23px;
+  height: 20px;
+}
+
+.navbar__favorites__img .bi-cart3 {
+  font-size: 20px;
+}
+
+.navbar__favorites__count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 23px;
+  height: 20px;
+  font-size: 13px;
+  border-radius: 4px;
+  background: #FF4242;
+  color: #FFFFFF;
+  margin-left: 8px;
+}
+
+.navbar__content__fb__separator {
+  height: 20px;
+  width: 1px;
+  background-color: #D7DADD;
+}
+
+.navbar__search-mobile__wrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+}
+
+.header__search__menu__mobile {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 130px;
+  width: 100%;
+}
+
+.search-mobile {
+  max-width: 600px;
+  width: 100%;
+}
+
+.search-mobile__checkbox {
+  display: none;
+}
+
+.hamburger-menu {
+  display: none;
+}
+
+@media (max-width : 550px) and (min-width: 320px),
+(max-width: 320px) {
+  .header__topbar__content_left {
+    display: none;
+  }
+
+  .header__topbar__content_right {
+    width: 100%;
+  }
+}
+
+@media (max-width : 1024px) and (min-width: 320px),
+(max-width: 320px) {
+  .search-desktop {
+    display: none;
+  }
+
+  .navbar__search-mobile__wrapper {
+    display: flex;
+  }
+
+  .navbar__search-line {
+    max-width: 600px;
+  }
+
+  .navbar__search {
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    margin: 0 15px;
+  }
+}
+
+@media (max-width : 768px) and (min-width: 320px),
+(max-width: 320px) {
+  .header__search__menu__mobile {
+    display: flex;
+  }
+
+  .navbar__search-mobile__wrapper {
+    display: none;
+  }
+
+  .navbar__content__nav {
+    order: 1;
+  }
+
+  .navbar__content__logo {
+    order: 3
+  }
+
+  .navbar__content__fb {
+    order: 4;
+    flex-direction: column;
+    align-items: flex-end;
+    height: auto;
+
+  }
+
+  .navbar__content__fb__separator {
+    background-color: transparent;
+    height: 10px;
+  }
+
+  .navbar__content__search-mobile {
+    order: 2;
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .navbar__content__search-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 0px rgba(34, 60, 80, 0.3);
+    transition: 0.3s;
+  }
+
+  .navbar__content__search-mobile:hover {
+    box-shadow: 0px 0px 5px 3px rgba(34, 60, 80, 0.3);
+    transition: 0.3s;
+  }
+
+  .navbar__content__nav {
+    display: none;
+  }
+
+  .navbar__content__logo {
+    margin: 0 15px;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  #menu__toggle {
+    opacity: 0;
+  }
+
+  .menu__btn:hover {
+    box-shadow: 0px 0px 5px 3px rgba(34, 60, 80, 0.3);
+    transition: 0.3s;
+  }
+
+  #menu__toggle:checked~.menu__btn>span {
+    transform: rotate(45deg);
+  }
+
+  #menu__toggle:checked~.menu__btn>span::before {
+    top: 0;
+    transform: rotate(0);
+  }
+
+  #menu__toggle:checked~.menu__btn>span::after {
+    top: 0;
+    transform: rotate(90deg);
+  }
+
+  #menu__toggle:checked~.menu__box {
+    visibility: visible;
+    left: 0;
+  }
+
+  .menu__btn {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -8px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0px 0px 0px 0px rgba(34, 60, 80, 0.3);
+    transition: 0.3s;
+  }
+
+  .menu__btn>span,
+  .menu__btn>span::before,
+  .menu__btn>span::after {
+    display: block;
+    position: absolute;
+
+    width: 100%;
+    height: 2px;
+
+    background-color: #616161;
+
+    transition-duration: .25s;
+  }
+
+  .menu__btn>span::before {
+    content: '';
+    top: -8px;
+  }
+
+  .menu__btn>span::after {
+    content: '';
+    top: 8px;
+  }
+
+  .menu__box {
+    display: block;
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100%;
+    margin: 0;
+    padding: 120px 0;
+    list-style: none;
+    background-color: #ECEFF1;
+    box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+    transition-duration: .25s;
+  }
+
+  .menu__item {
+    display: block;
+    padding: 12px 24px;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: .25s;
+  }
+
+  .menu__item:hover {
+    background-color: #CFD8DC;
+  }
+
 }

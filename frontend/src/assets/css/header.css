@@ -157,6 +157,7 @@ header {
 }
 
 .navbar__content__logo {
+  min-width: 131px;
   display: flex;
   flex-wrap: nowrap;
   margin: 15px;
@@ -489,6 +490,17 @@ header {
   width: 100%;
 }
 
+@media (min-width : 1024px){
+  .navbar__search-mobile__wrapper {
+    display: none !important;
+  }
+}
+@media (max-width : 1024px) and (min-width: 768px){
+  .navbar__search-mobile__wrapper {
+    display: flex !important;
+  }
+}
+
 .header__search__menu__mobile {
   display: none;
   align-items: center;
@@ -508,6 +520,10 @@ header {
 
 .hamburger-menu {
   display: none;
+  padding: 2px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px 0px rgba(34, 60, 80, 0.3);
+  transition: 0.3s;
 }
 
 @media (max-width : 550px) and (min-width: 320px),
@@ -525,10 +541,6 @@ header {
 (max-width: 320px) {
   .search-desktop {
     display: none;
-  }
-
-  .navbar__search-mobile__wrapper {
-    display: flex;
   }
 
   .navbar__search-line {
@@ -572,24 +584,20 @@ header {
     background-color: transparent;
     height: 10px;
   }
-
-  .navbar__content__search-mobile {
-    order: 2;
-    cursor: pointer;
-    font-size: 18px;
-  }
-
+  
   .navbar__content__search-mobile {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
     font-size: 22px;
     cursor: pointer;
     box-shadow: 0px 0px 0px 0px rgba(34, 60, 80, 0.3);
     transition: 0.3s;
+    order: 2;
+    padding: 4px;
   }
 
   .navbar__content__search-mobile:hover {
@@ -610,10 +618,10 @@ header {
   }
 
   #menu__toggle {
-    opacity: 0;
+    display: none;
   }
 
-  .menu__btn:hover {
+  .hamburger-menu:hover {
     box-shadow: 0px 0px 5px 3px rgba(34, 60, 80, 0.3);
     transition: 0.3s;
   }
@@ -641,7 +649,6 @@ header {
     display: flex;
     align-items: center;
     position: relative;
-    top: -8px;
     width: 26px;
     height: 26px;
     cursor: pointer;

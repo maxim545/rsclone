@@ -73,6 +73,23 @@ class Api {
         }
     }
 
+    async removeProduct(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const productData = await response.json() as IProduct;
+            return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
     async addProductImage(userData: IUserData, data) {
         try {
             const response = await fetch(`${this.server}/uploads`, {

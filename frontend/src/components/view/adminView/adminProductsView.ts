@@ -31,6 +31,12 @@ class AdminProductsView extends Element {
                 this.createEl('div', item.price, 'admin-products__name', productsEl);
                 const changeBtn = this.createEl('a', 'update', 'admin-products__name', productsEl, `/#/adminpanel/products/update/${item._id}`);
                 const deleteBtn = this.createEl('button', 'delete', 'admin-products__name', productsEl);
+                deleteBtn.dataset.id = item._id;
+                deleteBtn.addEventListener('click', () => {
+                    if (deleteBtn.dataset.id) {
+                        this.api.removeProduct(userData, deleteBtn.dataset.id)
+                    }
+                })
             })
         })();
 

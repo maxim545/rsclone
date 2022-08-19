@@ -1,13 +1,18 @@
+import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
 import { IUserData } from "../types";
+
 
 class HeaderView extends Element {
 
   private controller: Controller;
 
+  private api: Api;
+
   constructor() {
     super();
+    this.api = new Api();
     this.controller = new Controller();
   }
 
@@ -70,30 +75,43 @@ class HeaderView extends Element {
 
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     if (userData) {
+      (async () => {
+        const topbarContentProfileBox = this.createEl('div', '', 'topbar__content__profile-box', topbarContentRightLogin);
 
-      const topbarContentProfileBox = this.createEl('div', '', 'topbar__content__profile-box', topbarContentRightLogin);
+        const profileBoxWelcome = this.createEl('div', `Welcome, ${(userData.name) as string}`, 'topbar__profile-box__welcome', topbarContentProfileBox);
 
-      const profileBoxWelcome = this.createEl('div', `Welcome, ${(userData.name) as string}`, 'topbar__profile-box__welcome', topbarContentProfileBox);
+        const userLinks = ['Cart:cart', 'Account:account', 'Favorites:favorites', 'Purchase:purchase'];
 
-      const userLinks = ['Cart', 'Account', 'Favorites', 'Purchase'];
-      userLinks.forEach(link => {
-        this.createEl('a', link, 'topbar__profile-box__link', topbarContentProfileBox, `#/${link}`) as HTMLAnchorElement;
-      })
+        const [currentUser] = await this.api.loginUser({
+          email: userData.email,
+          password: userData.password
+        });
+        console.log(currentUser);
+        if (currentUser.role === 'admin') {
+          userLinks.push('Admin Panel:adminpanel/products')
+        }
 
-      const logoutLink = this.createEl('a', 'Logout', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
-      logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
-      const closeProfile = this.createEl('div', '<div class="bi bi-x-circle"></div>', '', profileBoxWelcome);
-      closeProfile.addEventListener('click', () => { topbarContentProfileBox.style.display = 'none'; });
 
-      const topbarContentProfile = this.createEl('a', `${(userData.name) as string}`, 'header__topbar__content__profile', topbarContentRightLogin, '');
-      const topbarContentRightLoginImg = this.createEl('img', '', 'header__topbar__login__img', topbarContentProfile) as HTMLImageElement;
-      topbarContentRightLoginImg.src = './/assets/images/login.png';
-      topbarContentProfile.onmouseover = () => {
-        topbarContentProfileBox.style.display = 'flex';
-      };
-      topbarContentProfileBox.onmouseleave = () => {
-        topbarContentProfileBox.style.display = 'none';
-      };
+        userLinks.forEach(item => {
+          const [name, link] = item.split(':')
+          this.createEl('a', name, 'topbar__profile-box__link', topbarContentProfileBox, `#/${link}`) as HTMLAnchorElement;
+        })
+
+        const logoutLink = this.createEl('a', 'Logout', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
+        logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
+        const closeProfile = this.createEl('div', '<div class="bi bi-x-circle"></div>', '', profileBoxWelcome);
+        closeProfile.addEventListener('click', () => { topbarContentProfileBox.style.display = 'none'; });
+
+        const topbarContentProfile = this.createEl('a', `${(userData.name) as string}`, 'header__topbar__content__profile', topbarContentRightLogin, '');
+        const topbarContentRightLoginImg = this.createEl('img', '', 'header__topbar__login__img', topbarContentProfile) as HTMLImageElement;
+        topbarContentRightLoginImg.src = './/assets/images/login.png';
+        topbarContentProfile.onmouseover = () => {
+          topbarContentProfileBox.style.display = 'flex';
+        };
+        topbarContentProfileBox.onmouseleave = () => {
+          topbarContentProfileBox.style.display = 'none';
+        };
+      })()
     } else {
       const topbarContentRightLoginLink = this.createEl('a', 'Login', 'header__topbar__login__link', topbarContentRightLogin, '#/login') as HTMLAnchorElement;
       const topbarContentRightLoginImg = this.createEl('img', '', 'header__topbar__login__img', topbarContentRightLoginLink) as HTMLImageElement;

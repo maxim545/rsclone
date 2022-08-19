@@ -47,6 +47,7 @@ class Controller {
                     phone: userData.phone,
                     adress: userData.adress,
                     thirdname: userData.thirdname,
+                    password: userData.password,
                     _id: userData._id,
                     token: userData.token
                 }

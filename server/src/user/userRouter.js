@@ -66,6 +66,7 @@ userRouter.post(
                 adress: loginUser.adress,
                 thirdname: loginUser.thirdname,
                 role: loginUser.role,
+                password: req.body.password,
                 token: getToken(loginUser),
             });
         }

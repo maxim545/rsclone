@@ -29,11 +29,10 @@ class AdminProductsView extends Element {
 
         (async () => {
             const orders = await this.api.getAllPurchases();
-            console.log(orders);
             orders.forEach(item => {
                 const itemEl = this.createEl('div', item._id, 'admin-products__name', productsEl);
                 this.createEl('div', item.orderStatus, 'admin-products__name', productsEl);
-                this.createEl('a', 'update', 'admin-products__name', productsEl, `/#/adminpanel/products/update/${item._id}`);
+                this.createEl('a', 'update', 'admin-products__name', productsEl, `/#/adminpanel/orders/update/${item._id}`);
                 item.orderItems.forEach(order => {
                     this.createEl('div', order.name, 'admin-products__name', itemEl);
                 })

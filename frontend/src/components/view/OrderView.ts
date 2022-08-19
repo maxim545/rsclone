@@ -18,8 +18,6 @@ class ProductView extends Element {
 
     create() {
         const id = window.location.hash.replace("#", "").slice(17);
-        console.log(id);
-
         const productEl = this.createEl('div', '', 'container', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         (async () => {

@@ -21,7 +21,7 @@ class UpdateOrderView extends Element {
 
     create() {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const id = window.location.hash.replace("#", "").slice(28);
+        const id = window.location.hash.replace("#", "").slice(26);
         const container = this.createEl('div', `Change order ${id}`, 'container', null);
         const inputs = ['orderStatus'];
         (async () => {

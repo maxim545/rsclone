@@ -106,11 +106,11 @@ class Controller {
         }
     }
 
-    async makeOrder(cartsData: IProduct[]) {
+    async makeOrder(cartsData) {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');
-        window.location.hash = '/purchase'
+        window.location.hash = '/purchases'
         if (status === 201) { alert('Your order has been created') }
     }
 

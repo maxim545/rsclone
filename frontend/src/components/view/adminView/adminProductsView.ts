@@ -26,12 +26,12 @@ class AdminProductsView extends Element {
         const productsEl = this.createEl('div', 'Admin products', 'admin-products', null);
         this.createEl('a', 'create new product', 'admin-products__name', productsEl, `#/adminpanel/createproduct`);
 
-        /*  const createAll = this.createEl('button', 'create all product', 'admin-products__name', productsEl);
-         createAll.addEventListener('click', () => {
-             data.forEach((item) => {
-                 this.api.createProduct(userData, item)
-             });
-         }); */
+        const createAll = this.createEl('button', 'create all product', 'admin-products__name', productsEl);
+        createAll.addEventListener('click', () => {
+            data.forEach((item) => {
+                this.api.createProduct(userData, item)
+            });
+        });
 
 
         (async () => {
@@ -46,9 +46,7 @@ class AdminProductsView extends Element {
                 deleteBtn.addEventListener('click', () => {
                     if (deleteBtn.dataset.id) {
                         this.api.removeProduct(userData, deleteBtn.dataset.id).then(() => {
-                            const main = document.querySelector('.main') as HTMLElement;
-                            main.innerHTML = '';
-                            main.append(this.create())
+
                         })
                     }
                 })

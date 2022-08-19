@@ -18,7 +18,7 @@ class HeaderView extends Element {
 
   create() {
     const headerContainer = this.createEl('div', '', 'global-container', null);
-    
+
     const topBarWrapper = this.createEl('div', '', 'header__topbar__wrapper', headerContainer);
     const topBarContent = this.createEl('div', '', 'header__topbar__content', topBarWrapper);
 
@@ -26,7 +26,7 @@ class HeaderView extends Element {
     this.createEl('div', 'Available 24/7 at', 'header__topbar__phone', topbarContentLeft);
     this.createEl('a', '+7(814)-233-22-11', 'header__topbar__phone__link', topbarContentLeft, 'tel:+78142332211');
     const topbarContentRight = this.createEl('div', '', 'header__topbar__content_right', topBarContent);
-    
+
     const topbarContentRightLangBox = this.createEl('div', '', 'header__topbar__content_right', topbarContentRight);
     const topbarContentRightLangImg = this.createEl('img', '', 'header__topbar__lang__img', topbarContentRightLangBox) as HTMLImageElement;
     topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
@@ -44,7 +44,7 @@ class HeaderView extends Element {
     });
 
     const topbarContentRightLogin = this.createEl('div', '', 'header__topbar__login', topbarContentRight);
-    
+
     const headerNavbarWrapper = this.createEl('div', '', 'header__navbar__wrapper', headerContainer);
     const headerNavbarContent = this.createEl('div', '', 'header__navbar__content', headerNavbarWrapper);
     const navbarContentLogo = this.createEl('a', '', 'navbar__content__logo', headerNavbarContent, '#/');
@@ -120,16 +120,17 @@ class HeaderView extends Element {
 
         const profileBoxWelcome = this.createEl('div', `Welcome, ${(userData.name) as string}`, 'topbar__profile-box__welcome', topbarContentProfileBox);
 
-        const userLinks = ['Cart:cart', 'Account:account', 'Favorites:favorites', 'Purchase:purchase'];
+        const userLinks = ['Cart:cart', 'Account:account', 'Favorites:favorites', 'Purchases:purchases'];
 
         const [currentUser] = await this.api.loginUser({
           email: userData.email,
           password: userData.password
         });
-        console.log(currentUser);
         if (currentUser.role === 'admin') {
-          userLinks.push('Admin Panel:adminpanel/products')
+          userLinks.push('Admin Panel:adminpanel')
         }
+
+
         userLinks.forEach(item => {
           const [name, link] = item.split(':')
           this.createEl('a', name, 'topbar__profile-box__link', topbarContentProfileBox, `#/${link}`) as HTMLAnchorElement;

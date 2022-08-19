@@ -158,16 +158,15 @@ class Api {
         }
     }
 
-    async makeOrder(cartsData: IProduct[], userData: IUserData) {
+    async makeOrder(cartsData, userData: IUserData) {
         try {
-            const data = { orderItems: cartsData }
             const response = await fetch(`${this.server}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${(userData.token) as string}`
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(cartsData),
             });
             const orderData = await response.json() as Response;
             const { status } = response
@@ -194,6 +193,37 @@ class Api {
         }
     }
 
+    async updateOrder(userData: IUserData, data: IProduct) {
+        try {
+            const response = await fetch(`${this.server}/orders/${data._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+                body: JSON.stringify(data),
+            });
+            const orderData = await response.json()
+            return orderData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async getAllPurchases() {
+        try {
+            const response = await fetch(`${this.server}/orders`, {
+                method: 'GET',
+            });
+            const orders = await response.json() as IOrders[];
+            return orders;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
     async getPurchases(userData: IUserData) {
         try {
             const response = await fetch(`${this.server}/orders/purchase`, {
@@ -204,6 +234,23 @@ class Api {
             });
             const orderData = await response.json() as IOrders[];
             return orderData;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async removePurchase(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/orders/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const productData = await response.json() as IProduct;
+            return productData
         } catch (err) {
             console.error(err);
             throw err;

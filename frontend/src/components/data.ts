@@ -9,6 +9,7 @@ const products = [
         brand: 'adidas',
         image: '/images/cards/1.jpg',
         variant: '42:5, 34:5, 44:6',
+        discount: '10',
     },
     {
         id: '222222222222222222222222',
@@ -20,6 +21,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/2.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '20',
 
     },
     {
@@ -32,6 +34,7 @@ const products = [
         brand: 'adidas',
         image: '/images/cards/3.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '4',
@@ -43,6 +46,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/4.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '5',
@@ -54,6 +58,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/5.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '6',
@@ -65,6 +70,7 @@ const products = [
         brand: 'columbia',
         image: '/images/cards/6.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '7',
@@ -76,6 +82,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/7.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '8',
@@ -87,6 +94,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/8.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '9',
@@ -98,6 +106,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/9.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '10',
@@ -109,6 +118,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/10.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '11',
@@ -120,6 +130,7 @@ const products = [
         brand: 'adidas',
         image: '/images/cards/11.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '12',
@@ -131,6 +142,7 @@ const products = [
         brand: 'columbia',
         image: '/images/cards/12.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '13',
@@ -142,6 +154,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/13.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '14',
@@ -153,6 +166,7 @@ const products = [
         brand: 'adidas',
         image: '/images/cards/14.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '15',
@@ -164,6 +178,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/15.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '16',
@@ -175,6 +190,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/16.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '17',
@@ -186,6 +202,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/17.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '18',
@@ -197,6 +214,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/18.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '19',
@@ -208,6 +226,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/19.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '20',
@@ -219,6 +238,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/20.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '21',
@@ -230,6 +250,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/21.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '22',
@@ -241,6 +262,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/22.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '23',
@@ -252,6 +274,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/23.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '10',
     },
     {
         id: '24',
@@ -263,6 +286,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/24.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '30',
     },
     {
         id: '25',
@@ -274,6 +298,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/25.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '10',
     },
     {
         id: '26',
@@ -285,6 +310,7 @@ const products = [
         brand: 'armani',
         image: '/images/cards/26.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '0',
     },
     {
         id: '27',
@@ -307,6 +333,7 @@ const products = [
         brand: 'nike',
         image: '/images/cards/28.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '0',
     },
     {
         id: '29',
@@ -318,6 +345,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/29.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '0',
     },
     {
         id: '30',
@@ -329,6 +357,7 @@ const products = [
         brand: 'puma',
         image: '/images/cards/30.png',
         variant: '42:5, 34:5, 44:6',
+        discount: '0',
     },
 ]
 

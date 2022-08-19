@@ -1,6 +1,5 @@
 import AdminOrdersView from "./view/adminView/AdminOrdersView";
-import AdminProductsView from "./view/adminView/adminProductsView";
-import ChnageProductView from "./view/adminView/UpdateProductView";
+import UpdateProductView from "./view/adminView/UpdateProductView";
 import CreateProductView from "./view/adminView/CreateProductView";
 import CartView from "./view/CartView";
 import CatalogView from "./view/CatalogView";
@@ -11,6 +10,9 @@ import PurchaseView from "./view/PurchaseView";
 import AccountView from "./view/userView/accountView";
 import LoginView from "./view/userView/loginView";
 import RegisterView from "./view/userView/registerView";
+import AdminPanelView from "./view/adminView/AdminPanelView";
+import AdminProductsView from "./view/adminView/adminProductsView";
+import UpdateOrderView from "./view/adminView/UpdateOrderView";
 
 
 const renderingData = {
@@ -44,12 +46,12 @@ const renderingData = {
         description: '',
         instance: new AccountView(),
     },
-    '/purchase': {
+    '/purchases': {
         title: 'Purchase',
         description: '',
         instance: new PurchaseView(),
     },
-    '/order/': {
+    '/purchases/order/': {
         title: 'Order',
         description: '',
         instance: new OrderView(),
@@ -58,6 +60,11 @@ const renderingData = {
         title: 'Not found',
         description: '',
         instance: new ErrorView(),
+    },
+    '/adminpanel': {
+        title: 'Admin panel',
+        description: '',
+        instance: new AdminPanelView(),
     },
     '/adminpanel/products': {
         title: 'Admin Products',
@@ -77,7 +84,12 @@ const renderingData = {
     '/adminpanel/products/update/': {
         title: 'Admin update product',
         description: '',
-        instance: new ChnageProductView(),
+        instance: new UpdateProductView(),
+    },
+    '/adminpanel/orders/update/': {
+        title: 'Admin update order',
+        description: '',
+        instance: new UpdateOrderView(),
     }
 };
 

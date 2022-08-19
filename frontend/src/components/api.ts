@@ -194,6 +194,20 @@ class Api {
         }
     }
 
+
+    async getAllPurchases() {
+        try {
+            const response = await fetch(`${this.server}/orders`, {
+                method: 'GET',
+            });
+            const orders = await response.json() as IOrders[];
+            return orders;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
     async getPurchases(userData: IUserData) {
         try {
             const response = await fetch(`${this.server}/orders/purchase`, {
@@ -204,6 +218,23 @@ class Api {
             });
             const orderData = await response.json() as IOrders[];
             return orderData;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async removePurchase(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/orders/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const productData = await response.json() as IProduct;
+            return productData
         } catch (err) {
             console.error(err);
             throw err;

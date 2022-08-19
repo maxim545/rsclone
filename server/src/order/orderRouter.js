@@ -1,8 +1,16 @@
 import express from 'express';
 import Order from './orderModel';
-import { verifyToken } from '../utils';
+import { isAccess, verifyToken } from '../utils';
 
 const orderRouter = express.Router();
+
+orderRouter.get(
+    '/',
+    async (req, res) => {
+        const orders = await Order.find({}).populate('user');
+        res.send(orders);
+    },
+);
 
 orderRouter.get(
     '/purchase',
@@ -36,6 +44,21 @@ orderRouter.post(
         });
         const createdOrder = await order.save();
         res.status(201).send({ message: 'New Order Created', order: createdOrder });
+    },
+);
+
+orderRouter.delete(
+    '/:id',
+    verifyToken,
+    isAccess,
+    async (req, res) => {
+        const order = await Order.findById(req.params.id);
+        if (order) {
+            await order.remove();
+            res.send({ message: 'Order deleted' });
+        } else {
+            res.status(404).send({ message: 'Order Not Found' });
+        }
     },
 );
 

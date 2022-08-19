@@ -8,7 +8,7 @@ class Router {
         if (hashArr.includes('p')) {
             renderInstanse = routerData['/p/'].instance;
         } else if (hashArr.includes('order')) {
-            renderInstanse = routerData['/order/'].instance;
+            renderInstanse = routerData['/purchases/order/'].instance;
         } else if (hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/products/update/'].instance;
         } else if (location === '') {

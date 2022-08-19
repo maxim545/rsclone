@@ -46,9 +46,7 @@ class AdminProductsView extends Element {
                 deleteBtn.addEventListener('click', () => {
                     if (deleteBtn.dataset.id) {
                         this.api.removeProduct(userData, deleteBtn.dataset.id).then(() => {
-                            const main = document.querySelector('.main') as HTMLElement;
-                            main.innerHTML = '';
-                            main.append(this.create())
+
                         })
                     }
                 })

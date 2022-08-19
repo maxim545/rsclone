@@ -23,7 +23,7 @@ class PurchaseView extends Element {
             const purchases = await this.api.getPurchases(userData);
             purchases.forEach(item => {
                 const purchaseItem = this.createEl('div', item._id, 'purchase__id', purchaseEl);
-                this.createEl('a', 'Go to details', 'purchase__link', purchaseItem, `/#/order/${item._id}`);
+                this.createEl('a', 'Go to details', 'purchase__link', purchaseItem, `/#/purchases/order/${item._id}`);
                 item.orderItems.forEach(product => {
                     this.createEl('div', product.name, 'purchase__name', purchaseItem);
                 })

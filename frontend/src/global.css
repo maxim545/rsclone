@@ -1,33 +1,12 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('./assets/css/fonts.css');
 @import url('./assets/css/reboot.css');
 @import url('./assets/css/normalize.css');
 @import url('./assets/css/header.css');
 
 
-@font-face {
-    font-family: "Lato";
-    src: url("./assets/fonts/Lato-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-display: swap;
-    font-style: normal;
-}
 
-@font-face {
-    font-family: "Lato";
-    src: url("./assets/fonts/Lato-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-display: swap;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Lato";
-    src: url("./assets/fonts/Lato-Black.woff2") format("woff2");
-    font-weight: 900;
-    font-display: swap;
-    font-style: normal;
-}
 
 body {
     color: rgb(0, 0, 0);

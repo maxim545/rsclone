@@ -27,7 +27,7 @@ header {
 }
 
 .header__topbar__phone {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 150%;
@@ -37,7 +37,7 @@ header {
 
 .header__topbar__phone__link {
   text-decoration: underline;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-weight: bold;
   font-size: 14px;
   line-height: 150%;
@@ -105,7 +105,7 @@ header {
   flex-direction: row-reverse;
   align-items: center;
   text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 150%;
@@ -180,7 +180,7 @@ header {
 .navbar__nav__link {
   text-decoration: none;
   cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -212,7 +212,7 @@ header {
 }
 
 .navbar__search-line {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -318,7 +318,7 @@ header {
 }
 
 .bottom__link-offer_left {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 900;
   font-size: 12px;
@@ -327,7 +327,7 @@ header {
 }
 
 .bottom__link-offer_right {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -349,7 +349,7 @@ header {
   flex-direction: row-reverse;
   align-items: center;
   text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 150%;
@@ -387,7 +387,7 @@ header {
 .topbar__profile-box__link {
   text-decoration: none;
   cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Lato, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -490,12 +490,13 @@ header {
   width: 100%;
 }
 
-@media (min-width : 1024px){
+@media (min-width : 1024px) {
   .navbar__search-mobile__wrapper {
     display: none !important;
   }
 }
-@media (max-width : 1024px) and (min-width: 768px){
+
+@media (max-width : 1024px) and (min-width: 768px) {
   .navbar__search-mobile__wrapper {
     display: flex !important;
   }
@@ -584,7 +585,7 @@ header {
     background-color: transparent;
     height: 10px;
   }
-  
+
   .navbar__content__search-mobile {
     display: flex;
     justify-content: center;
@@ -702,7 +703,7 @@ header {
     display: block;
     padding: 12px 24px;
     color: #333;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lato, Helvetica, sans-serif;
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;

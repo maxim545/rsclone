@@ -109,6 +109,7 @@ userRouter.post(
                     email: newUser.email,
                     phone: newUser.phone,
                     adress: newUser.adress,
+                    password: req.body.password,
                     thirdname: newUser.thirdname,
                     token: getToken(newUser),
                 });
@@ -150,6 +151,7 @@ userRouter.put(
                 phone: updatedUser.phone,
                 adress: updatedUser.adress,
                 thirdname: updatedUser.thirdname,
+                password: req.body.password,
                 role: user.role,
                 token: getToken(updatedUser),
             });

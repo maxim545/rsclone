@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { IProduct, IUserData } from "../types";
+import { IOrderData, IProduct, IUserData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -24,7 +24,7 @@ class CartView extends Element {
         const cartEl = this.createEl('div', '', 'container', null);
         const cartsId = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const cartsData = {
+        const cartsData: IOrderData = {
             orderItems: [],
         };
         if (cartsId && cartsId.length) {
@@ -32,18 +32,19 @@ class CartView extends Element {
                 this.createEl('h2', 'Fill in all the data to place an order', 'account__title', cartEl);
                 const inpustList = this.createEl('div', '', 'account__list', cartEl);
                 const inputs = ['name:text', 'email:email', 'surname:text', 'thirdname:text', 'phone:text', 'adress:text'];
-                if (!userData) { inputs.push('password:password', 'repPassword:password') }
-                const unputsValues: Record<string, string> = {}
+                if (!userData) { inputs.push('password:password', 'repeatPassword:password') }
+                const unputsValues: IUserData = {}
                 inputs.forEach(item => {
                     const [name, type] = item.split(':');
                     const inputContainer = this.createEl('div', '', 'login__item', inpustList);
                     this.createEl('p', `Your ${name}`, 'login__title', inputContainer);
                     const input = this.createEl('input', '', name, inputContainer) as HTMLInputElement;
                     input.type = type;
-                    input.addEventListener('change', () => { unputsValues[name] = input.value })
+                    input.addEventListener('change', () => { unputsValues[name as keyof typeof unputsValues] = input.value })
                     if (userData && userData[name as keyof typeof userData] !== undefined) {
-                        input.value = userData[name as keyof typeof userData];
-                        unputsValues[name] = input.value;
+                        const currentValue = userData[name as keyof typeof userData] as string;
+                        input.value = currentValue;
+                        unputsValues[name as keyof typeof unputsValues] = input.value;
                     }
                 })
                 // Functional showing carts of pruduct
@@ -72,14 +73,14 @@ class CartView extends Element {
         return cartEl;
     }
 
-    createPurchases(cartEl: HTMLElement, cartsData, userData: IUserData, unputsValues: Record<string, string>) {
+    createPurchases(cartEl: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
         const purchases = this.createEl('div', 'Your purchases list with prices', 'purchases', cartEl);
         const orderBtn = this.createEl('button', 'create order', 'purchases__btn', purchases);
         orderBtn.addEventListener('click', () => {
             if (userData) {
                 this.controller.makeOrder(cartsData)
             } else {
-                this.controller.registerUser(unputsValues.name, unputsValues.email, unputsValues.password, unputsValues.repPassword)
+                this.controller.registerUser(unputsValues)
                     .then(() => {
                         this.updateView.updateHeader();
                         this.controller.makeOrder(cartsData)

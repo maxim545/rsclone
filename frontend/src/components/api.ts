@@ -1,4 +1,4 @@
-import { ILogin, IOrders, IProduct, IUserData } from "./types";
+import { ILogin, IOrderData, IOrders, IOrderUpdated, IProduct, IProductCreated, IUserData } from "./types";
 
 class Api {
 
@@ -37,7 +37,7 @@ class Api {
         }
     }
 
-    async createProduct(userData: IUserData, data: IProduct) {
+    async createProduct(userData: IUserData, data: IProductCreated) {
         try {
             const response = await fetch(`${this.server}/products`, {
                 method: 'POST',
@@ -55,9 +55,9 @@ class Api {
         }
     }
 
-    async updateProduct(userData: IUserData, data: IProduct) {
+    async updateProduct(userData: IUserData, data: IProductCreated) {
         try {
-            const response = await fetch(`${this.server}/products/${data._id}`, {
+            const response = await fetch(`${this.server}/products/${(data._id) as string}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ class Api {
         }
     }
 
-    async addProductImage(userData: IUserData, data) {
+    async addProductImage(userData: IUserData, data: FormData) {
         try {
             const response = await fetch(`${this.server}/uploads`, {
                 method: 'POST',
@@ -158,7 +158,7 @@ class Api {
         }
     }
 
-    async makeOrder(cartsData, userData: IUserData) {
+    async makeOrder(cartsData: IOrderData, userData: IUserData) {
         try {
             const response = await fetch(`${this.server}/orders`, {
                 method: 'POST',
@@ -168,7 +168,7 @@ class Api {
                 },
                 body: JSON.stringify(cartsData),
             });
-            const orderData = await response.json() as Response;
+            const orderData = await response.json();
             const { status } = response
             return [orderData, status];
         } catch (err) {
@@ -193,7 +193,7 @@ class Api {
         }
     }
 
-    async updateOrder(userData: IUserData, data: IProduct) {
+    async updateOrder(userData: IUserData, data: IOrderUpdated) {
         try {
             const response = await fetch(`${this.server}/orders/${data._id}`, {
                 method: 'PUT',

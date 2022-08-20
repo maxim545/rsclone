@@ -1,4 +1,4 @@
-import Api from "../../api";
+/* import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
 import { IUserData } from "../../types";
@@ -35,4 +35,4 @@ class AdminPanelView extends Element {
 
 }
 
-export default AdminPanelView;
+export default AdminPanelView; */

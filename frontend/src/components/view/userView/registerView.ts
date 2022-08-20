@@ -1,5 +1,6 @@
 import Element from "../../common/Element";
 import Controller from "../../Controller";
+import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 class RegisterView extends Element {
@@ -15,38 +16,35 @@ class RegisterView extends Element {
     }
 
     create() {
-        const registerEl = this.createEl('div', '', 'register', null);
-        this.createEl('h2', 'Register new user', 'register__title', registerEl);
-        const inpustList = this.createEl('div', '', 'register__list', registerEl);
+        const container = this.createEl('div', '', 'container_main', null);
+        const registerEl = this.createEl('div', '', 'auth auth_register', container);
+        this.createEl('h2', 'Sign up', 'auth__title', registerEl);
+        this.createEl('p', 'Registration takes less than a minute but gives you full control over your orders.', 'auth__subtitle', registerEl);
 
-        const nameEl = this.createEl('div', '', 'login__item', inpustList);
-        this.createEl('p', 'name', 'login__title', nameEl);
-        const inputName = this.createEl('input', '', `login__email`, nameEl) as HTMLInputElement;
-        inputName.type = 'name';
+        const inpustList = this.createEl('div', '', 'auth__inputs', registerEl);
+        const inputsArr = ['name:Name:name', 'email:Email:email', 'password:Password:password', 'password:Confirm Password:repeatPassword'];
+        const inputsValues: IUserData = {};
 
-        const emailEl = this.createEl('div', '', 'login__item', inpustList);
-        this.createEl('p', 'email', 'login__title', emailEl);
-        const inputEmail = this.createEl('input', '', `login__email`, emailEl) as HTMLInputElement;
-        inputEmail.type = 'email';
+        inputsArr.forEach((input) => {
+            const [type, name, key] = input.split(':');
+            const itemEl = this.createEl('div', '', 'auth__item', inpustList);
+            this.createEl('p', name, 'auth__input-title', itemEl);
+            const inputEl = this.createEl('input', '', `form-control auth__input`, itemEl) as HTMLInputElement;
+            inputEl.type = type;
+            inputEl.placeholder = `Your working ${type}`;
+            inputEl.addEventListener('change', () => {
+                inputsValues[key as keyof typeof inputsValues] = inputEl.value
+            })
+        })
 
-        const passwordEl = this.createEl('div', '', 'login__item', inpustList);
-        this.createEl('p', 'password', 'login__title', passwordEl);
-        const inputPassword = this.createEl('input', '', `login__password`, passwordEl) as HTMLInputElement;
-        inputPassword.type = 'password';
-
-        const repeatPasEl = this.createEl('div', '', 'login__item', inpustList);
-        this.createEl('p', 'password', 'login__title', repeatPasEl);
-        const inputRepeatPas = this.createEl('input', '', `login__password`, repeatPasEl) as HTMLInputElement;
-        inputRepeatPas.type = 'password';
-
-        const submit = this.createEl('button', 'submit', 'register__btn', registerEl);
-        const login = this.createEl('a', 'I have account', 'register__login', registerEl, `#/login`) as HTMLAnchorElement;
+        const submit = this.createEl('button', 'Sign up', 'btn btn-primary auth__btn', registerEl);
+        this.createEl('p', `Already have an account? <a class="auth__link" href="#/login">Sign in</a>`, 'auth__info', registerEl);
         submit.addEventListener('click', () => {
-            this.controller.registerUser(inputName.value, inputEmail.value, inputPassword.value, inputRepeatPas.value)
+            this.controller.registerUser(inputsValues)
                 .then(() => { this.updateView.updateHeader() })
         });
 
-        return registerEl;
+        return container;
     }
 
 }

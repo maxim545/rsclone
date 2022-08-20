@@ -1,5 +1,5 @@
 import Api from './api';
-import { IProduct, IUserData } from './types';
+import { IOrderData, IUserData } from './types';
 
 class Controller {
 
@@ -40,18 +40,8 @@ class Controller {
                 alert('The username or password you entered is incorrect')
             } else {
                 window.location.hash = '/';
-                const curUser = {
-                    name: userData.name,
-                    email: userData.email,
-                    surname: userData.surname,
-                    phone: userData.phone,
-                    adress: userData.adress,
-                    thirdname: userData.thirdname,
-                    password: userData.password,
-                    _id: userData._id,
-                    token: userData.token
-                }
-                localStorage.setItem('userData', JSON.stringify(curUser))
+                delete userData.role;
+                localStorage.setItem('userData', JSON.stringify(userData))
             }
         } else {
             alert('Please fill all fields');
@@ -62,29 +52,16 @@ class Controller {
         localStorage.removeItem('userData');
     }
 
-    async registerUser(name: string, email: string, password: string, repeatPassword: string) {
-        const registerData: IUserData = {};
-        const passwordIsSame = password === repeatPassword
-        if (name && email && password && passwordIsSame) {
-            registerData.name = name;
-            registerData.email = email;
-            registerData.password = password;
+    async registerUser(registerData: IUserData) {
+        const passwordIsSame = registerData.password === registerData.repeatPassword
+        if (registerData.name && registerData.email && registerData.password && passwordIsSame) {
+            delete registerData.repeatPassword
             const [userData, status] = await this.api.registerUser(registerData) as [IUserData, number];
             if (status === 409) {
                 alert('The username or password you entered is incorrect')
             } else {
                 window.location.hash = '/';
-                const curUser = {
-                    name: userData.name,
-                    email: userData.email,
-                    surname: userData.surname,
-                    phone: userData.phone,
-                    adress: userData.adress,
-                    thirdname: userData.thirdname,
-                    _id: userData._id,
-                    token: userData.token
-                }
-                localStorage.setItem('userData', JSON.stringify(curUser))
+                localStorage.setItem('userData', JSON.stringify(userData))
                 alert('You register is successful')
             }
         } else {
@@ -93,20 +70,23 @@ class Controller {
     }
 
     async changeUserData(unputsValues: IUserData) {
-        const userNewData: IUserData = { ...unputsValues };
         const curUser = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        if (unputsValues && curUser) {
-            userNewData.token = curUser.token
-            const [userData, status] = await this.api.updateUser(userNewData, (curUser._id as string)) as [IUserData, number];
-            userNewData._id = userData._id;
-            userNewData.token = userData.token
-            localStorage.setItem('userData', JSON.stringify(userNewData));
+        if (!unputsValues.password) {
+            unputsValues.password = curUser.password;
+            unputsValues.repeatPassword = curUser.password;
+        }
+        const isEqual = unputsValues.password === unputsValues.repeatPassword;
+        if (unputsValues && curUser && unputsValues.password && isEqual) {
+            delete unputsValues.repeatPassword;
+            unputsValues.token = curUser.token
+            const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
+            localStorage.setItem('userData', JSON.stringify(userData));
         } else {
             alert('Please fill all fields');
         }
     }
 
-    async makeOrder(cartsData) {
+    async makeOrder(cartsData: IOrderData) {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');

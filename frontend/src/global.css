@@ -43,10 +43,12 @@ header h1 {
 .container_main {
     margin-left: auto;
     margin-right: auto;
-    padding: 0 15px;
+    padding: 0 20px;
     max-width: 1230px;
 }
 
 
 
 @import url('./assets/css/auth.css');
+@import url('./assets/css/sidebar.css');
+@import url('./assets/css/profile.css');

@@ -1,0 +1,8 @@
+.profile {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.profile__wrapper {}

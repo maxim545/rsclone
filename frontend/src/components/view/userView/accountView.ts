@@ -2,22 +2,28 @@ import Element from "../../common/Element";
 import Controller from "../../Controller";
 import { IUserData } from "../../types";
 import UpdateView from "../../Update";
+import UserSidebarView from "./UserSidebarView";
 
 class AccountView extends Element {
 
     private controller: Controller;
 
-    private updateView: UpdateView
+    private updateView: UpdateView;
+
+    private sidebarView: UserSidebarView
 
     constructor() {
         super()
         this.controller = new Controller();
         this.updateView = new UpdateView();
+        this.sidebarView = new UserSidebarView();
     }
 
     create() {
-        const accountEl = this.createEl('div', '', 'account', null);
+        const container = this.createEl('div', '', 'container_main profile', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+        container.append(this.sidebarView.create(userData))
+        const accountEl = this.createEl('div', '', 'profile__wrapper', container);
         if (!userData) {
             const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
             const registerLink = `<a class="acoount__link" href="#/register">register</a>`
@@ -53,7 +59,7 @@ class AccountView extends Element {
             });
         }
 
-        return accountEl;
+        return container;
 
 
     }

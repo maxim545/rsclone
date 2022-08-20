@@ -1,5 +1,5 @@
 import Api from './api';
-import { IProduct, IUserData } from './types';
+import { IProduct, IRegister, IUserData } from './types';
 
 class Controller {
 
@@ -40,18 +40,8 @@ class Controller {
                 alert('The username or password you entered is incorrect')
             } else {
                 window.location.hash = '/';
-                const curUser = {
-                    name: userData.name,
-                    email: userData.email,
-                    surname: userData.surname,
-                    phone: userData.phone,
-                    adress: userData.adress,
-                    thirdname: userData.thirdname,
-                    password: userData.password,
-                    _id: userData._id,
-                    token: userData.token
-                }
-                localStorage.setItem('userData', JSON.stringify(curUser))
+                delete userData.role;
+                localStorage.setItem('userData', JSON.stringify(userData))
             }
         } else {
             alert('Please fill all fields');
@@ -62,29 +52,16 @@ class Controller {
         localStorage.removeItem('userData');
     }
 
-    async registerUser(name: string, email: string, password: string, repeatPassword: string) {
-        const registerData: IUserData = {};
-        const passwordIsSame = password === repeatPassword
-        if (name && email && password && passwordIsSame) {
-            registerData.name = name;
-            registerData.email = email;
-            registerData.password = password;
+    async registerUser(registerData: IRegister) {
+        const passwordIsSame = registerData.password === registerData.repeatPassword
+        if (registerData.name && registerData.email && registerData.password && passwordIsSame) {
+            delete registerData.repeatPassword
             const [userData, status] = await this.api.registerUser(registerData) as [IUserData, number];
             if (status === 409) {
                 alert('The username or password you entered is incorrect')
             } else {
                 window.location.hash = '/';
-                const curUser = {
-                    name: userData.name,
-                    email: userData.email,
-                    surname: userData.surname,
-                    phone: userData.phone,
-                    adress: userData.adress,
-                    thirdname: userData.thirdname,
-                    _id: userData._id,
-                    token: userData.token
-                }
-                localStorage.setItem('userData', JSON.stringify(curUser))
+                localStorage.setItem('userData', JSON.stringify(userData))
                 alert('You register is successful')
             }
         } else {

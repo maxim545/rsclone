@@ -15,8 +15,16 @@ export interface IProduct {
 export interface ILogin {
   email?: string,
   password?: string
-
 }
+
+
+export interface IRegister {
+  name: string,
+  email: string,
+  password: string,
+  repeatPassword?: string
+}
+
 
 export interface IUserData {
   _id?: string,
@@ -27,7 +35,8 @@ export interface IUserData {
   thirdname?: string,
   email?: string,
   token?: string,
-  password?: string
+  password?: string,
+  role?: string
 }
 
 export type TOptions = {

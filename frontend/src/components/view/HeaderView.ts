@@ -121,7 +121,6 @@ class HeaderView extends Element {
         const profileBoxWelcome = this.createEl('div', `Welcome, ${(userData.name) as string}`, 'topbar__profile-box__welcome', topbarContentProfileBox);
 
         const userLinks = ['Cart:cart', 'Account:account', 'Favorites:favorites', 'Purchases:purchases'];
-
         const [currentUser] = await this.api.loginUser({
           email: userData.email,
           password: userData.password

@@ -109,6 +109,7 @@ userRouter.post(
                     email: newUser.email,
                     phone: newUser.phone,
                     adress: newUser.adress,
+                    password: req.body.password,
                     thirdname: newUser.thirdname,
                     token: getToken(newUser),
                 });

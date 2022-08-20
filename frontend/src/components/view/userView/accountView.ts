@@ -20,33 +20,35 @@ class AccountView extends Element {
     }
 
     create() {
-        const container = this.createEl('div', '', 'container_main profile', null);
+        const container = this.createEl('div', '', 'container_main account', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        container.append(this.sidebarView.create(userData))
-        const accountEl = this.createEl('div', '', 'profile__wrapper', container);
         if (!userData) {
             const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
             const registerLink = `<a class="acoount__link" href="#/register">register</a>`
-            this.createEl('div', `Please ${enterLink} in your account or ${registerLink}`, 'account__warning', accountEl);
+            this.createEl('div', `Please ${enterLink} in your account or ${registerLink}`, 'account__warning', container);
         }
         else {
-            this.createEl('h2', 'My data', 'account__title', accountEl);
-            const inpustList = this.createEl('div', '', 'account__list', accountEl);
-            const inputs = ['name:text', 'email:email', 'password:password', 'surname:text', 'thirdname:text', 'phone:text', 'adress:text']
+            container.append(this.sidebarView.create(userData))
+            const accountEl = this.createEl('div', '', 'account__wrapper', container);
+            this.createEl('h2', 'My profile', 'account__title', accountEl);
+            const inpustList = this.createEl('div', '', 'account__inputs-list', accountEl);
+            const inputs = ['name:text', 'surname:text', 'thirdname:text', 'email:email', 'password:password', 'repPassword:password', 'phone:text', 'adress:text']
             const unputsValues: Record<string, string> = {}
             inputs.forEach(item => {
                 const [name, type] = item.split(':');
-                const inputContainer = this.createEl('div', '', 'login__item', inpustList);
-                this.createEl('p', `change ${name}`, 'login__title', inputContainer);
-                const input = this.createEl('input', '', name, inputContainer) as HTMLInputElement;
+                const inputContainer = this.createEl('div', '', 'auth__item auth__item_row', inpustList);
+                this.createEl('p', `Change ${name}`, 'auth__input-title', inputContainer);
+                const input = this.createEl('input', '', 'form-control auth__input auth__input_row', inputContainer) as HTMLInputElement;
                 input.type = type;
                 input.addEventListener('change', () => { unputsValues[name] = input.value })
-                if (userData[name as keyof typeof userData] !== undefined) {
+                if (userData[name as keyof typeof userData] !== undefined && type !== 'password') {
                     input.value = userData[name as keyof typeof userData];
+                    unputsValues[name] = input.value;
+                } else if (userData[name as keyof typeof userData] !== undefined && type === 'password') {
                     unputsValues[name] = input.value;
                 }
             })
-            const submit = this.createEl('button', 'submit', 'account__btn', accountEl);
+            const submit = this.createEl('button', 'Save changes', 'btn btn-primary auth__btn', accountEl);
             submit.addEventListener('click', () => {
                 this.controller.changeUserData(unputsValues)
                     .then(() => {
@@ -55,7 +57,6 @@ class AccountView extends Element {
                         main.innerHTML = '';
                         main.append(this.create())
                     })
-
             });
         }
 

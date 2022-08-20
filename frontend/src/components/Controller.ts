@@ -70,14 +70,17 @@ class Controller {
     }
 
     async changeUserData(unputsValues: IUserData) {
-        const userNewData: IUserData = { ...unputsValues };
         const curUser = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        if (unputsValues && curUser) {
-            userNewData.token = curUser.token
-            const [userData, status] = await this.api.updateUser(userNewData, (curUser._id as string)) as [IUserData, number];
-            userNewData._id = userData._id;
-            userNewData.token = userData.token
-            localStorage.setItem('userData', JSON.stringify(userNewData));
+        if (!unputsValues.password) {
+            unputsValues.password = curUser.password;
+            unputsValues.repPassword = curUser.password;
+        }
+        const isEqual = unputsValues.password === unputsValues.repPassword;
+        if (unputsValues && curUser && unputsValues.password && isEqual) {
+            delete unputsValues.repPassword;
+            unputsValues.token = curUser.token
+            const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
+            localStorage.setItem('userData', JSON.stringify(userData));
         } else {
             alert('Please fill all fields');
         }

@@ -36,7 +36,8 @@ export interface IUserData {
   email?: string,
   token?: string,
   password?: string,
-  role?: string
+  role?: string,
+  repPassword?: string,
 }
 
 export type TOptions = {

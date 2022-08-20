@@ -1,0 +1,26 @@
+.account {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.account__wrapper {
+    margin-left: 110px;
+    width: 100%;
+}
+
+.account__title {
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 130%;
+    color: #1E212C;
+}
+
+.account__inputs-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+@media (max-width : 1240px) {}

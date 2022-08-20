@@ -151,6 +151,7 @@ userRouter.put(
                 phone: updatedUser.phone,
                 adress: updatedUser.adress,
                 thirdname: updatedUser.thirdname,
+                password: req.body.password,
                 role: user.role,
                 token: getToken(updatedUser),
             });

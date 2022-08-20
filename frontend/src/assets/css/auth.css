@@ -23,9 +23,9 @@
 
 .auth__item {
     max-width: 390px;
-    width: 100%;
     margin-top: 25px;
 }
+
 
 .auth__email {
     color: #fff;
@@ -33,10 +33,6 @@
 
 .auth__input::placeholder {
     color: #9A9CA5;
-}
-
-.auth__input_row {
-    min-width: 360px;
 }
 
 .auth__input-title {

@@ -36,9 +36,9 @@ class AccountView extends Element {
             const unputsValues: Record<string, string> = {}
             inputs.forEach(item => {
                 const [name, type] = item.split(':');
-                const inputContainer = this.createEl('div', '', 'auth__item auth__item_row', inpustList);
-                this.createEl('p', `Change ${name}`, 'auth__input-title', inputContainer);
-                const input = this.createEl('input', '', 'form-control auth__input auth__input_row', inputContainer) as HTMLInputElement;
+                const inputContainer = this.createEl('div', '', 'account__inputs-item', inpustList);
+                this.createEl('p', `Change ${name}`, 'account__inputs-title', inputContainer);
+                const input = this.createEl('input', '', 'form-control account__input', inputContainer) as HTMLInputElement;
                 input.type = type;
                 input.addEventListener('change', () => { unputsValues[name] = input.value })
                 if (userData[name as keyof typeof userData] !== undefined && type !== 'password') {

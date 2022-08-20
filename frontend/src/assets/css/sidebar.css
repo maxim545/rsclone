@@ -46,3 +46,12 @@
     color: #fff;
     border-top: 1px solid #17696A;
 }
+
+
+
+@media (max-width: 769px) {
+
+    .sidebar {
+        width: 100%;
+    }
+}

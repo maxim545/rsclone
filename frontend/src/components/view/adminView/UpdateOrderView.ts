@@ -1,7 +1,7 @@
+import { IOrderUpdated, IUserData } from "../../types";
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 class UpdateOrderView extends Element {
@@ -26,15 +26,16 @@ class UpdateOrderView extends Element {
         const inputs = ['orderStatus'];
         (async () => {
             const product = await this.api.getOrder(id, userData);
-            const inputsValues: IProduct = { _id: id }
+            const inputsValues: IOrderUpdated = { _id: id }
             inputs.forEach(item => {
                 const inputContainer = this.createEl('div', '', 'item', container);
                 this.createEl('p', `Add ${item}`, 'item__title', inputContainer);
                 const input = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
+                const value = product[item as keyof typeof product] as string;
                 input.type = 'text';
-                input.value = product[item];
-                inputsValues[item] = input.value;
-                input.addEventListener('change', () => { inputsValues[item] = input.value; })
+                input.value = value;
+                inputsValues[item as keyof typeof inputsValues] = input.value;
+                input.addEventListener('change', () => { inputsValues[item as keyof typeof inputsValues] = input.value; })
             })
             const updateBtn = this.createEl('button', `Update`, 'btn-update', container);
             updateBtn.addEventListener('click', () => {

@@ -1,8 +1,7 @@
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import data from "../../data";
-import { IUserData } from "../../types";
+import { IOrders, IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 
@@ -28,7 +27,7 @@ class AdminProductsView extends Element {
 
 
         (async () => {
-            const orders = await this.api.getAllPurchases();
+            const orders: IOrders[] = await this.api.getAllPurchases();
             orders.forEach(item => {
                 const itemEl = this.createEl('div', item._id, 'admin-products__name', productsEl);
                 this.createEl('div', item.orderStatus, 'admin-products__name', productsEl);

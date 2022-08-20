@@ -1,7 +1,7 @@
+import { IProductCreated, IUserData } from "../../types";
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 class CreateProductView extends Element {
@@ -23,13 +23,13 @@ class CreateProductView extends Element {
         const container = this.createEl('div', 'Create product', 'container', null);
         const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant', 'discount'];
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const inputsValues: IProduct = {}
+        const inputsValues: IProductCreated = {}
         inputs.forEach(item => {
             const inputContainer = this.createEl('div', '', 'item', container);
             this.createEl('p', `Add ${item}`, 'item__title', inputContainer);
             const input = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
             input.type = 'text';
-            input.addEventListener('change', () => { inputsValues[item] = input.value; })
+            input.addEventListener('change', () => { inputsValues[item as keyof typeof inputsValues] = input.value; })
         })
 
         const submitBtn = this.createEl('button', 'submit', 'submit-btn', container);

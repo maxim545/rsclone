@@ -1,5 +1,5 @@
 import Api from './api';
-import { IProduct, IRegister, IUserData } from './types';
+import { IOrderData, IUserData } from './types';
 
 class Controller {
 
@@ -52,7 +52,7 @@ class Controller {
         localStorage.removeItem('userData');
     }
 
-    async registerUser(registerData: IRegister) {
+    async registerUser(registerData: IUserData) {
         const passwordIsSame = registerData.password === registerData.repeatPassword
         if (registerData.name && registerData.email && registerData.password && passwordIsSame) {
             delete registerData.repeatPassword
@@ -73,11 +73,11 @@ class Controller {
         const curUser = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         if (!unputsValues.password) {
             unputsValues.password = curUser.password;
-            unputsValues.repPassword = curUser.password;
+            unputsValues.repeatPassword = curUser.password;
         }
-        const isEqual = unputsValues.password === unputsValues.repPassword;
+        const isEqual = unputsValues.password === unputsValues.repeatPassword;
         if (unputsValues && curUser && unputsValues.password && isEqual) {
-            delete unputsValues.repPassword;
+            delete unputsValues.repeatPassword;
             unputsValues.token = curUser.token
             const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
             localStorage.setItem('userData', JSON.stringify(userData));
@@ -86,7 +86,7 @@ class Controller {
         }
     }
 
-    async makeOrder(cartsData) {
+    async makeOrder(cartsData: IOrderData) {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');

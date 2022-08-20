@@ -10,7 +10,7 @@ import PurchaseView from "./view/PurchaseView";
 import AccountView from "./view/userView/accountView";
 import LoginView from "./view/userView/loginView";
 import RegisterView from "./view/userView/registerView";
-import AdminPanelView from "./view/adminView/AdminPanelView";
+/* import AdminPanelView from "./view/adminView/AdminPanelView"; */
 import AdminProductsView from "./view/adminView/adminProductsView";
 import UpdateOrderView from "./view/adminView/UpdateOrderView";
 
@@ -61,11 +61,11 @@ const renderingData = {
         description: '',
         instance: new ErrorView(),
     },
-    '/adminpanel': {
+    /* '/adminpanel': {
         title: 'Admin panel',
         description: '',
         instance: new AdminPanelView(),
-    },
+    }, */
     '/adminpanel/products': {
         title: 'Admin Products',
         description: '',

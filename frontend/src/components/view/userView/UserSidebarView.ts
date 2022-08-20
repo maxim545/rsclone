@@ -1,7 +1,7 @@
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import { IRegister, IUserData } from "../../types";
+import { IUserData } from "../../types";
 
 class UserSidebarView extends Element {
 
@@ -24,7 +24,7 @@ class UserSidebarView extends Element {
             const [currentUser] = await this.api.loginUser({
                 email: userData.email,
                 password: userData.password
-            });
+            }) as [IUserData];
             if (currentUser.role === 'admin') {
                 links.unshift('All products:#/adminpanel/products', 'All orders:#/adminpanel/orders')
             }

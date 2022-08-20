@@ -32,20 +32,21 @@ class AccountView extends Element {
             const accountEl = this.createEl('div', '', 'account__wrapper', container);
             this.createEl('h2', 'My profile', 'account__title', accountEl);
             const inpustList = this.createEl('div', '', 'account__inputs-list', accountEl);
-            const inputs = ['name:text', 'surname:text', 'thirdname:text', 'email:email', 'password:password', 'repPassword:password', 'phone:text', 'adress:text']
-            const unputsValues: Record<string, string> = {}
+            const inputs = ['name:text', 'surname:text', 'thirdname:text', 'email:email', 'password:password', 'repeatPassword:password', 'phone:text', 'adress:text']
+            const unputsValues: IUserData = {}
             inputs.forEach(item => {
                 const [name, type] = item.split(':');
                 const inputContainer = this.createEl('div', '', 'account__inputs-item', inpustList);
                 this.createEl('p', `Change ${name}`, 'account__inputs-title', inputContainer);
                 const input = this.createEl('input', '', 'form-control account__input', inputContainer) as HTMLInputElement;
                 input.type = type;
-                input.addEventListener('change', () => { unputsValues[name] = input.value })
+                input.addEventListener('change', () => { unputsValues[name as keyof typeof unputsValues] = input.value })
                 if (userData[name as keyof typeof userData] !== undefined && type !== 'password') {
-                    input.value = userData[name as keyof typeof userData];
-                    unputsValues[name] = input.value;
+                    const currentValue = userData[name as keyof typeof userData] as string;
+                    input.value = currentValue;
+                    unputsValues[name as keyof typeof unputsValues] = input.value;
                 } else if (userData[name as keyof typeof userData] !== undefined && type === 'password') {
-                    unputsValues[name] = input.value;
+                    unputsValues[name as keyof typeof unputsValues] = input.value;
                 }
             })
             const submit = this.createEl('button', 'Save changes', 'btn btn-primary auth__btn', accountEl);

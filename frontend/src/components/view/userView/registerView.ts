@@ -1,6 +1,6 @@
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import { IRegister } from "../../types";
+import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 
 class RegisterView extends Element {
@@ -23,7 +23,7 @@ class RegisterView extends Element {
 
         const inpustList = this.createEl('div', '', 'auth__inputs', registerEl);
         const inputsArr = ['name:Name:name', 'email:Email:email', 'password:Password:password', 'password:Confirm Password:repeatPassword'];
-        const inputsValues: IRegister = { name: '', email: '', password: '', repeatPassword: '' };
+        const inputsValues: IUserData = {};
 
         inputsArr.forEach((input) => {
             const [type, name, key] = input.split(':');

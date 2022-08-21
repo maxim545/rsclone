@@ -41,6 +41,7 @@ orderRouter.post(
         const order = new Order({
             orderItems: req.body.orderItems,
             status: req.body.status,
+            price: req.body.price,
             user: req.user._id,
         });
         await order.save();

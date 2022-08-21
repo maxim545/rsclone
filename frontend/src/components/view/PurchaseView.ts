@@ -17,12 +17,12 @@ class PurchaseView extends Element {
     }
 
     create() {
-        const purchaseEl = this.createEl('div', '', 'purchase', null);
+        const container = this.createEl('div', '', 'container_main orders', null);
         (async () => {
             const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null')
             const purchases = await this.api.getPurchases(userData);
             purchases.forEach(item => {
-                const purchaseItem = this.createEl('div', item._id, 'purchase__id', purchaseEl);
+                const purchaseItem = this.createEl('div', item._id, 'purchase__id', container);
                 this.createEl('a', 'Go to details', 'purchase__link', purchaseItem, `/#/purchases/order/${item._id}`);
                 item.orderItems.forEach(product => {
                     this.createEl('div', product.name, 'purchase__name', purchaseItem);
@@ -30,7 +30,7 @@ class PurchaseView extends Element {
             })
         })().catch(err => { console.error(err) });
 
-        return purchaseEl;
+        return container;
     }
 }
 

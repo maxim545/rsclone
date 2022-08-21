@@ -8,7 +8,7 @@
 }
 
 .item {
-
+    font-family: "Lato", sans-serif;
 }
 
 .item__text {
@@ -50,10 +50,20 @@
 
 .item__imgs {
     flex-basis: 48%;
+    margin-right: 4%;
+}
+
+.item__imgs img {
+    width: 100%;
+    height: auto;
 }
 
 .item__text {
     flex-basis: 43%;
+}
+
+.item__prices {
+    margin-bottom: 25px;
 }
 
 .item__prices b {
@@ -63,7 +73,70 @@
     color: #FF4242;
 }
 
+.item__colors {
+    margin-bottom: 25px;
+}
+
+.item__radios {
+    display: flex;
+    align-items: center;
+}
+
+.item__radios input {
+    margin-right: 4px;
+}
+
+.item__radios span {
+    text-transform: capitalize;
+}
+
+.item__sizes {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.item__sizes span {
+    margin-bottom: 8px;
+}
+
+.item__sizes select {
+    width: 250px;
+    max-width: 100%;
+}
+
+.item__btns {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 45px;
+}
+
+.item__btns input,
+.item__btns button {
+    border-radius: 4px;
+}
+
+.item__btns input,
+.item__sizes select {
+    padding: 10px;
+    border: 1px solid #D7DADD;
+}
+
+.item__btns button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4.7%;
+}
+
+.item__btns svg {
+    margin-right: 8px;
+}
+
 .item__cart {
+    flex-basis: 65%;
+    border: none;
+    background: #17696A;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -73,6 +146,9 @@
 }
 
 .item__favourite {
+    flex-basis: 40%;
+    border: 1px solid #17696A;
+    background: none;
     font-weight: 700;
     font-size: 14px;
     line-height: 44px;
@@ -88,6 +164,19 @@
     color: #1E212C;
 }
 
+.item__delivery table {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.item__delivery th,
+.item__delivery td {
+    border-bottom: 1px solid #E5E8ED;
+    padding: 10px 20px;
+}
+
 .item__delivery th {
     font-style: normal;
     text-transform: uppercase;
@@ -96,4 +185,31 @@
     line-height: 1.5;
     letter-spacing: 1px;
     color: #787A80;
+}
+
+.item__socials {
+    display: flex;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.item__socials > * {
+    margin-right: 16px;
+}
+
+.item__pays {
+    display: flex;
+}
+
+.item__pays div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 64px;
+    margin-right: 20px;
+    background: #F4F5F7;
+    border: 1px solid #D7DADD;
+    border-radius: 4px;
+
 }

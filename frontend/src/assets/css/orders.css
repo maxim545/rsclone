@@ -1,0 +1,127 @@
+.orders {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.orders__wrapper {
+    width: 100%;
+    max-width: 810px;
+}
+
+.orders__title {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 130%;
+    color: #1E212C;
+}
+
+.orders__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+
+
+
+/* Accordion styles */
+.tabs {
+    overflow: hidden;
+}
+
+.tab {
+    width: 100%;
+    overflow: hidden;
+
+}
+
+
+.tab__label {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    background: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom: 1px solid #E5E8ED;
+}
+
+.tab__label:hover {
+    background-color: #f8f8f8;
+}
+
+.tab__input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+
+.tab__label::after {
+    content: "\FF0B";
+    width: 1em;
+    color: #17696A;
+    height: 1em;
+    text-align: center;
+    transition: all 0.35s;
+}
+
+.tab__label:hover::after {
+    color: #4ba2a3;
+}
+
+.tab__header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    margin-right: 20px;
+}
+
+
+.tab__header-item {}
+
+.tab__header-date {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #787A80;
+}
+
+.tab__header-price {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 160%;
+    color: #1E212C;
+}
+
+.bi-clock {
+    padding-right: 5px;
+}
+
+.tab__content {
+    max-height: 0;
+    padding: 0 1em;
+    color: #2c3e50;
+    background: #F4F5F6;
+    transition: all 0.35s;
+}
+
+
+.tab__input:checked+.tab__label {
+    background: #fff;
+}
+
+.tab__input:checked+.tab__label::after {
+    content: "\2212";
+}
+
+.tab__input:checked~.tab__content {
+    max-height: 100vh;
+    padding: 1em;
+}

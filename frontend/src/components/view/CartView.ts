@@ -133,8 +133,6 @@ class CartView extends Element {
     addOrder(sidebar: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
         const orderBtn = this.createEl('button', 'Complete order', 'btn btn-primary auth__btn', sidebar);
         orderBtn.addEventListener('click', () => {
-            console.log(cartsData);
-
             if (userData) {
                 this.controller.makeOrder(cartsData)
             } else {

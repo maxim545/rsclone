@@ -78,6 +78,7 @@ export interface IOrders {
   updatedAt: string,
   user: IUserData,
   orderStatus: string,
+  price: number,
   __v: number,
 }
 

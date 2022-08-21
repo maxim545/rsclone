@@ -186,6 +186,7 @@ class Api {
                 },
             });
             const orderData = await response.json() as IOrders;
+            console.log(orderData);
             return orderData
         } catch (err) {
             console.error(err);
@@ -203,7 +204,7 @@ class Api {
                 },
                 body: JSON.stringify(data),
             });
-            const orderData = await response.json()
+            const orderData = await response.json();
             return orderData
         } catch (err) {
             console.error(err);

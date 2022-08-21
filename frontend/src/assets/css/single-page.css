@@ -46,6 +46,7 @@
     display: flex;
     justify-content: space-between;
     padding-top: 35px;
+    margin-bottom: 30px;
 }
 
 .item__imgs {
@@ -80,14 +81,13 @@
 .item__radios {
     display: flex;
     align-items: center;
-}
-
-.item__radios input {
-    margin-right: 4px;
+    margin-top: 8px;
+    margin-left: 3px;
 }
 
 .item__radios span {
     text-transform: capitalize;
+    margin-left: 5px;
 }
 
 .item__sizes {
@@ -120,6 +120,37 @@
 .item__sizes select {
     padding: 10px;
     border: 1px solid #D7DADD;
+}
+
+.item__radio {
+    position: relative;
+    margin-right: 15px;
+    --color: blue;
+}
+
+.item__radio:checked::before {
+    border: 14px solid #17696A;
+    border-radius: 50%;
+    content: '';
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.item__radio::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    border-radius: 50%;
+    background: var(--color);
 }
 
 .item__btns button {

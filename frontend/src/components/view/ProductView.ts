@@ -38,6 +38,7 @@ class ProductView extends Element {
                         <div class="item__prices">
                           <b>$${product.price}</b>
                         </div>
+                        <form>
                         <div class="item__colors">
                           <span>Color</span>
                           <div class="item__radios">
@@ -53,6 +54,7 @@ class ProductView extends Element {
                           ${this.getAddBtn()}
                           ${this.getFavBtn()}
                         </div>
+                        </form>
                         <div class="item__delivery">
                           <h4>Delivery</h4>
                           <span>Free standard shipping on orders <b>over $35</b> before tax, plus free returns.</span>
@@ -98,6 +100,18 @@ class ProductView extends Element {
                         colorSpan.textContent = radio.value;
                     }
                 })
+                const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
+                // const colorAfters = colorBtns?.querySelectorAll(`.item__radio::after`);
+                // let i = 0;
+                // while (i !== colorRadios?.length) {
+                //     colorAfters[i].background = `blue`;
+                //     i += 1;
+                // }
+                // const colorRadios = document.querySelectorAll(".item__radio") as NodeListOf<HTML>;
+                for (const radio of colorRadios) {
+                    radio.style.setProperty('--color', `${radio.value}`);
+                }
+                // rad.style.setProperty('--sq-color', `#333333`);
                 const addCartBtn = document.querySelector(`.item .item__cart`);
                 addCartBtn?.addEventListener('click', () => { this.controller.addToCart(id) });
                 const sizeSelect = document.querySelector(`.item__size`);

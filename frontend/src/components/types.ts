@@ -67,14 +67,14 @@ export interface IOrderUpdated {
 }
 
 export interface IOrderData {
-  orderItems: IOrder[],
+  orderItems: IProduct[],
   status?: string,
   price?: number
 }
 
 export interface IOrders {
   _id: string,
-  orderItems: IOrder[],
+  orderItems: IProduct[],
   updatedAt: string,
   user: IUserData,
   orderStatus: string,

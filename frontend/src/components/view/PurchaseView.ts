@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import { IUserData } from "../types";
+import { IProduct, IUserData } from "../types";
 import monthNames from "../utils";
 import UserSidebarView from "./userView/UserSidebarView";
 
@@ -51,9 +51,7 @@ class PurchaseView extends Element {
                 `, 'tab', ordersList);
                 const orderContent = this.createEl('div', '', 'tab__content', orderItem);
                 const { orderItems } = item
-                item.orderItems.forEach(product => {
-                    console.log(product);
-
+                orderItems.forEach(product => {
                     const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item', orderContent);
                     const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
                     this.createEl('div', product.name, 'cart__item-name', itemInfo);

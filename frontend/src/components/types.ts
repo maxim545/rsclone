@@ -68,7 +68,8 @@ export interface IOrderUpdated {
 
 export interface IOrderData {
   orderItems: IOrder[],
-  status?: string
+  status?: string,
+  price?: number
 }
 
 export interface IOrders {

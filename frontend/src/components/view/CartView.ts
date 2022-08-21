@@ -32,7 +32,6 @@ class CartView extends Element {
             orderItems: [],
         };
         if (cartsId && cartsId.length) {
-            this.createSideBar(container);
             this.createEl('h2', 'Checkout', 'cart__title', cartEl);
             (async () => {
                 const [inpustList, unputsValues] = this.createInputs() as [HTMLElement, IUserData];
@@ -73,12 +72,14 @@ class CartView extends Element {
                         });
                     }
                 }
-
+                const itemsAmount = cartsData.orderItems.length;
+                const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
+                cartsData.price = finallyPrice;
                 this.createEl('div', `Subtotal: $${totalPrice}`, 'cart__subtotal', cartListEl);
 
                 cartEl.append(inpustList)
-                if (cartsData.orderItems.length) {
-                    this.addOrder(cartEl, cartsData, userData, unputsValues)
+                if (itemsAmount) {
+                    this.addOrder(sidebar, cartsData, userData, unputsValues)
                 }
             })().catch(err => { console.error(err) });
         }
@@ -109,15 +110,31 @@ class CartView extends Element {
         return [shippingList, unputsValues]
     }
 
-    createSideBar(container: HTMLElement) {
-        const sidebar = this.createEl('div', '<h2 class="cart__sidebar-title">Order totals</h2>', 'cart__sidebar', container);
-        return sidebar
+    /*  createPayment() {
+         const payment = this.createEl('div', '3. Payment Method', 'cart__sidebar', null);
+         return payment
+     } */
+
+    createSideBar(container: HTMLElement, price: number, itemsAmount: number) {
+        const sidebar = this.createEl('div', '', 'cart__sidebar', container);
+        const wrapperEl = this.createEl('div', '<h2 class="cart__sidebar-title">Order totals</h2>', 'cart__sidebar-wrapper', sidebar);
+        const itemsListEl = this.createEl('div', '', 'cart__sidebar-list', wrapperEl);
+        const shippingPrice = itemsAmount * 5;
+        const finallyPrice = price + shippingPrice
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_bold">Subtotal:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_bold">$${price}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price">Shipping:</div>
+        <div class="cart__sidebar-price">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_big">Shipping:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_big">$${finallyPrice}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
+        return [sidebar, finallyPrice];
     }
 
-    addOrder(cartEl: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
-        const purchases = this.createEl('div', 'Your purchases list with prices', 'purchases', cartEl);
-        const orderBtn = this.createEl('button', 'create order', 'purchases__btn', purchases);
+    addOrder(sidebar: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
+        const orderBtn = this.createEl('button', 'Complete order', 'btn btn-primary auth__btn', sidebar);
         orderBtn.addEventListener('click', () => {
+            console.log(cartsData);
+
             if (userData) {
                 this.controller.makeOrder(cartsData)
             } else {

@@ -7,11 +7,11 @@ const orderSchema = new mongoose.Schema(
             required: true,
             default: 'processing',
         },
-        /* price: {
-            type: String,
+        price: {
+            type: Number,
             required: true,
         },
-        amount: {
+        /* amount: {
             type: Number,
             required: true,
         }, */

@@ -44,8 +44,11 @@ class CartView extends Element {
                     orderData.orderItems.push(item);
                     if (item) {
                         const productDB = <IProduct>await this.api.getProduct(item._id);
-                        const prodSizes = productDB.variant.split(',')
+                        const prodSizes = productDB.variant.split(',');
                         const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
+                        const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();
+
+                        console.log();
 
 
 
@@ -57,10 +60,13 @@ class CartView extends Element {
                         const itemAmount = this.createEl('div', '', 'cart__item-amount', cartItemEl);
                         const inputAmount = this.createEl('input', '', 'cart__item-input', itemAmount) as HTMLInputElement;
                         inputAmount.type = 'number';
-                        inputAmount.value = item.stock;
+                        inputAmount.value = item.stock > maxStockValue ? maxStockValue : item.stock;
                         inputAmount.min = '1';
-                        /* inputAmount.max = productDB; */
-
+                        inputAmount.max = maxStockValue;
+                        /* inputAmount.addEventListener('change', () => {
+                            console.log(inputAmount.value);
+                            this.updateCart();
+                        }); */
                         const sumPrice = item.price;
                         const discPrice = Number(sumPrice) - Number(sumPrice) * Number(item.discount) / 100;
                         totalPrice += discPrice;
@@ -152,6 +158,14 @@ class CartView extends Element {
             }
         });
     }
+
+    /*  updateCart() {
+         const mainPage = document.querySelector('.main');
+         if (mainPage) {
+             mainPage.innerHTML = '';
+             mainPage.append(this.create())
+         }
+     } */
 
 }
 

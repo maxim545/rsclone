@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import { IUserData } from "../types";
+import { ICartProduct, IUserData } from "../types";
 
 
 class HeaderView extends Element {
@@ -17,6 +17,8 @@ class HeaderView extends Element {
   }
 
   create() {
+    const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+    const cartCount = cartsItems ? String(cartsItems.length) : '0';
     const headerContainer = this.createEl('div', '', 'global-container', null);
 
     const topBarWrapper = this.createEl('div', '', 'header__topbar__wrapper', headerContainer);
@@ -91,7 +93,7 @@ class HeaderView extends Element {
     this.createEl('div', '', 'navbar__content__fb__separator', basketFavorites);
     const navbarBasket = this.createEl('a', '', 'navbar__content__basket', basketFavorites, '#/cart');
     this.createEl('div', '<i class="bi bi-cart3"></i>', 'navbar__basket__img', navbarBasket);
-    this.createEl('div', '4', 'navbar__content__count', navbarBasket);
+    this.createEl('div', cartCount, 'navbar__content__count', navbarBasket);
 
     const navbarSearchMobileWrapper = this.createEl('div', '', 'navbar__search-mobile__wrapper', headerContainer);
     const navbarSearchMobile = this.createEl('div', '', 'navbar__content__search search-mobile', navbarSearchMobileWrapper);
@@ -128,7 +130,7 @@ class HeaderView extends Element {
         this.createEl('a', name, 'topbar__profile-box__link', topbarContentProfileBox, `#/${link}`) as HTMLAnchorElement;
       })
 
-      const logoutLink = this.createEl('a', 'Logout', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
+      const logoutLink = this.createEl('a', 'Sign out', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
       logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
       const closeProfile = this.createEl('div', '<div class="bi bi-x-lg"></div>', 'topbar__profile-box__close', profileBoxWelcome);
       closeProfile.addEventListener('click', () => { topbarContentProfileBox.style.display = 'none'; });

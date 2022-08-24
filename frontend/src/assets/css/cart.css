@@ -39,11 +39,10 @@
 
 .cart__item {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
     padding: 24px 24px;
     border-bottom: 1px solid #E5E8ED;
 }
-
 
 .cart__item-img {
     width: 80px;
@@ -72,7 +71,8 @@
     background: #FFFFFF;
     border: 1px solid #D7DADD;
     border-radius: 4px;
-    padding: 5px
+    padding: 5px;
+    cursor: pointer;
 }
 
 .cart__item-name-value {

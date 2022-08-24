@@ -24,11 +24,10 @@ class ProductView extends Element {
             if (product) {
                 const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
                 const stockNumber = +temp;
-                console.dir(product);
                 itemEl.innerHTML = `
                     <div class='item__heading'>
                       <h3>${product.name}</h3>
-                      <span>Art. No. ${product._id.slice(0, 10)}</span>
+                      <span>Art. No. ${product._id.slice(-10)}</span>
                     </div>
                     <div class="item__content">
                       <div class="item__imgs">
@@ -101,17 +100,9 @@ class ProductView extends Element {
                     }
                 })
                 const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
-                // const colorAfters = colorBtns?.querySelectorAll(`.item__radio::after`);
-                // let i = 0;
-                // while (i !== colorRadios?.length) {
-                //     colorAfters[i].background = `blue`;
-                //     i += 1;
-                // }
-                // const colorRadios = document.querySelectorAll(".item__radio") as NodeListOf<HTML>;
                 for (const radio of colorRadios) {
                     radio.style.setProperty('--color', `${radio.value}`);
                 }
-                // rad.style.setProperty('--sq-color', `#333333`);
                 const addCartBtn = document.querySelector(`.item .item__cart`);
                 addCartBtn?.addEventListener('click', () => { this.controller.addToCart(id) });
                 const sizeSelect = document.querySelector(`.item__size`);

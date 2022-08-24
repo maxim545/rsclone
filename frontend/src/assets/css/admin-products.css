@@ -27,6 +27,11 @@
     color: #FFFFFF;
 }
 
+.admin-products__create.admin-products__create:hover {
+    color: #FFFFFF;
+    opacity: 0.7;
+}
+
 .admin-products__list {
     list-style: none;
     margin: 0;
@@ -141,6 +146,10 @@
     text-align: center;
     letter-spacing: 0.5px;
     color: #17696A;
+}
+
+.admin-product__btn:hover {
+    opacity: 0.7;
 }
 
 .admin-product__btn_delete {

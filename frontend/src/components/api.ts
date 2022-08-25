@@ -61,6 +61,7 @@ class Api {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
                 },
                 body: JSON.stringify(data),
             });
@@ -185,7 +186,6 @@ class Api {
                 },
             });
             const orderData = await response.json() as IOrders;
-            console.log(orderData);
             return orderData
         } catch (err) {
             console.error(err);

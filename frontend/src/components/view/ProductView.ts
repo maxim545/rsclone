@@ -2,6 +2,7 @@ import { ICartProduct, IProduct } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
+import UpdateView from "../Update";
 
 class ProductView extends Element {
 
@@ -9,10 +10,13 @@ class ProductView extends Element {
 
   private controller: Controller;
 
+  private updateView: UpdateView;
+
   constructor() {
     super();
     this.api = new Api();
     this.controller = new Controller();
+    this.updateView = new UpdateView();
   }
 
   create() {
@@ -132,7 +136,8 @@ class ProductView extends Element {
         addCartBtn?.addEventListener('click', () => {
           if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
             productData.color = colorSpan?.textContent;
-            this.controller.addToCart(productData)
+            this.controller.addToCart(productData);
+            this.updateView.updateCart();
             alert('Product successfully added')
           } else {
             alert('Please choose color, size and amount')

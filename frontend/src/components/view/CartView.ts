@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
 /* eslint-disable no-restricted-syntax */
 import { ICartProduct, IOrderData, IProduct, IUserData } from "../types";
 import Api from "../api";
@@ -13,20 +14,18 @@ class CartView extends Element {
 
     private updateView: UpdateView;
 
-    /*     private userData: IUserData | null; */
-
     constructor() {
         super();
         this.api = new Api();
         this.controller = new Controller();
         this.updateView = new UpdateView();
-        /*         this.userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null'); */
     }
 
     create() {
         const container = this.createEl('div', '', 'container_main cart', null);
         const cartEl = this.createEl('div', '', 'cart__content', container);
         const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+        console.log(cartsItems);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const orderData: IOrderData = {
             orderItems: [],
@@ -47,11 +46,6 @@ class CartView extends Element {
                         const prodSizes = productDB.variant.split(',');
                         const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
                         const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();
-
-                        console.log();
-
-
-
                         const cartItemEl = this.createEl('div', `<img src="${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
                         const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
                         this.createEl('div', item.name, 'cart__item-name', itemInfo);
@@ -63,33 +57,44 @@ class CartView extends Element {
                         inputAmount.value = item.stock > maxStockValue ? maxStockValue : item.stock;
                         inputAmount.min = '1';
                         inputAmount.max = maxStockValue;
-                        /* inputAmount.addEventListener('change', () => {
-                            console.log(inputAmount.value);
-                            this.updateCart();
-                        }); */
+
                         const sumPrice = item.price;
-                        const discPrice = Number(sumPrice) - Number(sumPrice) * Number(item.discount) / 100;
+                        const discPrice = ((Number(sumPrice) - Number(sumPrice) * Number(item.discount) / 100) * Number(item.stock));
+                        const withoutDisc = Number(item.price) * Number(item.stock)
                         totalPrice += discPrice;
+                        const priceEl = this.createEl('div', ``, 'cart__item-price', cartItemEl);
                         if (Number(item.discount)) {
-                            this.createEl('div', `$${discPrice * Number(item.stock)}<span class="cart__item-price cart__item-price_grey">$${Number(item.price) * Number(item.stock)}</span>`, 'cart__item-price cart__item-price_orange', cartItemEl);
+                            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
                         } else {
-                            this.createEl('div', `$${Number(item.price) * Number(item.stock)}`, 'cart__item-price', cartItemEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
                         }
+
+                        inputAmount.addEventListener('change', () => {
+                            item.stock = inputAmount.value;
+                            this.updateCartPrice(cartsItems, priceEl, item.discount, item.stock, item.price);
+                        });
 
 
                         const removeBtn = this.createEl('button', 'Delete', 'btn btn-primary cart__item-btn', cartItemEl);
-                        removeBtn.addEventListener('click', () => {
+                        removeBtn.addEventListener('click', (e) => {
+                            const target = e.target as HTMLElement;
                             this.controller.removeFromCart(cartsItems, item._id)
-                            const main = document.querySelector('.main') as HTMLElement;
-                            main.innerHTML = '';
-                            main.append(this.create())
+                            if (target.parentElement instanceof HTMLElement) {
+                                cartItemsEl.removeChild(target.parentElement);
+                            }
+                            this.updateCartPrice(cartsItems, priceEl);
+                            if (!cartsItems.length) {
+                                const main = document.querySelector('.main') as HTMLElement;
+                                main.innerHTML = '';
+                            }
                         });
                     }
                 }
                 const itemsAmount = orderData.orderItems.length;
                 const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
                 orderData.price = finallyPrice;
-                this.createEl('div', `Subtotal: $${totalPrice}`, 'cart__subtotal', cartListEl);
+                this.createEl('div', `Subtotal: $${totalPrice.toFixed(1)}`, 'cart__subtotal', cartListEl);
 
                 cartEl.append(inpustList)
                 if (itemsAmount) {
@@ -99,6 +104,7 @@ class CartView extends Element {
         }
         return container;
     }
+
 
     createInputs() {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
@@ -124,10 +130,6 @@ class CartView extends Element {
         return [shippingList, unputsValues];
     }
 
-    /*  createPayment() {
-         const payment = this.createEl('div', '3. Payment Method', 'cart__sidebar', null);
-         return payment
-     } */
 
     createSideBar(container: HTMLElement, price: number, itemsAmount: number) {
         const sidebar = this.createEl('div', '', 'cart__sidebar', container);
@@ -135,12 +137,12 @@ class CartView extends Element {
         const itemsListEl = this.createEl('div', '', 'cart__sidebar-list', wrapperEl);
         const shippingPrice = itemsAmount * 5;
         const finallyPrice = price + shippingPrice
-        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_bold">Subtotal:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_bold">$${price}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">Subtotal:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_value">$${price.toFixed(1)}</div>`, 'cart__sidebar-item', itemsListEl);
         this.createEl('div', `<div class="cart__sidebar-price">Shipping:</div>
-        <div class="cart__sidebar-price">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
-        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_big">Shipping:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_big">$${finallyPrice}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
+        <div class="cart__sidebar-price cart__sidebar-price_shipping">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">Order total:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_bold">$${finallyPrice.toFixed(1)}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
         return [sidebar, finallyPrice];
     }
 
@@ -159,13 +161,51 @@ class CartView extends Element {
         });
     }
 
-    /*  updateCart() {
-         const mainPage = document.querySelector('.main');
-         if (mainPage) {
-             mainPage.innerHTML = '';
-             mainPage.append(this.create())
-         }
-     } */
+    updateCartPrice(cartsItems: ICartProduct[], priceEl: HTMLElement, discount = '', stock = '', price = '') {
+        localStorage.setItem('cartData', JSON.stringify(cartsItems));
+        this.updateView.updateCart();
+        if (priceEl) {
+            priceEl.innerHTML = '';
+        }
+        const sumPrice = price;
+        const discPrice = ((Number(sumPrice) - Number(sumPrice) * Number(discount) / 100) * Number(stock));
+        const withoutDisc = Number(price) * Number(stock)
+        if (Number(discount)) {
+            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
+            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
+        } else {
+            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
+        }
+
+        let totalPrice = 0;
+        cartsItems.forEach(item => {
+            const disc = ((Number(item.price) - Number(item.price) * Number(item.discount) / 100) * Number(item.stock));
+            totalPrice += disc;
+        })
+
+        const subTotal = document.querySelector('.cart__subtotal');
+        if (subTotal) {
+            subTotal.innerHTML = `Subtotal: $${totalPrice.toFixed(1)}`
+        }
+
+        const shippingPrice = cartsItems.length * 5;
+        const finallyPrice = totalPrice + shippingPrice;
+        const sidebarOrdersPrice = document.querySelector('.cart__sidebar-price_value');
+        const sidebarShipingPrice = document.querySelector('.cart__sidebar-price_shipping');
+        const sidebarFinallyPrice = document.querySelector('.cart__sidebar-price_bold');
+
+        if (sidebarOrdersPrice) {
+            sidebarOrdersPrice.innerHTML = `$${totalPrice.toFixed(1)}`
+        }
+        if (sidebarShipingPrice) {
+            sidebarShipingPrice.innerHTML = `$${shippingPrice.toFixed(1)}`
+        }
+        if (sidebarFinallyPrice) {
+            sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
+        }
+        console.log(cartsItems);
+
+    }
 
 }
 

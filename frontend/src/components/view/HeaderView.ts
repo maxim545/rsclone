@@ -18,7 +18,12 @@ class HeaderView extends Element {
 
   create() {
     const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
-    const cartCount = cartsItems ? String(cartsItems.length) : '0';
+
+    let cartCount = 0;
+    cartsItems.forEach((item) => {
+      cartCount += Number(item.stock)
+    })
+
     const headerContainer = this.createEl('div', '', 'global-container', null);
 
     const topBarWrapper = this.createEl('div', '', 'header__topbar__wrapper', headerContainer);
@@ -93,7 +98,7 @@ class HeaderView extends Element {
     this.createEl('div', '', 'navbar__content__fb__separator', basketFavorites);
     const navbarBasket = this.createEl('a', '', 'navbar__content__basket', basketFavorites, '#/cart');
     this.createEl('div', '<i class="bi bi-cart3"></i>', 'navbar__basket__img', navbarBasket);
-    this.createEl('div', cartCount, 'navbar__content__count', navbarBasket);
+    this.createEl('div', String(cartCount), 'navbar__content__count', navbarBasket);
 
     const navbarSearchMobileWrapper = this.createEl('div', '', 'navbar__search-mobile__wrapper', headerContainer);
     const navbarSearchMobile = this.createEl('div', '', 'navbar__content__search search-mobile', navbarSearchMobileWrapper);

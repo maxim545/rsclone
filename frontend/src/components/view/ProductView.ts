@@ -112,7 +112,6 @@ class ProductView extends Element {
           }
         })
         const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
-
         for (const radio of colorRadios) {
           radio.style.setProperty('--color', `${radio.value}`);
         }

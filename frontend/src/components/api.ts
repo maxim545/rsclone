@@ -5,7 +5,7 @@ class Api {
     private server: string
 
     constructor() {
-        this.server = 'http://localhost:3000'
+        this.server = 'http://localhost:5000'
     }
 
     async getAllProduct() {
@@ -61,7 +61,6 @@ class Api {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${(userData.token) as string}`
                 },
                 body: JSON.stringify(data),
             });

@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { IOrderData, IProduct, IUserData } from "../types";
+import { ICartProduct, IOrderData, IProduct, IUserData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -26,12 +26,12 @@ class CartView extends Element {
     create() {
         const container = this.createEl('div', '', 'container_main cart', null);
         const cartEl = this.createEl('div', '', 'cart__content', container);
-        const cartsId = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+        const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const cartsData: IOrderData = {
+        const orderData: IOrderData = {
             orderItems: [],
         };
-        if (cartsId && cartsId.length) {
+        if (cartsItems && cartsItems.length) {
             this.createEl('h2', 'Checkout', 'cart__title', cartEl);
             (async () => {
                 const [inpustList, unputsValues] = this.createInputs() as [HTMLElement, IUserData];
@@ -39,47 +39,55 @@ class CartView extends Element {
                 this.createEl('h3', '1. Item Review', 'cart__list-title', cartListEl);
                 const cartItemsEl = this.createEl('div', '', 'cart__items', cartListEl);
                 let totalPrice = 0;
-                for await (const item of cartsId) {
-                    const product = <IProduct>await this.api.getProduct(item);
-                    cartsData.status = 'processing';
-                    cartsData.orderItems.push(product);
-                    if (product) {
-                        const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
+                for await (const item of cartsItems) {
+                    orderData.status = 'processing';
+                    orderData.orderItems.push(item);
+                    if (item) {
+                        const productDB = <IProduct>await this.api.getProduct(item._id);
+                        const prodSizes = productDB.variant.split(',')
+                        const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
+
+
+
+                        const cartItemEl = this.createEl('div', `<img src="${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
                         const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
-                        this.createEl('div', product.name, 'cart__item-name', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Year:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product.year}`, 'cart__item-name-value', itemInfo);
-                        /* const itemAmount =  */this.createEl('div', 'Amount', 'cart__item-amount', cartItemEl);
+                        this.createEl('div', item.name, 'cart__item-name', itemInfo);
+                        this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${item.color}`, 'cart__item-name-value', itemInfo);
+                        this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${item.size}`, 'cart__item-name-value', itemInfo);
+                        const itemAmount = this.createEl('div', '', 'cart__item-amount', cartItemEl);
+                        const inputAmount = this.createEl('input', '', 'cart__item-input', itemAmount) as HTMLInputElement;
+                        inputAmount.type = 'number';
+                        inputAmount.value = item.stock;
+                        inputAmount.min = '1';
+                        /* inputAmount.max = productDB; */
 
-
-                        const sumPrice = product.price;
-                        const discPrice = Number(sumPrice) - Number(sumPrice) * Number(product.discount) / 100;
+                        const sumPrice = item.price;
+                        const discPrice = Number(sumPrice) - Number(sumPrice) * Number(item.discount) / 100;
                         totalPrice += discPrice;
-                        if (Number(product.discount)) {
-                            this.createEl('div', `$${discPrice}<span class="cart__item-price cart__item-price_grey">$${sumPrice}</span>`, 'cart__item-price cart__item-price_orange', cartItemEl);
+                        if (Number(item.discount)) {
+                            this.createEl('div', `$${discPrice * Number(item.stock)}<span class="cart__item-price cart__item-price_grey">$${Number(item.price) * Number(item.stock)}</span>`, 'cart__item-price cart__item-price_orange', cartItemEl);
                         } else {
-                            this.createEl('div', `$${product.price}`, 'cart__item-price', cartItemEl);
+                            this.createEl('div', `$${Number(item.price) * Number(item.stock)}`, 'cart__item-price', cartItemEl);
                         }
-
 
 
                         const removeBtn = this.createEl('button', 'Delete', 'btn btn-primary cart__item-btn', cartItemEl);
                         removeBtn.addEventListener('click', () => {
-                            this.controller.removeFromCart(cartsId, product._id)
+                            this.controller.removeFromCart(cartsItems, item._id)
                             const main = document.querySelector('.main') as HTMLElement;
                             main.innerHTML = '';
                             main.append(this.create())
                         });
                     }
                 }
-                const itemsAmount = cartsData.orderItems.length;
+                const itemsAmount = orderData.orderItems.length;
                 const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
-                cartsData.price = finallyPrice;
+                orderData.price = finallyPrice;
                 this.createEl('div', `Subtotal: $${totalPrice}`, 'cart__subtotal', cartListEl);
 
                 cartEl.append(inpustList)
                 if (itemsAmount) {
-                    this.addOrder(sidebar, cartsData, userData, unputsValues)
+                    this.addOrder(sidebar, orderData, userData, unputsValues)
                 }
             })().catch(err => { console.error(err) });
         }
@@ -107,7 +115,7 @@ class CartView extends Element {
                 unputsValues[name as keyof typeof unputsValues] = input.value;
             }
         })
-        return [shippingList, unputsValues]
+        return [shippingList, unputsValues];
     }
 
     /*  createPayment() {
@@ -130,16 +138,16 @@ class CartView extends Element {
         return [sidebar, finallyPrice];
     }
 
-    addOrder(sidebar: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
+    addOrder(sidebar: HTMLElement, orderData: IOrderData, userData: IUserData, unputsValues: IUserData) {
         const orderBtn = this.createEl('button', 'Complete order', 'btn btn-primary auth__btn', sidebar);
         orderBtn.addEventListener('click', () => {
             if (userData) {
-                this.controller.makeOrder(cartsData)
+                this.controller.makeOrder(orderData)
             } else {
                 this.controller.registerUser(unputsValues)
                     .then(() => {
                         this.updateView.updateHeader();
-                        this.controller.makeOrder(cartsData)
+                        this.controller.makeOrder(orderData)
                     })
             }
         });

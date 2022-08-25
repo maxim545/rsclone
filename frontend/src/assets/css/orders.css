@@ -1,5 +1,6 @@
 .orders {
     display: flex;
+    position: relative;
     justify-content: space-between;
     margin-top: 40px;
 }
@@ -7,6 +8,7 @@
 .orders__wrapper {
     width: 100%;
     max-width: 810px;
+    margin-left: 110px;
 }
 
 .orders__title {
@@ -22,10 +24,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
-
-
-
 
 
 
@@ -182,4 +180,65 @@
     font-size: 14px;
     line-height: 150%;
     color: #1E212C;
+}
+
+
+@media (max-width: 1079px) {
+
+    .orders__wrapper {
+        margin-left: 50px;
+    }
+
+    .tab__label {
+        align-items: center;
+    }
+
+    .tab__header {
+        justify-items: center;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
+
+    .tab__header-item {
+        margin: 2px 0;
+    }
+
+    .order__item-product {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-bottom: 1px solid #E5E8ED;
+    }
+
+    .cart__row {
+        width: 100%;
+        text-align: center;
+        margin: 6px 0;
+    }
+
+    .tab__input:checked~.tab__content {
+        max-height: 100%;
+        padding: 1em;
+    }
+
+}
+
+
+
+@media (max-width: 640px) {
+
+    .orders {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .orders__wrapper {
+        width: 100%;
+        max-width: 810px;
+        margin-left: 0;
+        margin-top: 30px;
+    }
+
+
+
 }

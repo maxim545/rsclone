@@ -31,7 +31,6 @@ class PurchaseView extends Element {
             const ordersTop = this.createEl('div', `<h2 class="orders__title">My orders</h2>`, 'orders__top', ordersEl);
             /* const sorting =  */this.createEl('div', `Sort`, 'orders__sorting', ordersTop);
             const purchases = await this.api.getPurchases(userData);
-            console.log(purchases);
             const ordersList = this.createEl('div', '', 'tabs', ordersEl);
             purchases.forEach((item, i) => {
                 const orderDate = new Date(item.updatedAt);
@@ -55,19 +54,19 @@ class PurchaseView extends Element {
                 let subtotal = '0';
                 const shipping = orderItems.length * 5;
                 orderItems.forEach(product => {
-                    const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item', orderContent);
-                    const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
+                    const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
+                    const itemInfo = this.createEl('div', '', 'cart__row cart__row_info', cartItemEl);
                     this.createEl('div', product.name, 'cart__item-name', itemInfo);
-                    this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
+                    this.createEl('div', `<span class=cart__item-name-key">Color:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
                     this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product?.size}`, 'cart__item-name-value', itemInfo);
-                    const itemPrice = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    const itemPrice = this.createEl('div', '', 'cart__row cart__row_price', cartItemEl);
                     this.createEl('span', 'Price:', 'cart__item-title', itemPrice);
                     this.createEl('span', `$${product.price}`, 'cart__item-text', itemPrice);
-                    const itemQuantity = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    const itemQuantity = this.createEl('div', '', 'cart__row cart__row_uantity', cartItemEl);
                     this.createEl('span', 'Quantity:', 'cart__item-title', itemQuantity);
                     this.createEl('span', `${product.stock}`, 'cart__item-text', itemQuantity);
                     const totalItemPrice = (Number(product.price) * Number(product.stock)).toFixed(1)
-                    const itemSubtotal = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    const itemSubtotal = this.createEl('div', '', 'cart__row cart__row_subtotal', cartItemEl);
                     this.createEl('span', 'Subtotal:', 'cart__item-title', itemSubtotal);
                     this.createEl('span', `$${totalItemPrice} `, 'cart__item-text', itemSubtotal);
                     subtotal = totalItemPrice;

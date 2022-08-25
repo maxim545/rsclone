@@ -159,6 +159,13 @@
 }
 
 
+
+.cart__row_uantity,
+.cart__row_quantity,
+.cart__row_subtotal {
+    text-align: center;
+}
+
 /* 2. Shipping */
 .shipping__list {
     margin-top: 35px;

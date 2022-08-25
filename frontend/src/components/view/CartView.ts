@@ -25,7 +25,6 @@ class CartView extends Element {
         const container = this.createEl('div', '', 'container_main cart', null);
         const cartEl = this.createEl('div', '', 'cart__content', container);
         const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
-        console.log(cartsItems);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const orderData: IOrderData = {
             orderItems: [],
@@ -205,8 +204,6 @@ class CartView extends Element {
         if (sidebarFinallyPrice) {
             sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
         }
-        console.log(cartsItems);
-
     }
 
 }

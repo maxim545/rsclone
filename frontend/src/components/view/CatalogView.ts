@@ -66,7 +66,7 @@ class CatalogView extends Element {
         changeView.addEventListener("click", () => {
           if (changeView.classList.contains('change-view__onclick')) {
             changeView.classList.remove('change-view__onclick');
-            changeView.classList.remove('change-view__offclick');
+            changeView.classList.add('change-view__offclick');
           }
           else {
             changeView.classList.add('change-view__onclick');

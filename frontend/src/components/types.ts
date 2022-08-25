@@ -26,6 +26,22 @@ export interface IProductCreated {
 }
 
 
+export interface ICartProduct {
+  _id: string,
+  name: string,
+  year: string,
+  color: string,
+  category: string,
+  price: string,
+  image: string,
+  brand: string,
+  variant: string,
+  discount: string
+  size: string,
+  stock: string,
+}
+
+
 export interface ILogin {
   email?: string,
   password?: string
@@ -67,17 +83,18 @@ export interface IOrderUpdated {
 }
 
 export interface IOrderData {
-  orderItems: IOrder[],
+  orderItems: ICartProduct[],
   status?: string,
   price?: number
 }
 
 export interface IOrders {
   _id: string,
-  orderItems: IOrder[],
+  orderItems: ICartProduct[],
   updatedAt: string,
   user: IUserData,
   orderStatus: string,
+  price: number,
   __v: number,
 }
 

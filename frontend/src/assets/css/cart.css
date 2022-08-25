@@ -38,12 +38,11 @@
 }
 
 .cart__item {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1.5fr 1.5fr 1fr;
     padding: 24px 24px;
     border-bottom: 1px solid #E5E8ED;
 }
-
 
 .cart__item-img {
     width: 80px;
@@ -64,6 +63,16 @@
     font-size: 12px;
     line-height: 150%;
     color: #787A80;
+}
+
+.cart__item-input {
+    width: 72px;
+    height: 36px;
+    background: #FFFFFF;
+    border: 1px solid #D7DADD;
+    border-radius: 4px;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .cart__item-name-value {
@@ -117,6 +126,27 @@
     color: #787A80;
 }
 
+.cart__item-data {
+    display: block;
+}
+
+
+.cart__item-title {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    color: #787A80;
+}
+
+.cart__item-text {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #1E212C;
+}
+
 .cart__subtotal {
     text-align: right;
     padding: 20px;
@@ -128,6 +158,13 @@
     color: #1E212C;
 }
 
+
+
+.cart__row_uantity,
+.cart__row_quantity,
+.cart__row_subtotal {
+    text-align: center;
+}
 
 /* 2. Shipping */
 .shipping__list {
@@ -176,17 +213,14 @@
 
 .cart__sidebar-price {
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 16px;
     line-height: 160%;
     color: #424551;
 }
 
-.cart__sidebar-price_bold {
-    font-weight: 700;
-}
 
-.cart__sidebar-price_big {
+.cart__sidebar-price_bold {
     font-style: normal;
     font-weight: 700;
     font-size: 20px;

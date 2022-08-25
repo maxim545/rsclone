@@ -1,3 +1,4 @@
+import { ICartProduct } from "./types";
 import HeaderView from "./view/HeaderView";
 
 class UpdateView {
@@ -14,6 +15,20 @@ class UpdateView {
         if (header) {
             header.innerHTML = '';
             header.append(this.header.create())
+        }
+    }
+
+    updateCart() {
+        const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+        const cartNumberEl = document.querySelector('.navbar__content__count');
+        let cartCount = 0;
+        if (cartsItems) {
+            cartsItems.forEach((item) => {
+                cartCount += Number(item.stock)
+            });
+        }
+        if (cartNumberEl) {
+            cartNumberEl.innerHTML = String(cartCount);
         }
     }
 

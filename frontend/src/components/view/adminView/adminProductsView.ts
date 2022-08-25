@@ -1,7 +1,7 @@
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import {IProduct, IUserData} from "../../types";
+import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 
@@ -39,7 +39,6 @@ class AdminProductsView extends Element {
             this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
             (async () => {
                 const products = await this.api.getAllProduct();
-                console.dir(products);
                 productsSection.innerHTML = `
                     <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
                     <ul class="admin-products__list">
@@ -61,22 +60,6 @@ class AdminProductsView extends Element {
                         })
                     }
                 })
-
-                // products.forEach(item => {
-                //     this.createEl(`div`, item._id, `admin-products__name`, productsEl);
-                //     this.createEl(`div`, item.name, `admin-products__name`, productsEl);
-                //     this.createEl(`div`, item.price, `admin-products__name`, productsEl);
-                //     this.createEl(`a`, `update`, `admin-products__name`, productsEl, `/#/adminpanel/products/update/${item._id}`);
-                //     const deleteBtn = this.createEl(`button`, `delete`, `admin-products__name`, productsEl);
-                //     deleteBtn.dataset.id = item._id;
-                //     deleteBtn.addEventListener(`click`, () => {
-                //         if (deleteBtn.dataset.id) {
-                //             this.api.removeProduct(userData, deleteBtn.dataset.id).then(() => {
-                //
-                //             })
-                //         }
-                //     })
-                // })
             })();
         }
 

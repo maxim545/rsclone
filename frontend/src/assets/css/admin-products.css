@@ -58,11 +58,11 @@
     border-bottom: none;
 }
 
-.admin-product > div {
+.admin-product>div {
     margin-right: 1.5%;
 }
 
-.admin-product > div:last-child {
+.admin-product>div:last-child {
     margin-right: 0;
 }
 
@@ -115,7 +115,7 @@
     flex-shrink: 0;
 }
 
-.admin-product__quantities > span {
+.admin-product__quantities>span {
     margin-bottom: 5px;
 }
 
@@ -178,7 +178,7 @@
         padding: 20px 10px;
     }
 
-    .admin-product > div {
+    .admin-product>div {
         margin-right: 0;
     }
 

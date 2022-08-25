@@ -5,7 +5,7 @@ class Api {
     private server: string
 
     constructor() {
-        this.server = 'http://localhost:3000'
+        this.server = 'http://localhost:5000'
     }
 
     async getAllProduct() {
@@ -186,7 +186,6 @@ class Api {
                 },
             });
             const orderData = await response.json() as IOrders;
-            console.log(orderData);
             return orderData
         } catch (err) {
             console.error(err);

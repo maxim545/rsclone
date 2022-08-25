@@ -97,7 +97,7 @@ class CatalogView extends Element {
             arrCoverClothes.push(categoryName);
             let amount = 0;
             products.forEach(e => {
-              if (e.category === products[i].category) {
+              if (e.category.toLowerCase() === products[i].category.toLowerCase()) {
                 amount += 1;
               }
             });
@@ -120,15 +120,15 @@ class CatalogView extends Element {
           for (let j = 0; j < arr.length; j += 1) {
             arr[j] = arr[j].trim();
           }
-          let amount = 0;
-          products.forEach(e => {
-            if (e.variant === products[i].variant) {
-              amount += 1;
-            }
-          });
           arr.forEach(e => {
             const variantName = e.split(':')[0];
             if (!arrCoverSize.includes(variantName)) {
+              let amount = 0;
+              products.forEach(elem => {
+                if (elem.variant.includes(variantName)) {
+                  amount += 1;
+                }
+              });
               arrCoverSize.push(variantName);
               if (coverSize !== null)
                 coverSize.innerHTML += `

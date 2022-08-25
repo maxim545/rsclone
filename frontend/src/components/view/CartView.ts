@@ -150,12 +150,14 @@ class CartView extends Element {
         const orderBtn = this.createEl('button', 'Complete order', 'btn btn-primary auth__btn', sidebar);
         orderBtn.addEventListener('click', () => {
             if (userData) {
-                this.controller.makeOrder(orderData)
+                this.controller.makeOrder(orderData).then(() => {
+                    this.updateView.updateCart();
+                })
             } else {
                 this.controller.registerUser(unputsValues)
                     .then(() => {
+                        this.controller.makeOrder(orderData);
                         this.updateView.updateHeader();
-                        this.controller.makeOrder(orderData)
                     })
             }
         });

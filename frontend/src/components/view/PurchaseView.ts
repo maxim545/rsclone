@@ -31,6 +31,7 @@ class PurchaseView extends Element {
             const ordersTop = this.createEl('div', `<h2 class="orders__title">My orders</h2>`, 'orders__top', ordersEl);
             /* const sorting =  */this.createEl('div', `Sort`, 'orders__sorting', ordersTop);
             const purchases = await this.api.getPurchases(userData);
+            console.log(purchases);
             const ordersList = this.createEl('div', '', 'tabs', ordersEl);
             purchases.forEach((item, i) => {
                 const orderDate = new Date(item.updatedAt);
@@ -41,8 +42,8 @@ class PurchaseView extends Element {
                 <div class="tab__header">
                     <div class="tab__header-item tab__header-id">#${item._id.toUpperCase().slice(0, 10)}</div>
                     <div class="tab__header-item tab__header-date"><i class="bi bi-clock"></i>${month} ${day}, ${year}</div>
-                    <div class="tab__header-item tab__header-tatus"></i>${item.orderStatus}</div>
-                    <div class="tab__header-item tab__header-price"></i>$${String(item.price)}</div>
+                    <div class="tab__header-item"><span class="tab__header-status tab__header-status_${item.orderStatus}">${item.orderStatus}</span></div>
+                    <div class="tab__header-item tab__header-price">$${String(item.price)}</div>
                 </div>
                 `;
                 const orderItem = this.createEl('div', `
@@ -50,15 +51,37 @@ class PurchaseView extends Element {
                 <label class="tab__label" for="tab_${i}">${orderbHeader}</label>
                 `, 'tab', ordersList);
                 const orderContent = this.createEl('div', '', 'tab__content', orderItem);
-                const { orderItems } = item
+                const { orderItems } = item;
+                let subtotal = '0';
+                const shipping = orderItems.length * 5;
                 orderItems.forEach(product => {
                     const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item', orderContent);
                     const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
                     this.createEl('div', product.name, 'cart__item-name', itemInfo);
-                    this.createEl('div', `<span class="cart__item-name-key">Year:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
-                    this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product.year}`, 'cart__item-name-value', itemInfo);
-                        /* const itemAmount =  */this.createEl('div', 'Amount', 'cart__item-amount', cartItemEl);
-                })
+                    this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
+                    this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product?.size}`, 'cart__item-name-value', itemInfo);
+                    const itemPrice = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    this.createEl('span', 'Price:', 'cart__item-title', itemPrice);
+                    this.createEl('span', `$${product.price}`, 'cart__item-text', itemPrice);
+                    const itemQuantity = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    this.createEl('span', 'Quantity:', 'cart__item-title', itemQuantity);
+                    this.createEl('span', `${product.stock}`, 'cart__item-text', itemQuantity);
+                    const totalItemPrice = (Number(product.price) * Number(product.stock)).toFixed(1)
+                    const itemSubtotal = this.createEl('div', '', 'cart__item-data', cartItemEl);
+                    this.createEl('span', 'Subtotal:', 'cart__item-title', itemSubtotal);
+                    this.createEl('span', `$${totalItemPrice} `, 'cart__item-text', itemSubtotal);
+                    subtotal = totalItemPrice;
+                });
+                const orderBottom = this.createEl('div', '', 'tab__bottom', orderContent);
+                const subtotalEl = this.createEl('div', '', 'tab__bottom-item', orderBottom);
+                this.createEl('span', 'Subtotal:', 'tab__bottom-item-title', subtotalEl);
+                this.createEl('span', `$${subtotal}`, 'tab__bottom-item-text', subtotalEl);
+                const shippingEl = this.createEl('div', '', 'tab__bottom-item', orderBottom);
+                this.createEl('span', 'Shipping:', 'tab__bottom-item-title', shippingEl);
+                this.createEl('span', `$${shipping}`, 'tab__bottom-item-text', shippingEl);
+                const totalEl = this.createEl('div', '', 'tab__bottom-item', orderBottom);
+                this.createEl('span', 'Total:', 'tab__bottom-item-title', totalEl);
+                this.createEl('span', `$${Number(shipping) + Number(subtotal)}`, 'tab__bottom-item-text tab__bottom-item-text_bold', totalEl);
             })
         })().catch(err => { console.error(err) });
 

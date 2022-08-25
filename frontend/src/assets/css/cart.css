@@ -126,6 +126,27 @@
     color: #787A80;
 }
 
+.cart__item-data {
+    display: block;
+}
+
+
+.cart__item-title {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    color: #787A80;
+}
+
+.cart__item-text {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #1E212C;
+}
+
 .cart__subtotal {
     text-align: right;
     padding: 20px;

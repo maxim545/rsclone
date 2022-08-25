@@ -20,9 +20,12 @@ class HeaderView extends Element {
     const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
 
     let cartCount = 0;
-    cartsItems.forEach((item) => {
-      cartCount += Number(item.stock)
-    })
+    if (cartsItems) {
+      cartsItems.forEach((item) => {
+        cartCount += Number(item.stock)
+      })
+    }
+
 
     const headerContainer = this.createEl('div', '', 'global-container', null);
 

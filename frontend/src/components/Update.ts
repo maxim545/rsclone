@@ -22,9 +22,11 @@ class UpdateView {
         const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         const cartNumberEl = document.querySelector('.navbar__content__count');
         let cartCount = 0;
-        cartsItems.forEach((item) => {
-            cartCount += Number(item.stock)
-        });
+        if (cartsItems) {
+            cartsItems.forEach((item) => {
+                cartCount += Number(item.stock)
+            });
+        }
         if (cartNumberEl) {
             cartNumberEl.innerHTML = String(cartCount);
         }

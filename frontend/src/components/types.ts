@@ -90,7 +90,7 @@ export interface IOrderData {
 
 export interface IOrders {
   _id: string,
-  orderItems: IProduct[],
+  orderItems: ICartProduct[],
   updatedAt: string,
   user: IUserData,
   orderStatus: string,

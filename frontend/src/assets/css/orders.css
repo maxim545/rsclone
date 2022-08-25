@@ -77,13 +77,11 @@
 .tab__header {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr;
     align-items: center;
     margin-right: 20px;
 }
 
-
-.tab__header-item {}
 
 .tab__header-date {
     font-style: normal;
@@ -98,6 +96,31 @@
     font-size: 16px;
     line-height: 160%;
     color: #1E212C;
+}
+
+.tab__header-status_processing {
+    padding: 2px 11px 5px 11px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    background: #919191;
+    border-radius: 5px;
+}
+
+.tab__header-status_processing {
+    background: #5A87FC;
+}
+
+.tab__header-status_progressing {
+    background: #e0d31a;
+}
+
+.tab__header-status_delivered {
+    background: #03CEA4;
+}
+
+.tab__header-status_canceled {
+    background: #FF4242;
 }
 
 .bi-clock {
@@ -124,4 +147,39 @@
 .tab__input:checked~.tab__content {
     max-height: 100vh;
     padding: 1em;
+}
+
+.tab__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.tab__bottom-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tab__bottom-item-title {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    color: #787A80;
+}
+
+.tab__bottom-item-text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #1E212C;
+    margin-left: 5px;
+}
+
+.tab__bottom-item-text_bold {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 150%;
+    color: #1E212C;
 }

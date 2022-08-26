@@ -99,6 +99,13 @@ export interface IOrders {
 }
 
 
+export interface IWishListData {
+  _id?: string,
+  productId: string,
+  isExist: boolean,
+}
+
+
 
 
 

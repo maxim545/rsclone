@@ -1,4 +1,4 @@
-import { ICartProduct, IProduct } from "../types";
+import { ICartProduct, IProduct, IUserData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -21,7 +21,7 @@ class ProductView extends Element {
 
   create() {
     const id = window.location.hash.replace("#", "").slice(3);
-
+    const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
 
     const productEl = this.createEl('div', '', 'main-container', null);
     (async () => {
@@ -116,6 +116,7 @@ class ProductView extends Element {
           radio.style.setProperty('--color', `${radio.value}`);
         }
         const addCartBtn = document.querySelector(`.item .item__cart`);
+        const favBtn = document.querySelector('.item__favourite')
 
 
         const sizeSelect = document.querySelector(`.item__size`);
@@ -142,6 +143,23 @@ class ProductView extends Element {
             alert('Please choose color, size and amount')
           }
         });
+        if (favBtn) {
+          favBtn.addEventListener('click', () => {
+            if (userData) {
+              const wishItem = {
+                productId: product._id,
+                isExist: true,
+              }
+              this.api.addWishItem(wishItem, userData).then(() => {
+                this.updateView.updateWishlistNum();
+              })
+            } else {
+              alert('If u want add item to your wishList please register or sign in')
+            }
+          })
+        }
+
+
       }
     })().catch(err => { console.error(err) });
     return productEl;

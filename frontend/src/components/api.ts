@@ -1,4 +1,4 @@
-import { ILogin, IOrderData, IOrders, IOrderUpdated, IProduct, IProductCreated, IUserData } from "./types";
+import { ILogin, IOrderData, IOrders, IOrderUpdated, IProduct, IProductCreated, IUserData, IWishListData } from "./types";
 
 class Api {
 
@@ -251,6 +251,58 @@ class Api {
             });
             const productData = await response.json() as IProduct;
             return productData
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async addWishItem(cartsData: IWishListData, userData: IUserData) {
+        try {
+            const response = await fetch(`${this.server}/wishlist`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+                body: JSON.stringify(cartsData),
+            });
+            const orderData = await response.json();
+            const { status } = response
+            return [orderData, status];
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async getAllWishItems(userData: IUserData) {
+        try {
+            const response = await fetch(`${this.server}/wishlist/items`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const wishlistData = await response.json();
+            return wishlistData;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async removeWishItem(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/wishlist/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const wishItem = await response.json() as IProduct;
+            return wishItem;
         } catch (err) {
             console.error(err);
             throw err;

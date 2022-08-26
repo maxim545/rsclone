@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import { IUserData } from "../types";
+import { ICartProduct, IUserData, IWishListData } from "../types";
 
 
 class HeaderView extends Element {
@@ -17,6 +17,16 @@ class HeaderView extends Element {
   }
 
   create() {
+    const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+
+    let cartCount = 0;
+    if (cartsItems) {
+      cartsItems.forEach((item) => {
+        cartCount += Number(item.stock)
+      })
+    }
+
+
     const headerContainer = this.createEl('div', '', 'global-container', null);
 
     const topBarWrapper = this.createEl('div', '', 'header__topbar__wrapper', headerContainer);
@@ -85,13 +95,16 @@ class HeaderView extends Element {
     navbarSearchLine.type = 'search';
 
     const basketFavorites = this.createEl('div', '', 'navbar__content__fb', headerNavbarContent);
-    const navbarFavorites = this.createEl('a', '', 'navbar__content__favorites', basketFavorites, '');
+    const navbarFavorites = this.createEl('a', '', 'navbar__content__favorites', basketFavorites, '#/favorites');
     this.createEl('div', '<i class="bi bi-heart"></i>', 'navbar__favorites__img', navbarFavorites);
-    this.createEl('div', '2', 'navbar__favorites__count', navbarFavorites);
+    this.getWishItemsNum().then((num) => {
+      this.createEl('div', num, 'navbar__favorites__count', navbarFavorites);
+    })
+
     this.createEl('div', '', 'navbar__content__fb__separator', basketFavorites);
     const navbarBasket = this.createEl('a', '', 'navbar__content__basket', basketFavorites, '#/cart');
     this.createEl('div', '<i class="bi bi-cart3"></i>', 'navbar__basket__img', navbarBasket);
-    this.createEl('div', '4', 'navbar__content__count', navbarBasket);
+    this.createEl('div', String(cartCount), 'navbar__content__count', navbarBasket);
 
     const navbarSearchMobileWrapper = this.createEl('div', '', 'navbar__search-mobile__wrapper', headerContainer);
     const navbarSearchMobile = this.createEl('div', '', 'navbar__content__search search-mobile', navbarSearchMobileWrapper);
@@ -128,7 +141,7 @@ class HeaderView extends Element {
         this.createEl('a', name, 'topbar__profile-box__link', topbarContentProfileBox, `#/${link}`) as HTMLAnchorElement;
       })
 
-      const logoutLink = this.createEl('a', 'Logout', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
+      const logoutLink = this.createEl('a', 'Sign out', 'topbar__profile-box__link topbar__profile-box__logout', topbarContentProfileBox, `/`) as HTMLAnchorElement;
       logoutLink.addEventListener('click', () => { this.controller.logoutUser(); });
       const closeProfile = this.createEl('div', '<div class="bi bi-x-lg"></div>', 'topbar__profile-box__close', profileBoxWelcome);
       closeProfile.addEventListener('click', () => { topbarContentProfileBox.style.display = 'none'; });
@@ -149,6 +162,16 @@ class HeaderView extends Element {
     }
 
     return headerContainer;
+  }
+
+  async getWishItemsNum() {
+    const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+    let count = 0;
+    if (userData) {
+      const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+      count = wishList.length;
+    }
+    return String(count);
   }
 }
 

@@ -1,7 +1,7 @@
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
-import {IProduct, IUserData} from "../../types";
+import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 

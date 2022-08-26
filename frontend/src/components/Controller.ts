@@ -1,5 +1,5 @@
 import Api from './api';
-import { IOrderData, IUserData } from './types';
+import { ICartProduct, IOrderData, IUserData } from './types';
 
 class Controller {
 
@@ -11,20 +11,27 @@ class Controller {
     }
 
 
-    addToCart(id: string) {
-        let cartData = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+    addToCart(productData: ICartProduct) {
+        let cartData = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         if (!cartData) {
-            cartData = [id];
-            localStorage.setItem('cartData', JSON.stringify(cartData))
-        } else if (!cartData.includes(id)) {
-            cartData.push(id)
-            localStorage.setItem('cartData', JSON.stringify(cartData))
+            cartData = [];
+            cartData.push(productData);
+        } else {
+            const product = cartData.find(item => item._id === productData._id);
+            if (product && product.size === productData.size && product.color === productData.color) {
+                const stock: number = Number(product.stock) + Number(productData.stock);
+                product.stock = String(stock);
+            } else {
+                cartData.push(productData)
+            }
         }
+        localStorage.setItem('cartData', JSON.stringify(cartData))
     }
 
-    removeFromCart(cartsData: string[], id: string) {
-        if (cartsData.includes(id)) {
-            cartsData.splice(cartsData.indexOf(id), 1);
+    removeFromCart(cartsData: ICartProduct[], currentId: string) {
+        const productIndex = cartsData.findIndex(item => item._id === currentId);
+        if (typeof productIndex === 'number') {
+            cartsData.splice(productIndex, 1);
         }
         localStorage.setItem('cartData', JSON.stringify(cartsData));
 

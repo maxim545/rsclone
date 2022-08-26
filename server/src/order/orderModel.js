@@ -18,6 +18,16 @@ const orderSchema = new mongoose.Schema(
         orderItems: [
             {
                 name: { type: String, required: true },
+                year: { type: String, required: true },
+                category: { type: String, required: true },
+                price: { type: String, default: 0.0, required: true },
+                brand: { type: String, required: true },
+                discount: { type: String, required: true },
+                image: { type: String, required: true },
+                variant: { type: String, required: true },
+                color: { type: String, required: true },
+                size: { type: String, required: true },
+                stock: { type: String, required: true },
             },
         ],
         user: {

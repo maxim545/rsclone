@@ -1,33 +1,45 @@
-import { IProduct } from "../types";
+import { ICartProduct, IProduct, IUserData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
+import UpdateView from "../Update";
 
 class ProductView extends Element {
 
-    private api: Api
+  private api: Api
 
-    private controller: Controller;
+  private controller: Controller;
 
-    constructor() {
-        super();
-        this.api = new Api();
-        this.controller = new Controller();
-    }
+  private updateView: UpdateView;
 
-    create() {
-        const id = window.location.hash.replace("#", "").slice(3);
-        const productEl = this.createEl('div', '', 'main-container', null);
-        (async () => {
-            const product = <IProduct | undefined>await this.api.getProduct(id);
-            const itemEl = this.createEl('div', '', 'item', productEl);
-            if (product) {
-                const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
-                const stockNumber = +temp;
-                itemEl.innerHTML = `
+  constructor() {
+    super();
+    this.api = new Api();
+    this.controller = new Controller();
+    this.updateView = new UpdateView();
+  }
+
+  create() {
+    const id = window.location.hash.replace("#", "").slice(3);
+    const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+
+    const productEl = this.createEl('div', '', 'main-container', null);
+    (async () => {
+      const product = await this.api.getProduct(id) as IProduct;
+      const productData: ICartProduct = {
+        ...product,
+        color: '',
+        size: '',
+        stock: '',
+      }
+      const itemEl = this.createEl('div', '', 'item', productEl);
+      if (product) {
+        const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
+        const stockNumber = +temp;
+        itemEl.innerHTML = `
                     <div class='item__heading'>
                       <h3>${product.name}</h3>
-                      <span>Art. No. ${product._id.slice(-10)}</span>
+                      <span>Art. No. ${product._id.slice(0, 10)}</span>
                     </div>
                     <div class="item__content">
                       <div class="item__imgs">
@@ -90,76 +102,107 @@ class ProductView extends Element {
                       </div>
                     </div>
                 `;
-                const colorSpan = document.querySelector(`.item__color-span`);
-                const colorBtns = document.querySelector(`.item__colors`);
-                colorBtns?.addEventListener(`click`, (e) => {
-                    const ev = e?.target as HTMLElement;
-                    const radio = ev?.closest(`input`) as HTMLInputElement;
-                    if (radio && colorSpan) {
-                        colorSpan.textContent = radio.value;
-                    }
-                })
-                const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
-                for (const radio of colorRadios) {
-                    radio.style.setProperty('--color', `${radio.value}`);
-                }
-                const addCartBtn = document.querySelector(`.item .item__cart`);
-                addCartBtn?.addEventListener('click', () => { this.controller.addToCart(id) });
-                const sizeSelect = document.querySelector(`.item__size`);
-                sizeSelect?.addEventListener(`change`, (event) => {
-                    const select = event.currentTarget as HTMLSelectElement;
-                    const arr = product.variant.split(/:|, /);
-                    const ind = arr.indexOf(String(select.value));
-                    const stock = document.querySelector(`.item__stock`) as HTMLInputElement;
-                    if (stock) {
-                        stock.max = arr[ind + 1];
-                        stock.value = String(Math.min(+stock.value, +arr[ind + 1]));
-                    }
-                });
-            }
-        })().catch(err => { console.error(err) });
-        return productEl;
-    }
-
-    getColorBtns(colors: string) {
-        if (typeof colors !== `string` || colors.length === 0) {
-            console.log('Error in ProductView getColorBtns');
-            console.dir(colors);
-            return ``;
+        const colorSpan = document.querySelector(`.item__color-span`);
+        const colorBtns = document.querySelector(`.item__colors`);
+        colorBtns?.addEventListener(`click`, (e) => {
+          const ev = e?.target as HTMLElement;
+          const radio = ev?.closest(`input`) as HTMLInputElement;
+          if (radio && colorSpan) {
+            colorSpan.textContent = radio.value;
+          }
+        })
+        const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
+        for (const radio of colorRadios) {
+          radio.style.setProperty('--color', `${radio.value}`);
         }
-        const arr = colors.split(`, `);
-        let res = `<input class="item__radio" type="radio" id="good-color-${arr[0]}" name="good-colors" value="${arr[0]}" checked>`;
-        let i = 1;
-        while (i !== arr.length) {
-            res = `${res}
+        const addCartBtn = document.querySelector(`.item .item__cart`);
+        const favBtn = document.querySelector('.item__favourite')
+
+
+        const sizeSelect = document.querySelector(`.item__size`);
+        sizeSelect?.addEventListener(`change`, (event) => {
+          const select = event.currentTarget as HTMLSelectElement;
+          const arr = product.variant.split(/:|, /);
+          const ind = arr.indexOf(String(select.value));
+          const stock = document.querySelector(`.item__stock`) as HTMLInputElement;
+          if (stock) {
+            stock.max = arr[ind + 1];
+            stock.value = String(Math.min(+stock.value, +arr[ind + 1]));
+          }
+          productData.size = select.value;
+          productData.stock = stock.value;
+        });
+
+        addCartBtn?.addEventListener('click', () => {
+          if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
+            productData.color = colorSpan?.textContent;
+            this.controller.addToCart(productData);
+            this.updateView.updateCart();
+            alert('Product successfully added')
+          } else {
+            alert('Please choose color, size and amount')
+          }
+        });
+        if (favBtn) {
+          favBtn.addEventListener('click', () => {
+            if (userData) {
+              const wishItem = {
+                productId: product._id,
+                isExist: true,
+              }
+              this.api.addWishItem(wishItem, userData).then(() => {
+                this.updateView.updateWishlistNum();
+              })
+            } else {
+              alert('If u want add item to your wishList please register or sign in')
+            }
+          })
+        }
+
+
+      }
+    })().catch(err => { console.error(err) });
+    return productEl;
+  }
+
+  getColorBtns(colors: string) {
+    if (typeof colors !== `string` || colors.length === 0) {
+      console.log('Error in ProductView getColorBtns');
+      return ``;
+    }
+    const arr = colors.split(`, `);
+    let res = `<input class="item__radio" type="radio" id="good-color-${arr[0]}" name="good-colors" value="${arr[0]}" checked>`;
+    let i = 1;
+    while (i !== arr.length) {
+      res = `${res}
               <input class="item__radio" type="radio" id="good-color-${arr[i]}" name="good-colors" value="${arr[i]}">
               `;
-            i += 1;
-        }
-        res = `${res}
+      i += 1;
+    }
+    res = `${res}
               <span class="item__color-span">${arr[0]}</span>
               `;
-        return res;
-    }
+    return res;
+  }
 
-    getSizesSelect(sizes: string) {
-        const arr = sizes.split(`, `);
-        let res = `<select class="item__size" name="select-size">
+  getSizesSelect(sizes: string) {
+    const arr = sizes.split(`, `);
+    let res = `<select class="item__size" name="select-size">
             <option value="" disabled selected>Please select</option>
             `;
-        for (const size of arr) {
-            res = `${res}
+    for (const size of arr) {
+      res = `${res}
               <option value="${size.split(`:`)[0]}">${size.split(`:`)[0]}</option>
               `;
-        }
-        res = `${res}
+    }
+    res = `${res}
           </select>
           `;
-        return res;
-    }
+    return res;
+  }
 
-    getAddBtn() {
-        return `
+  getAddBtn() {
+    return `
           <button type="button" class="item__cart">
             <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -175,10 +218,10 @@ class ProductView extends Element {
             <span>Add to cart</span>
           </button>
         `;
-    }
+  }
 
-    getFavBtn() {
-        return `
+  getFavBtn() {
+    return `
           <button type="button" class="item__favourite">
             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -188,10 +231,10 @@ class ProductView extends Element {
             <span>Favourite</span>
           </button>
         `;
-    }
+  }
 
-    getSocials() {
-        return `
+  getSocials() {
+    return `
           <a href="https://www.facebook.com/">
           <svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.63733 0.836822L7.32294 0.833008C4.72281 0.833008 3.04249 2.60392 3.04249 5.34487V7.42513H0.715477C0.514396 7.42513 0.351562 7.59259 0.351562 7.79915V10.8132C0.351562 11.0198 0.514582 11.187 0.715477 11.187H3.04249V18.7925C3.04249 18.9991 3.20532 19.1663 3.4064 19.1663H6.44249C6.64357 19.1663 6.80641 18.9989 6.80641 18.7925V11.187H9.52723C9.72831 11.187 9.89114 11.0198 9.89114 10.8132L9.89225 7.79915C9.89225 7.69997 9.85382 7.60499 9.78568 7.5348C9.71754 7.46461 9.6247 7.42513 9.52815 7.42513H6.80641V5.66166C6.80641 4.81407 7.00303 4.38379 8.07788 4.38379L9.63696 4.38322C9.83785 4.38322 10.0007 4.21576 10.0007 4.00939V1.21065C10.0007 1.00447 9.83804 0.837204 9.63733 0.836822Z"
@@ -211,10 +254,10 @@ class ProductView extends Element {
           </svg>
           </a>
         `;
-    }
+  }
 
-    getPayIcons() {
-        return `
+  getPayIcons() {
+    return `
           <div>
             <svg width="72" height="24" viewBox="0 0 72 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M30.8266 22.6849H25.0242L28.6506 0.398231H34.4536L30.8266 22.6849ZM20.1429 0.398231L14.6112 15.7272L13.9566 12.4263L13.9572 12.4274L12.0048 2.40489C12.0048 2.40489 11.7687 0.398231 9.25233 0.398231H0.107308L0 0.775597C0 0.775597 2.79656 1.35744 6.06945 3.32297L11.1105 22.6855H17.1561L26.3876 0.398231H20.1429ZM65.7815 22.6849H71.1094L66.4641 0.397635H61.7998C59.6459 0.397635 59.1213 2.05852 59.1213 2.05852L50.4675 22.6849H56.5161L57.7257 19.3744H65.1019L65.7815 22.6849ZM59.3967 14.8013L62.4454 6.46113L64.1606 14.8013H59.3967ZM50.9212 5.75766L51.7492 0.971731C51.7492 0.971731 49.1941 0 46.5305 0C43.6511 0 36.8132 1.25848 36.8132 7.37801C36.8132 13.1357 44.8386 13.2072 44.8386 16.2315C44.8386 19.2558 37.64 18.7139 35.2644 16.8068L34.4017 21.8109C34.4017 21.8109 36.9926 23.0694 40.9511 23.0694C44.9107 23.0694 50.8842 21.0192 50.8842 15.4392C50.8842 9.6446 42.7866 9.10508 42.7866 6.58573C42.7872 4.06578 48.4382 4.38949 50.9212 5.75766Z"
@@ -261,7 +304,7 @@ class ProductView extends Element {
             </svg>
           </div>
         `;
-    }
+  }
 }
 
 export default ProductView;

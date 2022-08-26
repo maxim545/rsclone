@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
 /* eslint-disable no-restricted-syntax */
-import { IOrderData, IProduct, IUserData } from "../types";
+import { ICartProduct, IOrderData, IProduct, IUserData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -13,25 +14,22 @@ class CartView extends Element {
 
     private updateView: UpdateView;
 
-    /*     private userData: IUserData | null; */
-
     constructor() {
         super();
         this.api = new Api();
         this.controller = new Controller();
         this.updateView = new UpdateView();
-        /*         this.userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null'); */
     }
 
     create() {
         const container = this.createEl('div', '', 'container_main cart', null);
         const cartEl = this.createEl('div', '', 'cart__content', container);
-        const cartsId = <string[]>JSON.parse(localStorage.getItem('cartData') || 'null');
+        const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-        const cartsData: IOrderData = {
+        const orderData: IOrderData = {
             orderItems: [],
         };
-        if (cartsId && cartsId.length) {
+        if (cartsItems && cartsItems.length) {
             this.createEl('h2', 'Checkout', 'cart__title', cartEl);
             (async () => {
                 const [inpustList, unputsValues] = this.createInputs() as [HTMLElement, IUserData];
@@ -39,52 +37,73 @@ class CartView extends Element {
                 this.createEl('h3', '1. Item Review', 'cart__list-title', cartListEl);
                 const cartItemsEl = this.createEl('div', '', 'cart__items', cartListEl);
                 let totalPrice = 0;
-                for await (const item of cartsId) {
-                    const product = <IProduct>await this.api.getProduct(item);
-                    cartsData.status = 'processing';
-                    cartsData.orderItems.push(product);
-                    if (product) {
-                        const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
+                for await (const item of cartsItems) {
+                    orderData.status = 'processing';
+                    orderData.orderItems.push(item);
+                    if (item) {
+                        const productDB = <IProduct>await this.api.getProduct(item._id);
+                        const prodSizes = productDB.variant.split(',');
+                        const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
+                        const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();
+                        const cartItemEl = this.createEl('div', `<img src="${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
                         const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
-                        this.createEl('div', product.name, 'cart__item-name', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Year:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product.year}`, 'cart__item-name-value', itemInfo);
-                        /* const itemAmount =  */this.createEl('div', 'Amount', 'cart__item-amount', cartItemEl);
+                        this.createEl('div', item.name, 'cart__item-name', itemInfo);
+                        this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${item.color}`, 'cart__item-name-value', itemInfo);
+                        this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${item.size}`, 'cart__item-name-value', itemInfo);
+                        const itemAmount = this.createEl('div', '', 'cart__item-amount', cartItemEl);
+                        const inputAmount = this.createEl('input', '', 'cart__item-input', itemAmount) as HTMLInputElement;
+                        inputAmount.type = 'number';
+                        inputAmount.value = item.stock > maxStockValue ? maxStockValue : item.stock;
+                        inputAmount.min = '1';
+                        inputAmount.max = maxStockValue;
 
-
-                        const sumPrice = product.price;
-                        const discPrice = Number(sumPrice) - Number(sumPrice) * Number(product.discount) / 100;
+                        const sumPrice = item.price;
+                        const discPrice = ((Number(sumPrice) - Number(sumPrice) * Number(item.discount) / 100) * Number(item.stock));
+                        const withoutDisc = Number(item.price) * Number(item.stock)
                         totalPrice += discPrice;
-                        if (Number(product.discount)) {
-                            this.createEl('div', `$${discPrice}<span class="cart__item-price cart__item-price_grey">$${sumPrice}</span>`, 'cart__item-price cart__item-price_orange', cartItemEl);
+                        const priceEl = this.createEl('div', ``, 'cart__item-price', cartItemEl);
+                        if (Number(item.discount)) {
+                            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
                         } else {
-                            this.createEl('div', `$${product.price}`, 'cart__item-price', cartItemEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
                         }
 
+                        inputAmount.addEventListener('change', () => {
+                            item.stock = inputAmount.value;
+                            this.updateCartPrice(cartsItems, priceEl, item.discount, item.stock, item.price);
+                        });
 
 
                         const removeBtn = this.createEl('button', 'Delete', 'btn btn-primary cart__item-btn', cartItemEl);
-                        removeBtn.addEventListener('click', () => {
-                            this.controller.removeFromCart(cartsId, product._id)
-                            const main = document.querySelector('.main') as HTMLElement;
-                            main.innerHTML = '';
-                            main.append(this.create())
+                        removeBtn.addEventListener('click', (e) => {
+                            const target = e.target as HTMLElement;
+                            this.controller.removeFromCart(cartsItems, item._id)
+                            if (target.parentElement instanceof HTMLElement) {
+                                cartItemsEl.removeChild(target.parentElement);
+                            }
+                            this.updateCartPrice(cartsItems, priceEl);
+                            if (!cartsItems.length) {
+                                const main = document.querySelector('.main') as HTMLElement;
+                                main.innerHTML = '';
+                            }
                         });
                     }
                 }
-                const itemsAmount = cartsData.orderItems.length;
+                const itemsAmount = orderData.orderItems.length;
                 const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
-                cartsData.price = finallyPrice;
-                this.createEl('div', `Subtotal: $${totalPrice}`, 'cart__subtotal', cartListEl);
+                orderData.price = finallyPrice;
+                this.createEl('div', `Subtotal: $${totalPrice.toFixed(1)}`, 'cart__subtotal', cartListEl);
 
                 cartEl.append(inpustList)
                 if (itemsAmount) {
-                    this.addOrder(sidebar, cartsData, userData, unputsValues)
+                    this.addOrder(sidebar, orderData, userData, unputsValues)
                 }
             })().catch(err => { console.error(err) });
         }
         return container;
     }
+
 
     createInputs() {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
@@ -107,13 +126,9 @@ class CartView extends Element {
                 unputsValues[name as keyof typeof unputsValues] = input.value;
             }
         })
-        return [shippingList, unputsValues]
+        return [shippingList, unputsValues];
     }
 
-    /*  createPayment() {
-         const payment = this.createEl('div', '3. Payment Method', 'cart__sidebar', null);
-         return payment
-     } */
 
     createSideBar(container: HTMLElement, price: number, itemsAmount: number) {
         const sidebar = this.createEl('div', '', 'cart__sidebar', container);
@@ -121,30 +136,74 @@ class CartView extends Element {
         const itemsListEl = this.createEl('div', '', 'cart__sidebar-list', wrapperEl);
         const shippingPrice = itemsAmount * 5;
         const finallyPrice = price + shippingPrice
-        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_bold">Subtotal:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_bold">$${price}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">Subtotal:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_value">$${price.toFixed(1)}</div>`, 'cart__sidebar-item', itemsListEl);
         this.createEl('div', `<div class="cart__sidebar-price">Shipping:</div>
-        <div class="cart__sidebar-price">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
-        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_big">Shipping:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_big">$${finallyPrice}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
+        <div class="cart__sidebar-price cart__sidebar-price_shipping">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
+        this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">Order total:</div>
+        <div class="cart__sidebar-price cart__sidebar-price_bold">$${finallyPrice.toFixed(1)}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
         return [sidebar, finallyPrice];
     }
 
-    addOrder(sidebar: HTMLElement, cartsData: IOrderData, userData: IUserData, unputsValues: IUserData) {
+    addOrder(sidebar: HTMLElement, orderData: IOrderData, userData: IUserData, unputsValues: IUserData) {
         const orderBtn = this.createEl('button', 'Complete order', 'btn btn-primary auth__btn', sidebar);
         orderBtn.addEventListener('click', () => {
-            console.log(cartsData);
-
             if (userData) {
-                this.controller.makeOrder(cartsData)
+                this.controller.makeOrder(orderData).then(() => {
+                    this.updateView.updateCart();
+                })
             } else {
                 this.controller.registerUser(unputsValues)
                     .then(() => {
+                        this.controller.makeOrder(orderData);
                         this.updateView.updateHeader();
-                        this.controller.makeOrder(cartsData)
                     })
             }
         });
+    }
+
+    updateCartPrice(cartsItems: ICartProduct[], priceEl: HTMLElement, discount = '', stock = '', price = '') {
+        localStorage.setItem('cartData', JSON.stringify(cartsItems));
+        this.updateView.updateCart();
+        if (priceEl) {
+            priceEl.innerHTML = '';
+        }
+        const sumPrice = price;
+        const discPrice = ((Number(sumPrice) - Number(sumPrice) * Number(discount) / 100) * Number(stock));
+        const withoutDisc = Number(price) * Number(stock)
+        if (Number(discount)) {
+            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
+            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
+        } else {
+            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
+        }
+
+        let totalPrice = 0;
+        cartsItems.forEach(item => {
+            const disc = ((Number(item.price) - Number(item.price) * Number(item.discount) / 100) * Number(item.stock));
+            totalPrice += disc;
+        })
+
+        const subTotal = document.querySelector('.cart__subtotal');
+        if (subTotal) {
+            subTotal.innerHTML = `Subtotal: $${totalPrice.toFixed(1)}`
+        }
+
+        const shippingPrice = cartsItems.length * 5;
+        const finallyPrice = totalPrice + shippingPrice;
+        const sidebarOrdersPrice = document.querySelector('.cart__sidebar-price_value');
+        const sidebarShipingPrice = document.querySelector('.cart__sidebar-price_shipping');
+        const sidebarFinallyPrice = document.querySelector('.cart__sidebar-price_bold');
+
+        if (sidebarOrdersPrice) {
+            sidebarOrdersPrice.innerHTML = `$${totalPrice.toFixed(1)}`
+        }
+        if (sidebarShipingPrice) {
+            sidebarShipingPrice.innerHTML = `$${shippingPrice.toFixed(1)}`
+        }
+        if (sidebarFinallyPrice) {
+            sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
+        }
     }
 
 }

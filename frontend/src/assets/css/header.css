@@ -186,6 +186,7 @@ header {
   font-size: 16px;
   line-height: 160%;
   color: #424551;
+
 }
 
 .navbar__nav__link:hover {
@@ -270,7 +271,6 @@ header {
 }
 
 .navbar__content__basket:hover>.navbar__content__count {
-  transform: perspective(50px) rotateX(360deg);
   transition: all 1s;
 }
 
@@ -292,11 +292,14 @@ header {
   align-items: center;
   width: 23px;
   height: 20px;
-  font-size: 13px;
   border-radius: 4px;
   background: #03CEA4;
-  color: #FFFFFF;
   margin-left: 8px;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 150%;
+  color: #FFFFFF;
+  margin-top: 1px;
 }
 
 .header__bottom__wrapper {
@@ -369,20 +372,16 @@ header {
   display: none;
   position: absolute;
   flex-direction: column;
-  justify-content: space-between;
   top: 36px;
   right: 0px;
   width: 250px;
-  height: 300px;
+  height: 325px;
   background-color: #FFFFFF;
   border-radius: 4px;
   box-shadow: 0px 0px 5px 2px rgba(30, 33, 44, 0.2);
-  padding: 20px;
+  z-index: 10;
 }
 
-.topbar__profile-box__logout {
-  text-align: end;
-}
 
 .topbar__profile-box__link {
   text-decoration: none;
@@ -391,12 +390,18 @@ header {
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  line-height: 160%;
+  padding: 15px 20px;
   color: #424551;
 }
 
+.topbar__profile-box__logout {
+  padding-top: 10px;
+  border-top: 1px solid #E5E8ED;
+}
+
 .topbar__profile-box__link:hover {
-  color: #17696A;
+  color: #fff;
+  background-color: #17696A;
 }
 
 .topbar__profile-box__welcome {
@@ -404,7 +409,11 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #E5E8ED;
+  padding: 30px 20px;
 }
+
 
 .topbar__profile-box__close {
   display: flex;
@@ -447,7 +456,6 @@ header {
 }
 
 .navbar__content__favorites:hover>.navbar__favorites__count {
-  transform: perspective(50px) rotateX(360deg);
   transition: all 1s;
 }
 
@@ -469,9 +477,12 @@ header {
   align-items: center;
   width: 23px;
   height: 20px;
-  font-size: 13px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 150%;
   border-radius: 4px;
-  background: #FF4242;
+  background: #ff7842;
   color: #FFFFFF;
   margin-left: 8px;
 }

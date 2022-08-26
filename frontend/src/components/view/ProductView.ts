@@ -150,13 +150,14 @@ class ProductView extends Element {
                 productId: product._id,
                 isExist: true,
               }
-              this.api.addWishItem(wishItem, userData)
+              this.api.addWishItem(wishItem, userData).then(() => {
+                this.updateView.updateWishlistNum();
+              })
             } else {
               alert('If u want add item to your wishList please register or sign in')
             }
           })
         }
-
 
 
       }

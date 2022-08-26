@@ -292,6 +292,23 @@ class Api {
         }
     }
 
+    async removeWishItem(userData: IUserData, id: string) {
+        try {
+            const response = await fetch(`${this.server}/wishlist/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${(userData.token) as string}`
+                },
+            });
+            const wishItem = await response.json() as IProduct;
+            return wishItem;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
 }
 
 export default Api;

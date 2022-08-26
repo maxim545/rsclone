@@ -45,6 +45,12 @@ class AccountView extends Element {
                     const image = `<img src="${product.image}" class="img-thumbnail" alt="image">`
                     this.createEl('div', image, 'image-container', itemEl)
                     this.createEl('div', product.year, 'item__year', itemEl);
+                    const removeBtn = this.createEl('button', 'remove', 'item__btn', itemEl);
+                    removeBtn.addEventListener('click', () => {
+                        this.api.removeWishItem(userData, (item._id) as string).then(() => {
+                            this.updateView.updateWishlistNum();
+                        });
+                    })
                 }
             })()
         }

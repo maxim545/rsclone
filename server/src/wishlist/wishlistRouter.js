@@ -37,4 +37,19 @@ wishlistRouter.post(
     },
 );
 
+wishlistRouter.delete(
+    '/:id',
+    verifyToken,
+    isAccess,
+    async (req, res) => {
+        const wishItem = await Wishlist.findById(req.params.id);
+        if (wishItem) {
+            await wishItem.remove();
+            res.send({ message: 'WishItem deleted' });
+        } else {
+            res.status(404).send({ message: 'WishItem not found' });
+        }
+    },
+);
+
 export default wishlistRouter;

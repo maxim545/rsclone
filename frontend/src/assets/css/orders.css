@@ -205,6 +205,35 @@
     color: #1E212C;
 }
 
+.user {
+    padding: 20px 24px;
+    border-top: 2px dashed #c4c4c4;
+}
+
+.user__title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 130%;
+    color: #1E212C;
+}
+
+.user__item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #E5E8ED;
+    padding: 2px 0;
+}
+
+.user__item:hover {
+    background-color: #dbdbdb;
+    transition: all 0.35s;
+}
+
+.user__item-title {
+    font-weight: bold;
+}
+
+
 
 @media (max-width: 1079px) {
 

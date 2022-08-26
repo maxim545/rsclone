@@ -1,6 +1,6 @@
+import { IUserData, IOrders, IProduct } from "../../types";
 import monthNames from "../../utils";
 import Api from "../../api";
-import { IOrders, IProduct, IUserData } from "../../types";
 import UserSidebarView from "../userView/UserSidebarView";
 import Controller from "../../Controller";
 import Element from "../../common/Element";
@@ -87,7 +87,6 @@ class PurchaseView extends Element {
                     })
                 }
 
-
                 const orderContent = this.createEl('div', '', 'tab__content', orderItem);
                 const { orderItems } = item;
                 let subtotal = 0;
@@ -130,6 +129,7 @@ class PurchaseView extends Element {
                 const totalEl = this.createEl('div', '', 'tab__bottom-item', orderBottom);
                 this.createEl('span', 'Total:', 'tab__bottom-item-title', totalEl);
                 this.createEl('span', `$${Number(shipping) + Number(subtotal)}`, 'tab__bottom-item-text tab__bottom-item-text_bold', totalEl);
+                orderContent.append(this.addUserInfo(item.user))
             })
         })().catch(err => { console.error(err) });
 
@@ -177,6 +177,32 @@ class PurchaseView extends Element {
             data.sort((a, b) => (b.price < a.price ? -1 : 1));
         }
         return data;
+    }
+
+    addUserInfo(userData: IUserData) {
+        const userContainer = this.createEl('div', '', 'user', null);
+        /* const userTitle =  */this.createEl('h3', 'Buyer Information', 'user__title', userContainer);
+        const userDataEl = this.createEl('div', '', 'user__wrapper', userContainer);
+        const userDescription = [
+            `Name:${(userData.name) as string}`,
+            `Surname:${(userData.surname) as string}`,
+            `Third Name:${(userData.thirdname) as string}`,
+            `Email:${(userData.email) as string}`,
+            `Phone:${(userData.phone) as string}`,
+            `Adress:${(userData.adress) as string}`
+        ]
+        userDescription.forEach(item => {
+            const [title, value] = item.split(':')
+            const userItemEl = this.createEl('div', '', 'user__item', userContainer);
+            this.createEl('div', `${title}: `, 'user__item-title', userItemEl);
+            this.createEl('div', value, 'user__item-value', userItemEl);
+        })
+
+
+
+
+
+        return userContainer;
     }
 }
 

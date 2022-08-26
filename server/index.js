@@ -7,6 +7,7 @@ import userRouter from './src/user/userRouter';
 import orderRouter from './src/order/orderRouter';
 import productRouter from './src/product/productRouter';
 import imageRouter from './src/product/imageRouter';
+import wishlistRouter from './src/wishlist/wishlistRouter';
 
 dotenv.config();
 mongoose.connect(
@@ -29,6 +30,8 @@ app.use('/users', userRouter);
 app.use('/products', productRouter);
 
 app.use('/orders', orderRouter);
+
+app.use('/wishlist', wishlistRouter);
 
 app.listen(port, () => {
   console.log('Server starting on port:', port);

@@ -13,6 +13,7 @@ import RegisterView from "./view/userView/registerView";
 /* import AdminPanelView from "./view/adminView/AdminPanelView"; */
 import AdminProductsView from "./view/adminView/adminProductsView";
 import UpdateOrderView from "./view/adminView/UpdateOrderView";
+import WishlistView from "./view/userView/WishlistView";
 
 
 const renderingData = {
@@ -90,7 +91,13 @@ const renderingData = {
         title: 'Admin update order',
         description: '',
         instance: new UpdateOrderView(),
-    }
+    },
+    '/favorites': {
+        title: 'Wishlist',
+        description: '',
+        instance: new WishlistView(),
+    },
+
 };
 
 

@@ -456,7 +456,6 @@ header {
 }
 
 .navbar__content__favorites:hover>.navbar__favorites__count {
-  transform: perspective(50px) rotateX(360deg);
   transition: all 1s;
 }
 
@@ -478,9 +477,12 @@ header {
   align-items: center;
   width: 23px;
   height: 20px;
-  font-size: 13px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 150%;
   border-radius: 4px;
-  background: #FF4242;
+  background: #ff7842;
   color: #FFFFFF;
   margin-left: 8px;
 }

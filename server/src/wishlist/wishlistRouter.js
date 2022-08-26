@@ -4,7 +4,6 @@ import { isAccess, verifyToken } from '../utils';
 
 const wishlistRouter = express.Router();
 
-
 wishlistRouter.get(
     '/items',
     verifyToken,
@@ -14,13 +13,12 @@ wishlistRouter.get(
     },
 );
 
-
-
 wishlistRouter.post(
     '/',
     verifyToken,
     async (req, res) => {
         const isExist = await Wishlist.findOne({
+            user: req.user._id,
             productId: req.body.productId,
         });
         if (isExist) {
@@ -36,13 +34,7 @@ wishlistRouter.post(
             await wishItem.save();
             res.status(201).send({ message: 'New item added to wishlist' });
         }
-
     },
 );
-
-
-
-
-
 
 export default wishlistRouter;

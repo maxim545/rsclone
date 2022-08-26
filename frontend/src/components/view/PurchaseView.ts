@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import { IProduct, IUserData } from "../types";
+import { IOrders, IProduct, IUserData } from "../types";
 import monthNames from "../utils";
 import UserSidebarView from "./userView/UserSidebarView";
 
@@ -15,22 +15,28 @@ class PurchaseView extends Element {
 
     private sidebarView: UserSidebarView;
 
+    /*     private sortParams */
+
     constructor() {
         super();
         this.api = new Api();
         this.controller = new Controller();
         this.sidebarView = new UserSidebarView();
+        /* this.sortParams = localStorage.getItem('userSortParameters'); */
     }
 
     create() {
-        const container = this.createEl('div', '', 'container_main orders', null);
+        const container = this.createEl('div', '', 'orders', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         container.append(this.sidebarView.create(userData));
         (async () => {
             const ordersEl = this.createEl('div', '', 'orders__wrapper', container);
             const ordersTop = this.createEl('div', `<h2 class="orders__title">My orders</h2>`, 'orders__top', ordersEl);
-            /* const sorting =  */this.createEl('div', `Sort`, 'orders__sorting', ordersTop);
+            ordersTop.append(this.createSorting())
             const purchases = await this.api.getPurchases(userData);
+            if (localStorage.getItem('userSortParameters')) {
+                this.sortOrders(purchases);
+            }
             const ordersList = this.createEl('div', '', 'tabs', ordersEl);
             purchases.forEach((item, i) => {
                 const orderDate = new Date(item.updatedAt);
@@ -51,7 +57,7 @@ class PurchaseView extends Element {
                 `, 'tab', ordersList);
                 const orderContent = this.createEl('div', '', 'tab__content', orderItem);
                 const { orderItems } = item;
-                let subtotal = '0';
+                let subtotal = 0;
                 const shipping = orderItems.length * 5;
                 orderItems.forEach(product => {
                     const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
@@ -60,16 +66,26 @@ class PurchaseView extends Element {
                     this.createEl('div', `<span class=cart__item-name-key">Color:</span> ${product.color}`, 'cart__item-name-value', itemInfo);
                     this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${product?.size}`, 'cart__item-name-value', itemInfo);
                     const itemPrice = this.createEl('div', '', 'cart__row cart__row_price', cartItemEl);
-                    this.createEl('span', 'Price:', 'cart__item-title', itemPrice);
-                    this.createEl('span', `$${product.price}`, 'cart__item-text', itemPrice);
+
+                    const discPrice = (Number(product.price) - Number(product.price) * Number(product.discount) / 100);
+                    const withoutDisc = Number(product.price);
+                    this.createEl('div', 'Price:', 'cart__item-title', itemPrice);
+                    const prices = this.createEl('div', ``, 'cart__item-text', itemPrice);
+                    if (Number(product.discount)) {
+                        this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_orange', prices);
+                        this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'order__item-price_grey', prices);
+                    } else {
+                        this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_black', prices);
+                    }
+
                     const itemQuantity = this.createEl('div', '', 'cart__row cart__row_uantity', cartItemEl);
                     this.createEl('span', 'Quantity:', 'cart__item-title', itemQuantity);
                     this.createEl('span', `${product.stock}`, 'cart__item-text', itemQuantity);
-                    const totalItemPrice = (Number(product.price) * Number(product.stock)).toFixed(1)
+                    const totalItemPrice = (Number(discPrice) * Number(product.stock)).toFixed(1)
                     const itemSubtotal = this.createEl('div', '', 'cart__row cart__row_subtotal', cartItemEl);
                     this.createEl('span', 'Subtotal:', 'cart__item-title', itemSubtotal);
                     this.createEl('span', `$${totalItemPrice} `, 'cart__item-text', itemSubtotal);
-                    subtotal = totalItemPrice;
+                    subtotal += Number(totalItemPrice);
                 });
                 const orderBottom = this.createEl('div', '', 'tab__bottom', orderContent);
                 const subtotalEl = this.createEl('div', '', 'tab__bottom-item', orderBottom);
@@ -85,6 +101,49 @@ class PurchaseView extends Element {
         })().catch(err => { console.error(err) });
 
         return container;
+    }
+
+    createSorting() {
+        const main = document.querySelector('.main') as HTMLElement;
+        const sortEl = this.createEl('div', '', 'orders__sorting', null);
+        const selectEl = this.createEl('select', '', 'form-select orders__select', sortEl) as HTMLSelectElement;
+        const optionsElements = ['dateDesc', 'dateAsc', 'priceDesc', 'priceAsc'];
+        const sortNames: Record<string, string> = {
+            dateDesc: 'Date descending &uarr;',
+            dateAsc: 'Date ascending &darr;',
+            priceDesc: 'Price descending &uarr;',
+            priceAsc: 'Price ascending &darr;',
+        };
+        optionsElements.forEach(el => {
+            const optionEl = this.createEl('option', sortNames[el], 'orders__option', selectEl) as HTMLOptionElement;
+            optionEl.value = el;
+            if (el === localStorage.getItem('userSortParameters')) { optionEl.selected = true; }
+        });
+        selectEl.addEventListener('change', () => {
+            localStorage.setItem('userSortParameters', selectEl.value);
+            if (main) {
+                main.innerHTML = '';
+                main.append(this.create())
+            }
+        });
+        return sortEl
+    }
+
+    sortOrders(data: IOrders[]) {
+        const sortParams = localStorage.getItem('userSortParameters');
+        if (sortParams === 'dateDesc') {
+            data.sort((a, b) => (new Date(b.updatedAt) < new Date(a.updatedAt) ? -1 : 1));
+        }
+        if (sortParams === 'dateAsc') {
+            data.sort((a, b) => (new Date(a.updatedAt) < new Date(b.updatedAt) ? -1 : 1));
+        }
+        if (sortParams === 'priceDesc') {
+            data.sort((a, b) => (b.price > a.price ? -1 : 1));
+        }
+        if (sortParams === 'priceAsc') {
+            data.sort((a, b) => (b.price < a.price ? -1 : 1));
+        }
+        return data;
     }
 }
 

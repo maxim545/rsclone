@@ -15,14 +15,11 @@ class PurchaseView extends Element {
 
     private sidebarView: UserSidebarView;
 
-    /*     private sortParams */
-
     constructor() {
         super();
         this.api = new Api();
         this.controller = new Controller();
         this.sidebarView = new UserSidebarView();
-        /* this.sortParams = localStorage.getItem('userSortParameters'); */
     }
 
     create() {

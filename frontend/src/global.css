@@ -20,13 +20,12 @@ header h1 {
     font-weight: 800;
 }
 
-.container_main {
+/* .container_main {
     margin-left: auto;
     margin-right: auto;
     padding: 0 20px;
     max-width: 1230px;
-}
-
+} */
 
 
 @import url('./assets/css/auth.css');

@@ -34,10 +34,6 @@ header h1 {
 @import url('./assets/css/single-page.css');
 @import url('./assets/css/orders.css');
 @import url('./assets/css/admin-products.css');
-<<<<<<< HEAD
 @import url('./assets/css/alerts.css');
-@import 'nouislider/dist/nouislider.css';
-=======
 @import url('./assets/css/header.css');
 @import url('./assets/css/maim-page-filters.css');
->>>>>>> e51104a (feat: add customization and filtering by price)

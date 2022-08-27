@@ -4,6 +4,8 @@ import Api from "../../api";
 import UserSidebarView from "../userView/UserSidebarView";
 import Controller from "../../Controller";
 import Element from "../../common/Element";
+import AlertsView from "../AlertsView";
+
 
 
 class PurchaseView extends Element {
@@ -16,6 +18,7 @@ class PurchaseView extends Element {
 
     private orderStatus: string[];
 
+    private alertView: AlertsView
 
     constructor() {
         super();
@@ -23,6 +26,7 @@ class PurchaseView extends Element {
         this.controller = new Controller();
         this.sidebarView = new UserSidebarView();
         this.orderStatus = ['processing', 'progressing', 'in-delivery', 'delivered', 'canceled',]
+        this.alertView = new AlertsView();
     }
 
     create() {
@@ -135,7 +139,9 @@ class PurchaseView extends Element {
                     orderContent.append(this.addUserInfo(item.user))
                 })
             } else {
-
+                const title = 'You are not admin';
+                const text = 'You must be an admin to access this page'
+                container.append(this.alertView.createStaticAlert(title, text))
             }
         })().catch(err => { console.error(err) });
 

@@ -35,4 +35,5 @@ header h1 {
 @import url('./assets/css/single-page.css');
 @import url('./assets/css/orders.css');
 @import url('./assets/css/admin-products.css');
+@import url('./assets/css/alerts.css');
 @import 'nouislider/dist/nouislider.css';

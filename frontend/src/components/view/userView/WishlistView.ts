@@ -33,11 +33,7 @@ class AccountView extends Element {
         const container = this.createEl('div', '', 'container_main wishlist', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         if (!userData) {
-            const title = 'You are not registred';
-            const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
-            const registerLink = `<a class="acoount__link" href="#/register">register</a>`
-            const text = `Please ${enterLink} in your account or ${registerLink}`
-            container.append(this.alertView.createStaticAlert(title, text))
+            container.append(this.createUserAlert())
         }
         else {
             container.append(this.sidebarView.create(userData))
@@ -49,7 +45,7 @@ class AccountView extends Element {
                 let itemsAmount = wishList.length;
                 if (!itemsAmount) {
                     wrapper.innerHTML = ''
-                    wrapper.append(this.createAlertInfo())
+                    wrapper.append(this.createEmptyAlert())
                 }
                 for (const item of wishList) {
                     const product = await this.api.getProduct(item.productId) as IProduct;
@@ -80,7 +76,7 @@ class AccountView extends Element {
                             itemsAmount -= 1
                             if (!itemsAmount) {
                                 wrapper.innerHTML = ''
-                                wrapper.append(this.createAlertInfo())
+                                wrapper.append(this.createEmptyAlert())
                             }
                             this.updateView.updateWishlistNum();
                             e.preventDefault();
@@ -97,11 +93,20 @@ class AccountView extends Element {
         return container;
     }
 
-    createAlertInfo() {
+    createEmptyAlert() {
         const title = `You haven't added anything to your wishlist`;
         const shopLink = `<a class="acoount__link" href="/#">main page</a>`
         const text = `Go to the ${shopLink} and select the product you are interested in`
         const alert = this.alertView.createStaticAlert(title, text, 'warning')
+        return alert
+    }
+
+    createUserAlert() {
+        const title = 'You are not registred';
+        const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
+        const registerLink = `<a class="acoount__link" href="#/register">register</a>`
+        const text = `Please ${enterLink} in your account or ${registerLink}`
+        const alert = this.alertView.createStaticAlert(title, text)
         return alert
     }
 

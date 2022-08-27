@@ -5,6 +5,7 @@ import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
 import UpdateView from "../Update";
+import AlertsView from "./AlertsView";
 
 class CartView extends Element {
 
@@ -14,14 +15,18 @@ class CartView extends Element {
 
     private updateView: UpdateView;
 
+    private alertView: AlertsView;
+
     constructor() {
         super();
         this.api = new Api();
         this.controller = new Controller();
         this.updateView = new UpdateView();
+        this.alertView = new AlertsView();
     }
 
     create() {
+        const main = document.querySelector('.main') as HTMLElement;
         const container = this.createEl('div', '', 'container_main cart', null);
         const cartEl = this.createEl('div', '', 'cart__content', container);
         const cartsItems = <ICartProduct[]>JSON.parse(localStorage.getItem('cartData') || 'null');
@@ -85,8 +90,8 @@ class CartView extends Element {
                             }
                             this.updateCartPrice(cartsItems, priceEl);
                             if (!cartsItems.length) {
-                                const main = document.querySelector('.main') as HTMLElement;
                                 main.innerHTML = '';
+                                main.append(this.createEmptyAlert())
                             }
                         });
                     }
@@ -101,6 +106,8 @@ class CartView extends Element {
                     this.addOrder(sidebar, orderData, userData, unputsValues)
                 }
             })().catch(err => { console.error(err) });
+        } else {
+            main.append(this.createEmptyAlert())
         }
         return container;
     }
@@ -206,6 +213,14 @@ class CartView extends Element {
             sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
         }
         return finallyPrice;
+    }
+
+    createEmptyAlert() {
+        const title = 'Your cart is empty';
+        const shopLink = `<a class="acoount__link" href="/#">main page</a>`
+        const text = `Go to the ${shopLink} and select the product you are interested in.`
+        const alert = this.alertView.createStaticAlert(title, text, 'warning')
+        return alert
     }
 
 }

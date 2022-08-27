@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
 /* eslint-disable no-await-in-loop */
 import { IWishListData, IUserData, IProduct } from "../../types";
 import Element from "../../common/Element";
@@ -41,10 +42,15 @@ class AccountView extends Element {
         else {
             container.append(this.sidebarView.create(userData))
             const wrapper = this.createEl('div', '', 'wishlist__wrapper', container);
-            /* const wishlistTitle =  */this.createEl('h2', 'Wishlist', 'wishlist__title', wrapper);
+            this.createEl('h2', 'Wishlist', 'wishlist__title', wrapper);
             const wishlistItems = this.createEl('div', '', 'wishlist__list', wrapper);
             (async () => {
                 const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+                let itemsAmount = wishList.length;
+                if (!itemsAmount) {
+                    wrapper.innerHTML = ''
+                    wrapper.append(this.createAlertInfo())
+                }
                 for (const item of wishList) {
                     const product = await this.api.getProduct(item.productId) as IProduct;
                     const itemEl = this.createEl('div', '', 'wishlit__item', wishlistItems);
@@ -52,8 +58,8 @@ class AccountView extends Element {
                     const image = `<img src="${product.image}" class="wishlit__item-img" alt="image">`
                     const imageEl = this.createEl('div', image, 'wishlit__item-img-wrapper', itemEl);
                     const itemInfoEl = this.createEl('div', '', 'wishlit__item-info', itemEl);
-                    const addBtn = this.createEl('a', '<i class="bi bi-heart-fill"></i>', 'wishlit__item-btn', imageEl);
-                    addBtn.dataset.id = item._id;
+                    const removeBtn = this.createEl('a', '<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>', 'wishlit__item-btn', imageEl);
+                    removeBtn.dataset.id = item._id;
                     this.createEl('a', product.name, 'wishlit__item-name', itemInfoEl, `/#/p/${product._id}`);
 
 
@@ -69,11 +75,16 @@ class AccountView extends Element {
                     }
 
 
-                    addBtn.addEventListener('click', (e) => {
+                    removeBtn.addEventListener('click', (e) => {
                         this.api.removeWishItem(userData, (item._id) as string).then(() => {
+                            itemsAmount -= 1
+                            if (!itemsAmount) {
+                                wrapper.innerHTML = ''
+                                wrapper.append(this.createAlertInfo())
+                            }
                             this.updateView.updateWishlistNum();
                             e.preventDefault();
-                            const currentId = addBtn.dataset.id;
+                            const currentId = removeBtn.dataset.id;
                             const currentEl = document.querySelector(`div[data-num="${currentId}"]`);
                             if (currentEl) {
                                 wishlistItems.removeChild(currentEl);
@@ -83,10 +94,15 @@ class AccountView extends Element {
                 }
             })()
         }
-
         return container;
+    }
 
-
+    createAlertInfo() {
+        const title = `You haven't added anything to your wishlist`;
+        const shopLink = `<a class="acoount__link" href="/#">main page</a>`
+        const text = `Go to the ${shopLink} and select the product you are interested in`
+        const alert = this.alertView.createStaticAlert(title, text, 'warning')
+        return alert
     }
 
 }

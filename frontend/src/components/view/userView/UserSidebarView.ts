@@ -26,13 +26,16 @@ class UserSidebarView extends Element {
                 email: userData.email,
                 password: userData.password
             }) as [IUserData];
-            if (currentUser.role === 'admin') {
+            if (currentUser.role === 'admin' || currentUser.role === 'manager') {
                 links.unshift('All products:#/adminpanel/products', 'All orders:#/adminpanel/orders')
             }
             const currentHash = window.location.hash;
             if (userData.name && userData.surname && userData.email) {
                 this.createEl('h2', `${userData.name} ${userData.surname}`, 'sidebar__user-name', wrapper);
                 this.createEl('p', userData.email, 'sidebar__user-email', wrapper);
+                if (currentUser.role !== 'user') {
+                    this.createEl('p', (currentUser.role) as string, 'sidebar__user-role', wrapper);
+                }
             }
             const linksEl = this.createEl('div', '', 'sidebar__links', wrapper);
             links.forEach(link => {

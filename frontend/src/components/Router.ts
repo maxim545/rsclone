@@ -11,9 +11,9 @@ class Router {
             renderInstanse = routerData['/purchases/order/'].instance;
         } else if (!hashArr.includes('orders') && hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/products/update/'].instance;
-        } else if (hashArr.includes('orders') && hashArr.includes('update')) {
+        } /* else if (hashArr.includes('orders') && hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/orders/update/'].instance;
-        } else if (location === '') {
+        } */ else if (location === '') {
             renderInstanse = routerData['/'].instance;
         } else if (!routerData[location as keyof typeof routerData]) {
             renderInstanse = routerData['404'].instance;

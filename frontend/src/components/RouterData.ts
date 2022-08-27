@@ -12,7 +12,7 @@ import LoginView from "./view/userView/loginView";
 import RegisterView from "./view/userView/registerView";
 /* import AdminPanelView from "./view/adminView/AdminPanelView"; */
 import AdminProductsView from "./view/adminView/adminProductsView";
-import UpdateOrderView from "./view/adminView/UpdateOrderView";
+/* import UpdateOrderView from "./view/adminView/UpdateOrderView"; */
 import WishlistView from "./view/userView/WishlistView";
 
 
@@ -87,11 +87,11 @@ const renderingData = {
         description: '',
         instance: new UpdateProductView(),
     },
-    '/adminpanel/orders/update/': {
-        title: 'Admin update order',
-        description: '',
-        instance: new UpdateOrderView(),
-    },
+    /*     '/adminpanel/orders/update/': {
+            title: 'Admin update order',
+            description: '',
+            instance: new UpdateOrderView(),
+        }, */
     '/favorites': {
         title: 'Wishlist',
         description: '',

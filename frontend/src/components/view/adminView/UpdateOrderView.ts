@@ -1,4 +1,4 @@
-import { IOrderUpdated, IUserData } from "../../types";
+/* import { IOrderUpdated, IUserData } from "../../types";
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
@@ -51,4 +51,4 @@ class UpdateOrderView extends Element {
 
 }
 
-export default UpdateOrderView;
+export default UpdateOrderView; */

@@ -31,7 +31,8 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const isAccess = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
+    const roles = ['admin', 'manager', 'courier'];
+    if (roles.includes(req.user) || roles.includes(req.user.role)) {
         next();
     } else {
         res.status(401).send({ message: 'You are not admin' });

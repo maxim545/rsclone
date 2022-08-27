@@ -116,6 +116,10 @@
     background: #e0d31a;
 }
 
+.tab__header-status_in-delivery {
+    background: #FB9620;
+}
+
 .tab__header-status_delivered {
     background: #03CEA4;
 }

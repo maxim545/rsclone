@@ -3,8 +3,6 @@
 @import url('./assets/css/fonts.css');
 @import url('./assets/css/normalize.css');
 @import url('./assets/css/reboot.css');
-@import url('./assets/css/header.css');
-@import url('./assets/css/maim-page-filters.css');
 
 
 
@@ -28,6 +26,7 @@ header h1 {
 } */
 
 
+@import 'nouislider/dist/nouislider.css';
 @import url('./assets/css/auth.css');
 @import url('./assets/css/sidebar.css');
 @import url('./assets/css/account.css');
@@ -35,5 +34,10 @@ header h1 {
 @import url('./assets/css/single-page.css');
 @import url('./assets/css/orders.css');
 @import url('./assets/css/admin-products.css');
+<<<<<<< HEAD
 @import url('./assets/css/alerts.css');
 @import 'nouislider/dist/nouislider.css';
+=======
+@import url('./assets/css/header.css');
+@import url('./assets/css/maim-page-filters.css');
+>>>>>>> e51104a (feat: add customization and filtering by price)

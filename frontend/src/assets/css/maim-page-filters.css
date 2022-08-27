@@ -23,6 +23,7 @@
   width: 100%;
   height: auto;
   order: 2;
+  margin-top: 20px;
 }
 
 .item__container .item {
@@ -35,6 +36,13 @@
   height: auto;
   order: 1;
   margin-right: 60px;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-bottom: 1px solid #E5E8ED;
 }
 
 .filters-content_name {
@@ -86,7 +94,7 @@
 }
 
 .filter-label {
-  margin: 0 0 8px 8px;
+  margin: 0 0 8px 0;
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
@@ -216,15 +224,11 @@
   border-color: #17696A;
 }
 
-hr {
-  width: 255px;
-}
-
-.main-top-bar {
+.main__top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .show-filters {
@@ -295,6 +299,34 @@ hr {
   transition: 0.3s;
 }
 
+@media (min-width : 1160px) {
+  .filters__and__cards__custom {
+    flex-direction: column;
+  }
+
+  .filters-wrapper__custom {
+    max-width: 100%;
+  }
+
+  .filters-content__custom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: auto;
+    gap: 20px;
+  }
+
+  .filter-container__price {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width : 1160px) {
+  .change-view {
+    display: none;
+  }
+}
+
 @media (max-width : 660px) and (min-width: 320px),
 (max-width: 320px) {
   .filters__and__cards {
@@ -311,4 +343,76 @@ hr {
     flex-direction: column;
     align-items: center;
   }
+
+  .main__top-bar {
+    justify-content: center;
+  }
+}
+
+.input-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.input-price p {
+  margin: 0;
+}
+
+.input-number__price {
+  padding-left: 12px;
+  box-sizing: border-box;
+  width: 110px;
+  height: 36px;
+  border: 1px solid #D7DADD;
+  border-radius: 4px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  color: #424551;
+}
+
+.filter-container__price {
+  width: 255px;
+  padding: 30px 0;
+  margin: 20px 0;
+}
+
+.noUi-connect {
+  background: #17696A;
+  cursor: pointer;
+}
+
+.noUi-horizontal {
+  height: 5px;
+}
+
+.noUi-handle {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50%;
+  background: #17696A;
+  border: 2px solid #fff;
+  box-shadow: none;
+  cursor: pointer;
+  top: -9px !important;
+}
+
+.noUi-handle:after {
+  display: none;
+}
+
+.noUi-handle:before {
+  display: none;
+}
+
+.noUi-tooltip {
+  display: none;
+}
+
+.noUi-touch-area:active+.noUi-tooltip {
+  display: block;
 }

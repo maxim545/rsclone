@@ -38,6 +38,7 @@ class AdminProductsView extends Element {
             this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
             (async () => {
                 const products = await this.api.getAllProduct();
+                console.dir(products);
                 productsSection.innerHTML = `
                     <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
                     <ul class="admin-products__list">

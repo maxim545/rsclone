@@ -1,4 +1,4 @@
-import { IOrderUpdated, IUserData } from "../../types";
+/* import { IOrderUpdated, IUserData } from "../../types";
 import Api from "../../api";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
@@ -38,6 +38,7 @@ class UpdateOrderView extends Element {
                 input.addEventListener('change', () => { inputsValues[item as keyof typeof inputsValues] = input.value; })
             })
             const updateBtn = this.createEl('button', `Update`, 'btn-update', container);
+            console.log(inputsValues);
             updateBtn.addEventListener('click', () => {
                 this.api.updateOrder(userData, inputsValues).then(() => {
                     window.location.hash = '#/adminpanel/orders'
@@ -50,4 +51,4 @@ class UpdateOrderView extends Element {
 
 }
 
-export default UpdateOrderView;
+export default UpdateOrderView; */

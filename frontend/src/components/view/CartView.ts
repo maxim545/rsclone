@@ -71,7 +71,8 @@ class CartView extends Element {
 
                         inputAmount.addEventListener('change', () => {
                             item.stock = inputAmount.value;
-                            this.updateCartPrice(cartsItems, priceEl, item.discount, item.stock, item.price);
+                            const finallyPrice = this.updateCartPrice(cartsItems, priceEl, item.discount, item.stock, item.price);
+                            orderData.price = Number(finallyPrice.toFixed(1));
                         });
 
 
@@ -204,6 +205,7 @@ class CartView extends Element {
         if (sidebarFinallyPrice) {
             sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
         }
+        return finallyPrice;
     }
 
 }

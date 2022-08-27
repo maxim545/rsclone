@@ -9,14 +9,14 @@ userRouter.get(
     async (req, res) => {
         try {
             const user = new User({
-                name: 'admin',
-                surname: 'admin',
+                name: 'manager',
+                surname: 'manager',
                 phone: '+3',
                 adress: 'str',
-                thirdname: 'admin',
-                email: 'admin@admin.com',
+                thirdname: 'manager',
+                email: 'manager@manager.com',
                 password: '123',
-                role: 'admin',
+                role: 'manager',
             });
             const admin = await user.save();
             res.send(admin);

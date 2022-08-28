@@ -57,7 +57,7 @@ class CreateProductView extends Element {
                   </div>
                   <div class="account__inputs-item">
                     <p class="account__inputs-title">Price</p>
-                    <input class="form-control account__input" type="number" data-create-input="price" min="1" max="10000" required>
+                    <input class="form-control account__input" type="number" data-create-input="price" min="1" max="10000" step="0.01" required>
                   </div>
                   <div class="account__inputs-item">
                     <p class="account__inputs-title">Brand</p>
@@ -79,7 +79,7 @@ class CreateProductView extends Element {
                 <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>Create New Product</button>
                 </form>
                 `;
-            const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`.form-control.account__input`);
+            const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`[data-create-input]`);
             for (const input of inputs) {
               input.addEventListener('change', () => {
                 inputsValues[input.dataset.createInput as keyof typeof inputsValues] = input.value;
@@ -98,8 +98,9 @@ class CreateProductView extends Element {
 
             const btn = accountWrap.querySelector(`[data-submit-btn]`) as HTMLButtonElement;
             const form = accountWrap.querySelector(`[data-create-product-form]`);
-            form?.addEventListener('submit', () => {
-                this.api.createProduct(userData, inputsValues)
+            form?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.api.createProduct(userData, inputsValues);
                 btn?.blur();
             });
         }

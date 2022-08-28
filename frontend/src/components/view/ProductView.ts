@@ -25,7 +25,7 @@ class ProductView extends Element {
 
     const productEl = this.createEl('div', '', 'main-container', null);
     (async () => {
-      const product = await this.api.getProduct(id) as IProduct;
+      const [product] = await this.api.getProduct(id) as [IProduct];
       const productData: ICartProduct = {
         ...product,
         color: '',

@@ -30,7 +30,8 @@ class Api {
                 },
             });
             const product = await response.json() as IProduct;
-            return product;
+            const { status } = response;
+            return [product, status];
         } catch (err) {
             console.error(err);
             return err;

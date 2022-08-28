@@ -35,7 +35,7 @@ class ChangeProductView extends Element {
         }
         else {
             (async () => {
-                const product = await this.api.getProduct(id) as IProduct;
+                const [product] = await this.api.getProduct(id) as [IProduct];
                 container.append(this.sidebarView.create(userData));
                 const accountWrap = this.createEl('div', '', 'account__wrapper', container);
                 accountWrap.innerHTML = `
@@ -84,7 +84,7 @@ class ChangeProductView extends Element {
                     <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>Update Product</button>
                     </form>
                     `;
-                const inputsValues: IProductCreated = {_id: id}
+                const inputsValues: IProductCreated = { _id: id }
                 const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`[data-update-input]`);
                 for (const input of inputs) {
                     input.value = product[input.dataset.updateInput as keyof typeof product];

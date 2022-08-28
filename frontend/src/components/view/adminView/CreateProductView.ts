@@ -70,7 +70,8 @@ class CreateProductView extends Element {
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">Image</p>
-                      <input class="form-control account__input" type="text" data-create-input="image" required>
+                      <input class="form-control account__inpu account__input_image" type="text" data-create-input="image" required>
+                      <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">Variant</p>
@@ -91,15 +92,18 @@ class CreateProductView extends Element {
             })
           }
 
-          // inputs.forEach(item => {
-          //     const inputContainer = this.createEl('div', '', 'item', null);
-          //     this.createEl('p', `Add ${item}`, 'item__title', inputContainer);
-          //     const input = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
-          //     input.type = 'text';
-          //     input.addEventListener('change', () => {
-          //         inputsValues[item as keyof typeof inputsValues] = input.value;
-          //     })
-          // })
+
+          const inputFile = accountWrap.querySelector<HTMLInputElement>(`[data-update-file]`);
+          inputFile?.addEventListener('change', () => {
+            const fd = new FormData();
+            const [image] = inputFile.files as FileList;
+            const inputImage = document.querySelector('.account__input_image') as HTMLInputElement;
+            fd.append('image', image);
+            this.api.addProductImage(userData, fd).then((data) => {
+              inputImage.value = data.image;
+              inputsValues.image = data.image;
+            })
+          })
 
           const btn = accountWrap.querySelector(`[data-submit-btn]`) as HTMLButtonElement;
           const form = accountWrap.querySelector(`[data-create-product-form]`);
@@ -107,6 +111,8 @@ class CreateProductView extends Element {
             e.preventDefault();
             this.api.createProduct(userData, inputsValues);
             btn?.blur();
+            alert('Product created successfully');
+            window.location.hash = '#/adminpanel/products'
           });
         } else {
           container.append(this.alertView.createNotAdminAlert())

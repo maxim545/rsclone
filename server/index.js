@@ -25,6 +25,8 @@ app.use(bodyParser.json());
 
 app.use('/uploads', imageRouter);
 
+app.use('/uploads', express.static('uploads'));
+
 app.use('/users', userRouter);
 
 app.use('/products', productRouter);

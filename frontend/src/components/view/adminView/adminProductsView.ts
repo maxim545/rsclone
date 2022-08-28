@@ -44,7 +44,10 @@ class AdminProductsView extends Element {
           const products = await this.api.getAllProduct();
           console.dir(products);
           productsSection.innerHTML = `
-                    <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
+                    <div class="admin-products__header">
+                      <h2 class="admin-products__header-title">All products</h2>
+                      <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
+                    </div>
                     <ul class="admin-products__list">
                       ${this.getProductsHTML(products)}
                     </ul>
@@ -80,7 +83,7 @@ class AdminProductsView extends Element {
       res = `${res}
                 <li class="admin-product">
                   <div class="admin-product__img-wrapper">
-                    <img src="${product.image}" alt="Product photo">
+                    <img src="http://localhost:5000${product.image}" alt="Product photo">
                   </div>
                   <div class="admin-product__title">
                     <h3>${product.name}</h3>

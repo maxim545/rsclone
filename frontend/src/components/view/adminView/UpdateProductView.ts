@@ -32,8 +32,6 @@ class ChangeProductView extends Element {
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     const id = window.location.hash.replace("#", "").slice(28);
     const container = this.createEl('div', '', 'container_main account', null);
-    // const inputs = ['name', 'year', 'color', 'category', 'price', 'brand', 'image', 'variant', 'discount'];
-
     (async () => {
       if (userData) {
         const [currentUser] = await this.api.loginUser({
@@ -75,7 +73,7 @@ class ChangeProductView extends Element {
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">Change Image</p>
-                        <input class="form-control account__input" type="text" data-update-input="image" required>
+                        <input class="form-control account__input account__input_image" type="text" data-update-input="image" required>
                         <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image">
                       </div>
                       <div class="account__inputs-item">
@@ -102,40 +100,14 @@ class ChangeProductView extends Element {
           const inputFile = accountWrap.querySelector<HTMLInputElement>(`[data-update-file]`);
           inputFile?.addEventListener('change', () => {
             const fd = new FormData();
+            const inputImage = document.querySelector('.account__input_image') as HTMLInputElement;
             const [image] = inputFile.files as FileList;
-            fd.append('img', image);
-            this.api.addProductImage(userData, fd)
+            fd.append('image', image);
+            this.api.addProductImage(userData, fd).then((data) => {
+              inputImage.value = data.image;
+              inputsValues.image = data.image;
+            })
           })
-
-          // inputs.forEach(item => {
-          //     const inputContainer = this.createEl('div', '', 'item', container);
-          //     this.createEl('p', `Add ${item}`, 'item__title', inputContainer);
-          //     const input = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
-          //     input.type = 'text';
-          //     input.value = product[item as keyof typeof product];
-          //     inputsValues[item as keyof typeof inputsValues] = input.value;
-          //     if (item === 'image') {
-          //         const imageInput = this.createEl('input', '', item, inputContainer) as HTMLInputElement;
-          //         imageInput.type = 'file'
-          //         imageInput.addEventListener('change', () => {
-          //             const fd = new FormData();
-          //             const [image] = imageInput.files as FileList;
-          //             fd.append('img', image);
-          //             this.api.addProductImage(userData, fd)
-          //         })
-          //     }
-          //
-          //     input.addEventListener('change', () => {
-          //         inputsValues[item as keyof typeof inputsValues] = input.value;
-          //     })
-          // })
-          // const updateBtn = this.createEl('button', `Update`, 'btn-update', null);
-          // updateBtn.addEventListener('click', () => {
-          //     this.api.updateProduct(userData, inputsValues).then(() => {
-          //         window.location.hash = '#/adminpanel/products'
-          //     })
-          // })
-
           const form = accountWrap.querySelector(`[data-update-product-form]`);
           form?.addEventListener('submit', (e) => {
             e.preventDefault();

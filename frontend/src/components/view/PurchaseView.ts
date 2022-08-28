@@ -63,7 +63,7 @@ class PurchaseView extends Element {
                     let subtotal = 0;
                     const shipping = orderItems.length * 5;
                     orderItems.forEach(product => {
-                        const cartItemEl = this.createEl('div', `<img src="${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
+                        const cartItemEl = this.createEl('div', `<img src="http://localhost:5000${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
                         const itemInfo = this.createEl('div', '', 'cart__row cart__row_info', cartItemEl);
                         this.createEl('div', product.name, 'cart__item-name', itemInfo);
                         this.createEl('div', `<span class=cart__item-name-key">Color:</span> ${product.color}`, 'cart__item-name-value', itemInfo);

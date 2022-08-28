@@ -45,7 +45,7 @@ class CatalogView extends Element {
       products.forEach(item => {
         const itemEl = this.createEl('a', '', 'item', itemsContainer, `/#/p/${item._id}`);
 
-        const image = `<img src="${item.image}" class="item__img" alt="image">`
+        const image = `<img src="http://localhost:5000${item.image}" class="item__img" alt="image">`
         const imageContainer = this.createEl('div', image, 'image-container', itemEl);
         const isExist = wishList.find(el => el.productId === item._id);
         if (isExist) {

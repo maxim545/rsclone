@@ -30,7 +30,7 @@ class UserSidebarView extends Element {
                 links.unshift('All products:#/adminpanel/products', 'All orders:#/adminpanel/orders')
             }
             const currentHash = window.location.hash;
-            if (userData.name && userData.surname && userData.email) {
+            if (typeof userData.name === 'string' && typeof userData.surname === 'string' && typeof userData.email === 'string') {
                 this.createEl('h2', `${userData.name} ${userData.surname}`, 'sidebar__user-name', wrapper);
                 this.createEl('p', userData.email, 'sidebar__user-email', wrapper);
                 if (currentUser.role !== 'user') {

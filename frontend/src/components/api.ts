@@ -270,6 +270,8 @@ class Api {
             const orderData = await response.json();
             const { status } = response
             return [orderData, status];
+
+
         } catch (err) {
             console.error(err);
             throw err;
@@ -278,14 +280,18 @@ class Api {
 
     async getAllWishItems(userData: IUserData) {
         try {
-            const response = await fetch(`${this.server}/wishlist/items`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${(userData.token) as string}`
-                },
-            });
-            const wishlistData = await response.json();
-            return wishlistData;
+            if (userData) {
+                const response = await fetch(`${this.server}/wishlist/items`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${(userData.token) as string}`
+                    },
+                });
+                const wishlistData = await response.json();
+                return wishlistData;
+            }
+            return []
+
         } catch (err) {
             console.error(err);
             throw err;

@@ -1,6 +1,7 @@
 import noUiSlider, { target, API } from 'nouislider';
 import Api from "../api";
 import Element from "../common/Element";
+import { IUserData, IWishListData } from "../types";
 
 
 interface AllFiltersObj {
@@ -34,16 +35,39 @@ class CatalogView extends Element {
 
     const filtersAndCards = this.createEl('div', '', 'filters__and__cards', null);
     const itemsContainer = this.createEl('div', '', 'item__container', filtersAndCards);
+    const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+
 
     (async () => {
       const products = await this.api.getAllProduct();
+      const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
       console.log(products);
       products.forEach(item => {
-        const itemEl = this.createEl('div', '', 'item', itemsContainer);
-        this.createEl('a', item.name, 'item__name', itemEl, `/#/p/${item._id}`);
-        const image = `<img src="${item.image}" class="img-thumbnail" alt="image">`
-        this.createEl('div', image, 'image-container', itemEl)
-        this.createEl('div', item.year, 'item__year', itemEl);
+        const itemEl = this.createEl('a', '', 'item', itemsContainer, `/#/p/${item._id}`);
+
+        const image = `<img src="${item.image}" class="item__img" alt="image">`
+        const imageContainer = this.createEl('div', image, 'image-container', itemEl);
+        const isExist = wishList.find(el => el.productId === item._id);
+        if (isExist) {
+          this.createEl('div', '<i class="bi bi-heart-fill"></i>', 'favorites-container', imageContainer);
+        }
+        else {
+          this.createEl('div', '<i class="bi bi-heart"></i>', 'favorites-container', imageContainer);
+        }
+
+        this.createEl('p', item.name, 'item__name', itemEl);
+        const allPrice = this.createEl('div', '', 'item__allprice', itemEl);
+
+        if (Number(item.discount) && Number(item.discount) > 0) {
+          const withDiscount = Number(item.price) * (100 - Number(item.discount)) / 100;
+          const discountPrice = this.createEl('div', `$${String(withDiscount)}`, 'item__price', allPrice);
+          discountPrice.classList.add('item__discount-price');
+          this.createEl('div', `$${item.price}`, 'item__without-discount', allPrice);
+          this.createEl('div', `-${item.discount}%`, 'sale-container', imageContainer);
+        }
+        else {
+          this.createEl('div', `$${item.price}`, 'item__price', allPrice);
+        }
       });
 
       filtersAndCards.innerHTML += `
@@ -257,7 +281,7 @@ class CatalogView extends Element {
             step: 1,
             tooltips: [true, true],
             connect: true,
-            range: { 'min': minAm-minAm, 'max': maxAm+500 }
+            range: { 'min': minAm - minAm, 'max': maxAm + 500 }
           });
 
         const inputNumberLow = document.getElementById('input-number_low') as HTMLInputElement;

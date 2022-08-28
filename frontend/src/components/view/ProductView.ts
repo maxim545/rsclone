@@ -1,4 +1,4 @@
-import { ICartProduct, IProduct, IUserData } from "../types";
+import { ICartProduct, IProduct, IUserData, IWishListData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -25,48 +25,48 @@ class ProductView extends Element {
 
     const productEl = this.createEl('div', '', 'main-container', null);
     (async () => {
-      const product = await this.api.getProduct(id) as IProduct;
+      const [product] = await this.api.getProduct(id) as [IProduct];
       const productData: ICartProduct = {
         ...product,
         color: '',
         size: '',
         stock: '',
       }
-      const itemEl = this.createEl('div', '', 'item', productEl);
+      const itemEl = this.createEl('div', '', 'product-item', productEl);
       if (product) {
         const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
         const stockNumber = +temp;
         itemEl.innerHTML = `
-                    <div class='item__heading'>
+                    <div class='product-item__heading'>
                       <h3>${product.name}</h3>
                       <span>Art. No. ${product._id.slice(0, 10)}</span>
                     </div>
-                    <div class="item__content">
-                      <div class="item__imgs">
+                    <div class="product-item__content">
+                      <div class="product-item__imgs">
                         <img src="${product.image}" alt="Product photo">
                       </div>
-                      <div class="item__text">
-                        <div class="item__prices">
-                          <b>$${product.price}</b>
+                      <div class="product-item__text">
+                        <div class="product-item__prices">
+                          ${this.getPrices(product.price, product.discount)}
                         </div>
                         <form>
-                        <div class="item__colors">
+                        <div class="product-item__colors">
                           <span>Color</span>
-                          <div class="item__radios">
+                          <div class="product-item__radios">
                             ${this.getColorBtns(product.color)}
                           </div>
                         </div>
-                        <div class="item__sizes">
+                        <div class="product-item__sizes">
                           <span>Size</span>
                           ${this.getSizesSelect(product.variant)}
                         </div>
-                        <div class="item__btns">
-                          <input class="item__stock" type="number" name="stock-number" min="1" max="${stockNumber}" value="1">
+                        <div class="product-item__btns">
+                          <input class="product-item__stock" type="number" name="stock-number" min="1" max="${stockNumber}">
                           ${this.getAddBtn()}
                           ${this.getFavBtn()}
                         </div>
                         </form>
-                        <div class="item__delivery">
+                        <div class="product-item__delivery">
                           <h4>Delivery</h4>
                           <span>Free standard shipping on orders <b>over $35</b> before tax, plus free returns.</span>
                           <table>
@@ -92,18 +92,18 @@ class ProductView extends Element {
                             </tr>
                           </table>
                         </div>
-                        <div class="item__socials">
+                        <div class="product-item__socials">
                           <b>Share:</b>
                           ${this.getSocials()}
                         </div>
-                        <div class="item__pays">
+                        <div class="product-item__pays">
                           ${this.getPayIcons()}
                         </div>
                       </div>
                     </div>
                 `;
-        const colorSpan = document.querySelector(`.item__color-span`);
-        const colorBtns = document.querySelector(`.item__colors`);
+        const colorSpan = document.querySelector(`.product-item__color-span`);
+        const colorBtns = document.querySelector(`.product-item__colors`);
         colorBtns?.addEventListener(`click`, (e) => {
           const ev = e?.target as HTMLElement;
           const radio = ev?.closest(`input`) as HTMLInputElement;
@@ -111,20 +111,28 @@ class ProductView extends Element {
             colorSpan.textContent = radio.value;
           }
         })
-        const colorRadios = colorBtns?.querySelectorAll(`.item__radio`) as NodeListOf<HTMLInputElement>;
+        const colorRadios = colorBtns?.querySelectorAll(`.product-item__radio`) as NodeListOf<HTMLInputElement>;
         for (const radio of colorRadios) {
           radio.style.setProperty('--color', `${radio.value}`);
         }
-        const addCartBtn = document.querySelector(`.item .item__cart`);
-        const favBtn = document.querySelector('.item__favourite')
+        const addCartBtn = document.querySelector(`.product-item__cart`);
+        const favBtn = document.querySelector('.product-item__favourite')
 
 
-        const sizeSelect = document.querySelector(`.item__size`);
+        const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+        let isExist = wishList.find(el => el.productId === id);
+        if (isExist && favBtn) {
+          favBtn.classList.add('active')
+        }
+
+
+        const stock = document.querySelector(`.product-item__stock`) as HTMLInputElement;
+        stock.value = '1';
+        const sizeSelect = document.querySelector(`.product-item__size`);
         sizeSelect?.addEventListener(`change`, (event) => {
           const select = event.currentTarget as HTMLSelectElement;
           const arr = product.variant.split(/:|, /);
           const ind = arr.indexOf(String(select.value));
-          const stock = document.querySelector(`.item__stock`) as HTMLInputElement;
           if (stock) {
             stock.max = arr[ind + 1];
             stock.value = String(Math.min(+stock.value, +arr[ind + 1]));
@@ -133,9 +141,14 @@ class ProductView extends Element {
           productData.stock = stock.value;
         });
 
+        stock.addEventListener(`change`, () => {
+          productData.stock = stock.value;
+        })
+
         addCartBtn?.addEventListener('click', () => {
           if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
             productData.color = colorSpan?.textContent;
+            console.log(productData.stock);
             this.controller.addToCart(productData);
             this.updateView.updateCart();
             alert('Product successfully added')
@@ -143,16 +156,24 @@ class ProductView extends Element {
             alert('Please choose color, size and amount')
           }
         });
+
         if (favBtn) {
           favBtn.addEventListener('click', () => {
             if (userData) {
-              const wishItem = {
-                productId: product._id,
-                isExist: true,
+              if (isExist) {
+                alert('This product is already in wishlist');
+              } else {
+                favBtn.classList.toggle('active')
+                const wishItem = {
+                  productId: product._id,
+                  isExist: true,
+                }
+                this.api.addWishItem(wishItem, userData).then((data) => {
+                  this.updateView.updateWishlistNum();
+                  alert('This product has been added to wishlist');
+                  isExist = data;
+                })
               }
-              this.api.addWishItem(wishItem, userData).then(() => {
-                this.updateView.updateWishlistNum();
-              })
             } else {
               alert('If u want add item to your wishList please register or sign in')
             }
@@ -165,30 +186,42 @@ class ProductView extends Element {
     return productEl;
   }
 
+  getPrices(price: string, discount: string) {
+    const discPrice = (Number(price) - Number(price) * Number(discount) / 100);
+    if (Number(discount)) {
+      return `
+      <div class="product-item__price product-item__price_orange">$${discPrice}</div>
+      <div class="product-item__price product-item__price_grey">$${price}</div>
+      <div class="product-item__price product-item__price_discount">-${discount}%</div>
+      `
+    }
+    return `<div class="product-item__price product-item__price_bold">$${price}</div>`
+  }
+
   getColorBtns(colors: string) {
     if (typeof colors !== `string` || colors.length === 0) {
       console.log('Error in ProductView getColorBtns');
       return ``;
     }
     const arr = colors.split(`, `);
-    let res = `<input class="item__radio" type="radio" id="good-color-${arr[0]}" name="good-colors" value="${arr[0]}" checked>`;
+    let res = `<input class="product-item__radio" type="radio" id="good-color-${arr[0]}" name="good-colors" value="${arr[0]}" checked>`;
     let i = 1;
     while (i !== arr.length) {
       res = `${res}
-              <input class="item__radio" type="radio" id="good-color-${arr[i]}" name="good-colors" value="${arr[i]}">
+              <input class="product-item__radio" type="radio" id="good-color-${arr[i]}" name="good-colors" value="${arr[i]}">
               `;
       i += 1;
     }
     res = `${res}
-              <span class="item__color-span">${arr[0]}</span>
+              <span class="product-item__color-span">${arr[0]}</span>
               `;
     return res;
   }
 
   getSizesSelect(sizes: string) {
     const arr = sizes.split(`, `);
-    let res = `<select class="item__size" name="select-size">
-            <option value="" disabled selected>Please select</option>
+    let res = `<select class="product-item__size" name="select-size">
+            <option value="" disabled selected>Please select size</option>
             `;
     for (const size of arr) {
       res = `${res}
@@ -203,7 +236,7 @@ class ProductView extends Element {
 
   getAddBtn() {
     return `
-          <button type="button" class="item__cart">
+          <button type="button" class="product-item__cart">
             <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M2.5944 2.00567C2.52929 2.00077 2.43894 2.00033 2.2695 2.00033H1.16667C0.798477 2.00033 0.5 1.70185 0.5 1.33366C0.5 0.965472 0.798477 0.666995 1.16667 0.666995H2.2695C2.27578 0.666995 2.28207 0.666995 2.28835 0.666994C2.43146 0.666976 2.57315 0.666959 2.69458 0.676108C2.82971 0.686289 2.9867 0.710203 3.14911 0.782649C3.37767 0.884606 3.57293 1.04883 3.71254 1.25655C3.81174 1.40415 3.8622 1.55472 3.89538 1.6861C3.9252 1.80417 3.94946 1.94377 3.97397 2.08476C3.97504 2.09095 3.97612 2.09714 3.9772 2.10334L4.13605 3.01672L12.812 3.27354C13.152 3.28359 13.4458 3.29228 13.6878 3.31893C13.9436 3.34709 14.1971 3.40006 14.4404 3.52964C14.809 3.726 15.1068 4.03282 15.2922 4.40704C15.4145 4.65401 15.46 4.90903 15.4805 5.16551C15.5 5.40816 15.5 5.7021 15.5 6.04223V6.0914C15.5 6.41104 15.5 6.68832 15.4821 6.91825C15.4631 7.16209 15.4213 7.40428 15.3095 7.64159C15.1395 8.0028 14.8653 8.30485 14.5221 8.50888C14.2967 8.64293 14.0597 8.70794 13.8188 8.75033C13.5917 8.79029 13.3157 8.81699 12.9975 8.84777L6.50826 9.47576C6.18213 9.50733 5.89956 9.53469 5.66381 9.53884C5.41403 9.54323 5.1636 9.52383 4.91219 9.43147C4.53514 9.29296 4.20854 9.04413 3.97491 8.71737C3.81913 8.49949 3.73395 8.2632 3.67188 8.02121C3.6133 7.79282 3.56467 7.51313 3.50854 7.19033L2.66358 2.33179C2.63455 2.16486 2.61864 2.07591 2.60265 2.01261C2.60208 2.01036 2.60153 2.00822 2.601 2.0062C2.59891 2.00602 2.59672 2.00585 2.5944 2.00567ZM4.36923 4.35754L4.81796 6.93772C4.8795 7.29156 4.9195 7.51875 4.96341 7.68995C5.00529 7.85324 5.03842 7.91236 5.05953 7.94188C5.1374 8.0508 5.24627 8.13375 5.37195 8.17992C5.40602 8.19243 5.47181 8.20868 5.64036 8.20571C5.81708 8.2026 6.04674 8.18086 6.40421 8.14627L12.8451 7.52296C13.1941 7.48919 13.4178 7.46706 13.5877 7.43717C13.7495 7.40869 13.8099 7.38114 13.8407 7.36283C13.9551 7.29482 14.0465 7.19413 14.1032 7.07373C14.1184 7.0413 14.1401 6.97853 14.1528 6.81474C14.1662 6.64279 14.1667 6.41791 14.1667 6.06733C14.1667 5.695 14.1662 5.45509 14.1515 5.2722C14.1374 5.0972 14.1136 5.03159 14.0974 4.99887C14.0356 4.87412 13.9363 4.77185 13.8135 4.7064C13.7812 4.68923 13.7164 4.66346 13.5418 4.64424C13.3595 4.62416 13.1197 4.61656 12.7475 4.60554L4.36923 4.35754Z"
@@ -222,12 +255,8 @@ class ProductView extends Element {
 
   getFavBtn() {
     return `
-          <button type="button" class="item__favourite">
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M7.99925 12.2715C4.93321 10.5252 3.22318 8.78955 2.39626 7.28361C1.54992 5.74228 1.62377 4.4441 2.0934 3.52273C3.05872 1.62892 5.80378 1.02333 7.4763 3.13865L7.99921 3.80001L8.52217 3.13868C10.195 1.02327 12.9402 1.62896 13.9055 3.52273C14.3751 4.44409 14.4489 5.74226 13.6025 7.28359C12.7756 8.78954 11.0654 10.5252 7.99925 12.2715ZM7.99928 1.73726C5.64647 -0.498482 2.17555 0.425546 0.905488 2.91723C0.20846 4.2847 0.198939 6.05212 1.22753 7.92536C2.247 9.78198 4.2796 11.7417 7.67675 13.6194L7.99924 13.7976L8.32173 13.6194C11.719 11.7417 13.7517 9.78199 14.7712 7.92538C15.7999 6.05214 15.7904 4.28472 15.0934 2.91723C13.8233 0.425498 10.3523 -0.498448 7.99928 1.73726Z"
-                      fill="#17696A"/>
-            </svg>
+          <button type="button" class="product-item__favourite">
+          <i class="bi bi-heart product-item__bi-heart"></i>
             <span>Favourite</span>
           </button>
         `;

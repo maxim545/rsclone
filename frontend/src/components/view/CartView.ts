@@ -45,8 +45,8 @@ class CartView extends Element {
                 for await (const item of cartsItems) {
                     orderData.status = 'processing';
                     orderData.orderItems.push(item);
-                    if (item) {
-                        const productDB = <IProduct>await this.api.getProduct(item._id);
+                    const [productDB, status] = await this.api.getProduct(item._id) as [IProduct, number];
+                    if (item && status !== 404) {
                         const prodSizes = productDB.variant.split(',');
                         const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
                         const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();

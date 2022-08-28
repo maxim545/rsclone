@@ -17,8 +17,8 @@ class Controller {
             cartData = [];
             cartData.push(productData);
         } else {
-            const product = cartData.find(item => item._id === productData._id);
-            if (product && product.size === productData.size && product.color === productData.color) {
+            const product = cartData.find(item => item._id === productData._id && item.size === productData.size && item.color === productData.color);
+            if (product) {
                 const stock: number = Number(product.stock) + Number(productData.stock);
                 product.stock = String(stock);
             } else {

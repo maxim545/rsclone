@@ -38,7 +38,7 @@ class ChangeProductView extends Element {
           email: userData.email,
           password: userData.password
         }) as [IUserData];
-        if (currentUser.role !== 'user') {
+        if (currentUser.role !== 'user' && currentUser.role !== 'courier') {
           const [product] = await this.api.getProduct(id) as [IProduct];
           container.append(this.sidebarView.create(userData));
           const accountWrap = this.createEl('div', '', 'account__wrapper', container);

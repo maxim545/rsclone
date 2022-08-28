@@ -36,10 +36,7 @@ class CreateProductView extends Element {
           email: userData.email,
           password: userData.password
         }) as [IUserData];
-        if (currentUser.role === 'user' || currentUser.role === 'courier') {
-          container.append(this.alertView.createNotAdminAlert())
-        }
-        else {
+        if (currentUser.role !== 'user') {
           container.append(this.sidebarView.create(userData));
           const accountWrap = this.createEl('div', '', 'account__wrapper', container);
           const inputsValues: IProductCreated = {};
@@ -111,6 +108,8 @@ class CreateProductView extends Element {
             this.api.createProduct(userData, inputsValues);
             btn?.blur();
           });
+        } else {
+          container.append(this.alertView.createNotAdminAlert())
         }
       } else {
         container.append(this.alertView.createNotAdminAlert())

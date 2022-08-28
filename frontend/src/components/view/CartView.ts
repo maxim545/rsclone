@@ -91,7 +91,7 @@ class CartView extends Element {
                             this.updateCartPrice(cartsItems, priceEl);
                             if (!cartsItems.length) {
                                 main.innerHTML = '';
-                                main.append(this.createEmptyAlert())
+                                main.append(this.alertView.createEmptyAlert('cart'))
                             }
                         });
                     }
@@ -107,7 +107,7 @@ class CartView extends Element {
                 }
             })().catch(err => { console.error(err) });
         } else {
-            main.append(this.createEmptyAlert())
+            main.append(this.alertView.createEmptyAlert('cart'))
         }
         return container;
     }
@@ -213,14 +213,6 @@ class CartView extends Element {
             sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
         }
         return finallyPrice;
-    }
-
-    createEmptyAlert() {
-        const title = 'Your cart is empty';
-        const shopLink = `<a class="acoount__link" href="/#">main page</a>`
-        const text = `Go to the ${shopLink} and select the product you are interested in.`
-        const alert = this.alertView.createStaticAlert(title, text, 'warning')
-        return alert
     }
 
 }

@@ -178,8 +178,15 @@
         padding: 20px 10px;
     }
 
-    .admin-product>div {
+    .admin-product > div {
         margin-right: 0;
+    }
+
+    .admin-product__title,
+    .admin-product__price {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .admin-product__btns {

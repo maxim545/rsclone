@@ -37,6 +37,20 @@
     margin-bottom: 8px;
 }
 
+.account__article {
+    display: flex;
+    margin-bottom: 5px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #787A80;
+}
+
+.account__input_file {
+    margin-top: 10px;
+}
+
 
 @media (max-width: 1079px) {
 

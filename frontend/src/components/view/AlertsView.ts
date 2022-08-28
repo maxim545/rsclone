@@ -23,6 +23,15 @@ class PurchaseView extends Element {
         return container
     }
 
+    createLoginAlert() {
+        const title = 'You are already logged.';
+        const text = `You are already logged into your current account`
+        const container = this.createEl('div', '', `alert alert-warning`, null);
+        this.createEl('h4', title, 'alert-heading', container);
+        this.createEl('p', text, 'alert-text', container);
+        return container
+    }
+
     createNotAdminAlert() {
         const title = 'You are not admin.';
         const text = `You must have administrator rights to access this page.`

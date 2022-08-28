@@ -47,7 +47,7 @@ class ProductView extends Element {
                       </div>
                       <div class="product-item__text">
                         <div class="product-item__prices">
-                          <b>$${product.price}</b>
+                          ${this.getPrices(product.price, product.discount)}
                         </div>
                         <form>
                         <div class="product-item__colors">
@@ -171,6 +171,18 @@ class ProductView extends Element {
     return productEl;
   }
 
+  getPrices(price: string, discount: string) {
+    const discPrice = (Number(price) - Number(price) * Number(discount) / 100);
+    if (Number(discount)) {
+      return `
+      <div class="product-item__price product-item__price_orange">$${discPrice}</div>
+      <div class="product-item__price product-item__price_grey">$${price}</div>
+      <div class="product-item__price product-item__price_discount">-${discount}%</div>
+      `
+    }
+    return `<div class="product-item__price product-item__price_bold">$${price}</div>`
+  }
+
   getColorBtns(colors: string) {
     if (typeof colors !== `string` || colors.length === 0) {
       console.log('Error in ProductView getColorBtns');
@@ -194,7 +206,7 @@ class ProductView extends Element {
   getSizesSelect(sizes: string) {
     const arr = sizes.split(`, `);
     let res = `<select class="product-item__size" name="select-size">
-            <option value="" disabled selected>Please select</option>
+            <option value="" disabled selected>Please select size</option>
             `;
     for (const size of arr) {
       res = `${res}

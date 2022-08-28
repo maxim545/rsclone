@@ -1,7 +1,6 @@
 .main-container {
     max-width: 1230px;
     width: 100%;
-    padding: 0 20px;
     padding-bottom: 40px;
     margin: 0 auto;
 }
@@ -65,15 +64,44 @@
 }
 
 .product-item__prices {
+    display: flex;
     margin-bottom: 25px;
 }
 
-.product-item__prices b {
+.product-item__price_orange {
     font-weight: 700;
     font-size: 24px;
     line-height: 1.3;
     color: #FF4242;
 }
+
+.product-item__price_grey {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 150%;
+    text-decoration-line: line-through;
+    color: #787A80;
+    margin-left: 10px;
+}
+
+.product-item__price_discount {
+    background: #FF4242;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 160%;
+    color: #fff;
+    padding: 3px 10px 4px;
+    border-radius: 4px;
+    margin-left: 25px;
+}
+
+.product-item__price_bold {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.3;
+    color: #333;
+}
+
 
 .product-item__colors {
     margin-bottom: 25px;
@@ -82,14 +110,25 @@
 .product-item__radios {
     display: flex;
     align-items: center;
-    margin-top: 8px;
-    margin-left: 3px;
+    margin-top: 16px;
+    margin-left: 10px;
 }
 
 .product-item__radios span {
     text-transform: capitalize;
     margin-left: 5px;
 }
+
+.product-item__size {
+    cursor: pointer;
+}
+
+.product-item__size:focus {
+    outline: none;
+    border: 1px solid #D7DADD;
+    box-shadow: 0 0 0 3px rgba(10, 71, 79, 0.11);
+}
+
 
 .product-item__sizes {
     display: flex;
@@ -187,6 +226,12 @@
 
 .product-item__stock {
     cursor: pointer;
+}
+
+.product-item__stock:focus {
+    outline: none;
+    border: 1px solid #D7DADD;
+    box-shadow: 0 0 0 3px rgba(10, 71, 79, 0.11);
 }
 
 .product-item__favourite {
@@ -298,18 +343,45 @@
         flex-direction: column;
     }
 
+    .product-item__sizes {
+        width: 100%;
+    }
+
+    .product-item__stock {
+        width: 100%;
+    }
+
     .product-item__heading span {
         align-self: flex-end;
         margin-bottom: 20px;
     }
 
+    .product-item__btns {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .product-item__btns button {
-        line-height: 16px;
-        padding-top: 7px;
-        padding-bottom: 7px;
+        flex-basis: 100%;
+        margin-left: 0px;
+    }
+
+    .product-item__sizes select {
+        width: 350px;
+        max-width: 100%;
     }
 
     .product-item__pays div {
         margin-right: 3%;
     }
+
+    .product-item__cart {
+        margin-top: 20px;
+    }
+
+    .product-item__favourite {
+        margin-top: 20px;
+    }
+
+
 }

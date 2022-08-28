@@ -139,9 +139,7 @@ class PurchaseView extends Element {
                     orderContent.append(this.addUserInfo(item.user))
                 })
             } else {
-                const title = 'You are not admin';
-                const text = 'You must be an admin to access this page'
-                container.append(this.alertView.createStaticAlert(title, text))
+                container.append(this.alertView.createNotAdminAlert())
             }
         })().catch(err => { console.error(err) });
 

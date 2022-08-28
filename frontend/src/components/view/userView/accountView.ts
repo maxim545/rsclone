@@ -3,6 +3,7 @@ import Controller from "../../Controller";
 import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "./UserSidebarView";
+import AlertsView from "../AlertsView";
 
 class AccountView extends Element {
 
@@ -12,20 +13,22 @@ class AccountView extends Element {
 
     private sidebarView: UserSidebarView
 
+    private alertView: AlertsView;
+
+
     constructor() {
         super()
         this.controller = new Controller();
         this.updateView = new UpdateView();
         this.sidebarView = new UserSidebarView();
+        this.alertView = new AlertsView();
     }
 
     create() {
         const container = this.createEl('div', '', 'container_main account', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         if (!userData) {
-            const enterLink = `<a class="acoount__link" href="#/login">enter</a>`
-            const registerLink = `<a class="acoount__link" href="#/register">register</a>`
-            this.createEl('div', `Please ${enterLink} in your account or ${registerLink}`, 'account__warning', container);
+            container.append(this.alertView.createNotLoginAlert())
         }
         else {
             container.append(this.sidebarView.create(userData))

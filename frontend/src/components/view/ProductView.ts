@@ -1,4 +1,4 @@
-import { ICartProduct, IProduct, IUserData } from "../types";
+import { ICartProduct, IProduct, IUserData, IWishListData } from "../types";
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
@@ -118,6 +118,14 @@ class ProductView extends Element {
         const addCartBtn = document.querySelector(`.product-item__cart`);
         const favBtn = document.querySelector('.product-item__favourite')
 
+
+        const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+        let isExist = wishList.find(el => el.productId === id);
+        if (isExist && favBtn) {
+          favBtn.classList.add('active')
+        }
+
+
         const stock = document.querySelector(`.product-item__stock`) as HTMLInputElement;
         stock.value = '1';
         const sizeSelect = document.querySelector(`.product-item__size`);
@@ -152,13 +160,20 @@ class ProductView extends Element {
         if (favBtn) {
           favBtn.addEventListener('click', () => {
             if (userData) {
-              const wishItem = {
-                productId: product._id,
-                isExist: true,
+              if (isExist) {
+                alert('This product is already in wishlist');
+              } else {
+                favBtn.classList.toggle('active')
+                const wishItem = {
+                  productId: product._id,
+                  isExist: true,
+                }
+                this.api.addWishItem(wishItem, userData).then((data) => {
+                  this.updateView.updateWishlistNum();
+                  alert('This product has been added to wishlist');
+                  isExist = data;
+                })
               }
-              this.api.addWishItem(wishItem, userData).then(() => {
-                this.updateView.updateWishlistNum();
-              })
             } else {
               alert('If u want add item to your wishList please register or sign in')
             }

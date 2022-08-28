@@ -102,7 +102,6 @@
     color: #333;
 }
 
-
 .product-item__colors {
     margin-bottom: 25px;
 }
@@ -237,7 +236,7 @@
 .product-item__favourite {
     flex-basis: 40%;
     border: 1px solid #17696A;
-    background: none;
+    background-color: transparent;
     font-weight: 700;
     font-size: 14px;
     line-height: 44px;
@@ -258,6 +257,17 @@
 }
 
 .product-item__favourite:hover .product-item__bi-heart {
+    color: #fff;
+    transition: all 0.5s;
+}
+
+.product-item__favourite.active {
+    background: #17696A;
+    color: #fff;
+    transition: all 0.5s;
+}
+
+.product-item__favourite.active .product-item__bi-heart {
     color: #fff;
     transition: all 0.5s;
 }

@@ -32,7 +32,7 @@ wishlistRouter.post(
                 user: req.user._id,
             });
             await wishItem.save();
-            res.status(201).send({ message: 'New item added to wishlist' });
+            res.status(201).send(wishItem);
         }
     },
 );

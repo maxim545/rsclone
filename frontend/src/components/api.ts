@@ -267,11 +267,8 @@ class Api {
                 },
                 body: JSON.stringify(cartsData),
             });
-            const orderData = await response.json();
-            const { status } = response
-            return [orderData, status];
-
-
+            const data = await response.json();
+            return data;
         } catch (err) {
             console.error(err);
             throw err;

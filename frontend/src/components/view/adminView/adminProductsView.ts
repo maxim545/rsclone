@@ -36,7 +36,7 @@ class AdminProductsView extends Element {
           email: userData.email,
           password: userData.password
         }) as [IUserData];
-        if (currentUser.role !== 'user') {
+        if (currentUser.role === 'admin') {
           container.append(this.sidebarView.create(userData));
           const productsSection = this.createEl(`section`, ``, `admin-products`, container);
           const productsEl = this.createEl(`div`, `Admin products`, `admin-products`, null);

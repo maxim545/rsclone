@@ -26,8 +26,10 @@ class UserSidebarView extends Element {
                 email: userData.email,
                 password: userData.password
             }) as [IUserData];
-            if (currentUser.role === 'admin' || currentUser.role === 'manager') {
+            if (currentUser.role === 'admin') {
                 links.unshift('All products:#/adminpanel/products', 'All orders:#/adminpanel/orders')
+            } else if (currentUser.role === 'courier' || currentUser.role === 'manager') {
+                links.unshift('All orders:#/adminpanel/orders')
             }
             const currentHash = window.location.hash;
             if (typeof userData.name === 'string' && typeof userData.surname === 'string' && typeof userData.email === 'string') {

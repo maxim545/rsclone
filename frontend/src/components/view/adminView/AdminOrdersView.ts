@@ -48,7 +48,7 @@ class PurchaseView extends Element {
                     if (localStorage.getItem('adminSortParameters')) { this.sortOrders(purchases); }
                     const ordersList = this.createEl('div', '', 'tabs', ordersEl);
                     purchases.forEach((item, i) => {
-                        if (currentUser.role === 'admin' || currentUser.role === 'manager' || (currentUser.role === 'courier' && item.orderStatus === 'progressing')) {
+                        if (currentUser.role === 'admin' || currentUser.role === 'manager' || (currentUser.role === 'courier' && (item.orderStatus === 'progressing' || item.orderStatus === 'in-delivery'))) {
                             const orderDate = new Date(item.updatedAt);
                             const day = orderDate.getDate()
                             const year = orderDate.getFullYear();
@@ -63,20 +63,17 @@ class PurchaseView extends Element {
                             const orderbHeader = this.createEl('div', '', 'tab__header', labelEl);
                             this.createEl('div', `#${item._id.toUpperCase().slice(0, 10)}`, 'tab__header-item tab__header-id', orderbHeader);
                             this.createEl('div', `<i class="bi bi-clock"></i> ${month} ${day}, ${year}`, 'tab__header-item tab__header-date', orderbHeader);
-                            if (currentUser.role !== 'courier') {
-                                const selectEl = this.createEl('select', '', 'form-select tab__header-item tab__header-item-select', orderbHeader) as HTMLSelectElement;
-                                this.orderStatus.forEach(el => {
-                                    const optionEl = this.createEl('option', el, 'orders__option', selectEl) as HTMLOptionElement;
-                                    optionEl.value = el;
-                                    if (el === item.orderStatus) { optionEl.selected = true; }
-                                });
-                                selectEl.addEventListener('change', () => {
-                                    const newOrderData = { _id: item._id, orderStatus: selectEl.value }
-                                    this.api.updateOrder(userData, newOrderData)
-                                });
-                            } else {
-                                this.createEl('div', `<span class="tab__header-status tab__header-status_${item.orderStatus}">${item.orderStatus}</span>`, 'tab__header-item', orderbHeader);
-                            }
+                            const selectEl = this.createEl('select', '', 'form-select tab__header-item tab__header-item-select', orderbHeader) as HTMLSelectElement;
+                            this.orderStatus.forEach(el => {
+                                const optionEl = this.createEl('option', el, 'orders__option', selectEl) as HTMLOptionElement;
+                                optionEl.value = el;
+                                if (el === item.orderStatus) { optionEl.selected = true; }
+                            });
+                            selectEl.addEventListener('change', () => {
+                                const newOrderData = { _id: item._id, orderStatus: selectEl.value }
+                                this.api.updateOrder(userData, newOrderData)
+                            });
+
                             this.createEl('div', `$${String(item.price)}`, 'tab__header-item tab__header-price', orderbHeader);
                             if (currentUser.role === 'admin') {
                                 const orderBtnEl = this.createEl('div', '<i class="bi bi-trash3"></i>', 'tab__header-item tab__header-delete-btn', orderbHeader);

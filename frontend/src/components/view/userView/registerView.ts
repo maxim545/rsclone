@@ -3,7 +3,7 @@ import Controller from "../../Controller";
 import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 import AlertsView from "../AlertsView";
-import langData from "../../data-lang";
+import { langData } from "../../data-lang";
 
 class RegisterView extends Element {
 
@@ -21,9 +21,9 @@ class RegisterView extends Element {
     }
 
     create() {
-        const lang = localStorage.getItem('current-lang') as string;
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const container = this.createEl('div', '', 'container_main', null);
+        const lang = localStorage.getItem('current-lang') as string;
         document.title = langData['reg-page-title'][lang as keyof typeof langData['reg-page-title']];
         if (userData) {
             container.append(this.alertView.createLoginAlert())

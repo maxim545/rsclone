@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import langData from "../data-lang";
+import { langData } from "../data-lang";
 import { ICartProduct, IUserData, IWishListData } from "../types";
 
 

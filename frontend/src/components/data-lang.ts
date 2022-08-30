@@ -1,6 +1,6 @@
 import { TLang } from "./types";
 
-const langData: TLang = {
+export const langData: TLang = {
     "header-phone": {
         "eng": "Available 24/7 at",
         "ru": "Доступен 24/7 по телефону",
@@ -108,4 +108,74 @@ const langData: TLang = {
 
 }
 
-export default langData;
+export const accData: TLang = {
+    "acc-page-title": {
+        "eng": "My profile",
+        "ru": "Мой профиль",
+    },
+    "name": {
+        "eng": "Change name",
+        "ru": "Изменить имя",
+    },
+    "surname": {
+        "eng": "Change surname",
+        "ru": "Изменить фимилию",
+    },
+    "thirdname": {
+        "eng": "Change thirdname",
+        "ru": "Изменить отчество",
+    },
+    "email": {
+        "eng": "Change email",
+        "ru": "Изменить почту",
+    },
+    "password": {
+        "eng": "Change password",
+        "ru": "Изменить Пароль",
+    },
+    "repPassword": {
+        "eng": "Confirm password",
+        "ru": "Повторите пароль",
+    },
+    "phone": {
+        "eng": "Change phone",
+        "ru": "Изменить телефон",
+    },
+    "adress": {
+        "eng": "Change adress",
+        "ru": "Изменить aдресс",
+    },
+    "btn": {
+        "eng": "Save changes",
+        "ru": "Сохранить изенения",
+    },
+    "all-roducts": {
+        "eng": "All products",
+        "ru": "Все товары",
+    },
+    "all-orders": {
+        "eng": "All orders",
+        "ru": "Все заказы",
+    },
+    "cart": {
+        "eng": "Сart",
+        "ru": "Корзина",
+    },
+    "profile": {
+        "eng": "My profile",
+        "ru": "Мой профиль",
+    },
+    "favorite": {
+        "eng": "Wishlist",
+        "ru": "Избранное",
+    },
+    "myorders": {
+        "eng": "My orders",
+        "ru": "Мои заказы",
+    },
+    "signout": {
+        "eng": "Sign out",
+        "ru": "Выйти из профиля",
+    },
+
+}

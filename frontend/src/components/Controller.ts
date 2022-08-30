@@ -1,5 +1,5 @@
 import Api from './api';
-import langData from './data-lang';
+import { langData } from './data-lang';
 import { ICartProduct, IOrderData, IUserData, TLang } from './types';
 
 class Controller {
@@ -89,6 +89,7 @@ class Controller {
             unputsValues.token = curUser.token
             const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
             localStorage.setItem('userData', JSON.stringify(userData));
+            alert('Your data has been successfully changed');
         } else {
             alert('Please fill all fields');
         }
@@ -103,7 +104,7 @@ class Controller {
     }
 
     chageLang(lang: string) {
-        const data: TLang = langData
+        /* const data: TLang = langData */
         const currentLang: string = lang.toLowerCase();
         localStorage.setItem('current-lang', currentLang);
         /* const allElements = document.querySelectorAll('[data-lng]');

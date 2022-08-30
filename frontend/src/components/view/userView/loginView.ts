@@ -3,7 +3,7 @@ import Element from "../../common/Element";
 import Controller from "../../Controller";
 import UpdateView from "../../Update";
 import AlertsView from "../AlertsView";
-import langData from "../../data-lang";
+import { langData } from "../../data-lang";
 
 class LoginView extends Element {
 

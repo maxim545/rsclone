@@ -33,6 +33,14 @@ const langData: TLang = {
         "eng": "Search for products...",
         "ru": "Поиск одежды...",
     },
+    "header-sale": {
+        "eng": "Up to 70% Off.",
+        "ru": "Скидки до 70%.",
+    },
+    "header-salelink": {
+        "eng": "Shop our latest sale styles",
+        "ru": "Наша последняя распродажа",
+    },
     "login-page-title": {
         "eng": "Sign in page",
         "ru": "Страница входа",
@@ -65,6 +73,39 @@ const langData: TLang = {
         "eng": "Your working email",
         "ru": "Укажите вашу почту",
     },
+    "reg-page-title": {
+        "eng": "Register page",
+        "ru": "Страница регистрации",
+    },
+    "reg-title": {
+        "eng": "Sign up",
+        "ru": "Регистрация",
+    },
+    "reg-subtitle": {
+        "eng": "Registration takes less than a minute but gives you full control over your orders.",
+        "ru": "Регистрация занимает меньше минуты, но дает вам полный контроль над вашими заказами.",
+    },
+    "reg-name": {
+        "eng": "Name",
+        "ru": "Имя",
+    },
+    "reg-email": {
+        "eng": "Email",
+        "ru": "Почта",
+    },
+    "reg-password": {
+        "eng": "Password",
+        "ru": "Пароль",
+    },
+    "reg-repPassword": {
+        "eng": "Confirm password",
+        "ru": "Подтвердите пароль",
+    },
+    "reg-register": {
+        "eng": `Already have an account? <a class="auth__link" href="#/login">Sign in</a>`,
+        "ru": `У вас уже есть аккаунт? <a class="auth__link" href="#/login">Войти</a>`,
+    },
+
 }
 
 export default langData;

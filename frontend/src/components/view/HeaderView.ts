@@ -141,8 +141,8 @@ class HeaderView extends Element {
 
     const bottomBarWrapper = this.createEl('div', '', 'header__bottom__wrapper', headerContainer);
     const bottomContent = this.createEl('div', '', 'header__bottom__content', bottomBarWrapper);
-    this.createEl('div', 'Up to 70% Off.', 'bottom__link-offer_left', bottomContent);
-    this.createEl('a', 'Shop our latest sale styles', 'bottom__link-offer_right', bottomContent, '');
+    this.createEl('div', langData['header-sale'][currentLang as keyof typeof langData['header-sale']], 'bottom__link-offer_left', bottomContent);
+    this.createEl('a', langData['header-salelink'][currentLang as keyof typeof langData['header-salelink']], 'bottom__link-offer_right', bottomContent, '');
 
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     if (userData) {

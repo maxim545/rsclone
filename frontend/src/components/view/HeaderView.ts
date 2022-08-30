@@ -10,6 +10,7 @@ class HeaderView extends Element {
 
   private api: Api;
 
+
   constructor() {
     super();
     this.api = new Api();
@@ -41,9 +42,25 @@ class HeaderView extends Element {
     const topbarContentRightLangImg = this.createEl('img', '', 'header__topbar__lang__img', topbarContentRightLangBox) as HTMLImageElement;
     topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
     const topbarContentRightLang = this.createEl('select', '', 'header__topbar__lang', topbarContentRightLangBox) as HTMLSelectElement;
+    topbarContentRightLang.addEventListener('change', () => {
+      this.controller.chageLang(topbarContentRightLang.value)
+    })
+    const currentLang = localStorage.getItem('current-lang');
     const topbarContentRightLangEng = this.createEl('option', 'Eng', 'topbar__lang__eng', topbarContentRightLang) as HTMLOptionElement;
-    topbarContentRightLangEng.selected = true;
     const topbarContentRightLangRu = this.createEl('option', 'Ru', 'topbar__lang__ru', topbarContentRightLang) as HTMLOptionElement;
+    if (currentLang) {
+      if (currentLang === 'eng') {
+        topbarContentRightLangEng.selected = true;
+        topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
+      } else if (currentLang === 'ru') {
+        topbarContentRightLangRu.selected = true;
+        topbarContentRightLangImg.src = './/assets/images/ru_lang.png';
+      }
+    } else {
+      localStorage.setItem('current-lang', 'eng');
+      topbarContentRightLangEng.selected = true;
+      topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
+    }
     topbarContentRightLangEng.value = 'Eng';
     topbarContentRightLangRu.value = 'Ru';
     let lang = '';

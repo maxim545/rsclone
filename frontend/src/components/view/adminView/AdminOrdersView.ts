@@ -1,5 +1,5 @@
 import { IUserData, IOrders, IProduct } from "../../types";
-import monthNames from "../../utils";
+import { monthNames } from "../../utils";
 import Api from "../../api";
 import UserSidebarView from "../userView/UserSidebarView";
 import Controller from "../../Controller";

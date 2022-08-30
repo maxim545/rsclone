@@ -1,5 +1,6 @@
 import Api from './api';
-import { ICartProduct, IOrderData, IUserData } from './types';
+import langData from './data-lang';
+import { ICartProduct, IOrderData, IUserData, TLang } from './types';
 
 class Controller {
 
@@ -99,6 +100,23 @@ class Controller {
         localStorage.removeItem('cartData');
         window.location.hash = '/purchases'
         if (status === 201) { alert('Your order has been created') }
+    }
+
+    chageLang(lang: string) {
+        const data: TLang = langData
+        const currentLang: string = lang.toLowerCase();
+        localStorage.setItem('current-lang', currentLang);
+        /* const allElements = document.querySelectorAll('[data-lng]');
+        allElements.forEach((el) => {
+            if (el instanceof HTMLElement) {
+                const datasetName = el.dataset.lng;
+                if (datasetName) {
+                    const currentText = data[datasetName];
+                    el.innerHTML = currentText[currentLang as keyof typeof currentText]
+                }
+            }
+        }) */
+        window.location.reload();
     }
 
 }

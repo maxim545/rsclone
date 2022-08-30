@@ -177,5 +177,55 @@ export const accData: TLang = {
         "eng": "Sign out",
         "ru": "Выйти из профиля",
     },
+}
 
+export const alertsData: TLang = {
+    "fav-title": {
+        "eng": "You haven't added anything to your wishlist.",
+        "ru": "Вы ничего не добавили в избранное.",
+    },
+    "fav-text": {
+        "eng": `Go to the <a class="acoount__link" href="/#">main page</a> and select the product you are interested in.`,
+        "ru": `Перейдите на <a class="acoount__link" href="/#">главную страницу</a> и выберите интересующий вас товар.`,
+    },
+    "wl-title": {
+        "eng": "You haven't added anything to your cart.",
+        "ru": "Вы ничего не добавили в корзину.",
+    },
+    "wl-text": {
+        "eng": `Go to the <a class="acoount__link" href="/#">main page</a> and select the product you are interested in.`,
+        "ru": `Перейдите на <a class="acoount__link" href="/#">главную страницу</a> и выберите интересующий вас товар.`,
+    },
+    "not-login-title": {
+        "eng": "You are not registered.",
+        "ru": "Вы не зарегистрированы.",
+    },
+    "not-login-text": {
+        "eng": `Please <a class="acoount__link" href="#/login">sign in</a> in your account or <a class="acoount__link" href="#/register">register</a> new account.`,
+        "ru": `Пожалуйста, <a class="acoount__link" href="#/login">войдите</a> в свой аккаунт или <a class="acoount__link" href="#/register">зарегистрируйте</a> новый аккаунт.`,
+    },
+    "login-title": {
+        "eng": "You are already logged.",
+        "ru": "Вы уже вошли.",
+    },
+    "login-text": {
+        "eng": `You are already logged into your current account.`,
+        "ru": `Вы уже вошли в свою текущую учетную запись.`,
+    },
+    "admin-title": {
+        "eng": "You are not admin.",
+        "ru": "Вы не админ.",
+    },
+    "admin-text": {
+        "eng": `You must have administrator rights to access this page.`,
+        "ru": `Для доступа к этой странице у вас должны быть права администратора.`,
+    },
+    "404-title": {
+        "eng": "Page Not Found",
+        "ru": "Страница не найдена",
+    },
+    "404-text": {
+        "eng": `The is not the page you are looking for.`,
+        "ru": `Это не та страница, которую вы ищете.`,
+    },
 }

@@ -91,7 +91,7 @@ class CartView extends Element {
                             this.updateCartPrice(cartsItems, priceEl);
                             if (!cartsItems.length) {
                                 main.innerHTML = '';
-                                main.append(this.alertView.createEmptyAlert('cart'))
+                                main.append(this.alertView.createEmptyCartAlert())
                             }
                         });
                     }
@@ -107,7 +107,7 @@ class CartView extends Element {
                 }
             })().catch(err => { console.error(err) });
         } else {
-            main.append(this.alertView.createEmptyAlert('cart'))
+            main.append(this.alertView.createEmptyCartAlert())
         }
         return container;
     }

@@ -46,7 +46,7 @@ class AccountView extends Element {
                 let itemsAmount = wishList.length;
                 if (!itemsAmount) {
                     wrapper.innerHTML = ''
-                    wrapper.append(this.alertView.createEmptyAlert('wishlists'))
+                    wrapper.append(this.alertView.createEmptyFavAlert())
                 }
                 for (const item of wishList) {
                     const [product, status] = await this.api.getProduct(item.productId) as [IProduct, number];
@@ -64,7 +64,7 @@ class AccountView extends Element {
                         const discPrice = (Number(product.price) - Number(product.price) * Number(product.discount) / 100);
                         const withoutDisc = Number(product.price);
                         if (Number(product.discount)) {
-                            const discountEl = this.createEl('div', `-${product.discount}%`, 'wishlit__item-discount', imageEl);
+                            this.createEl('div', `-${product.discount}%`, 'wishlit__item-discount', imageEl);
                             const discWrapperEl = this.createEl('div', '', 'wishlit__item-discount-wrapper', itemInfoEl);
                             this.createEl('div', `$${discPrice.toFixed(1)}`, 'wishlit__item-price wishlit__item-price_orange', discWrapperEl);
                             this.createEl('div', `$${withoutDisc.toFixed(1)}`, 'wishlit__item-price wishlit__item-price_gray', discWrapperEl);
@@ -78,12 +78,12 @@ class AccountView extends Element {
                                 itemsAmount -= 1
                                 if (!itemsAmount) {
                                     wrapper.innerHTML = ''
-                                    wrapper.append(this.alertView.createEmptyAlert('wishlist'))
+                                    wrapper.append(this.alertView.createEmptyFavAlert())
                                 }
                                 this.updateView.updateWishlistNum();
                                 e.preventDefault();
                                 const currentId = removeBtn.dataset.id;
-                                const currentEl = document.querySelector(`div[data-num="${currentId}"]`);
+                                const currentEl = document.querySelector(`div[data-num="${(currentId) as string}"]`);
                                 if (currentEl) {
                                     wishlistItems.removeChild(currentEl);
                                 }

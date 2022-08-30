@@ -1,11 +1,27 @@
 import Element from "../common/Element";
+import { alertsData } from "../data-lang";
 
 class AlertsView extends Element {
 
-    createEmptyAlert(page: string) {
-        const title = `You haven't added anything to your ${page}.`;
-        const shopLink = `<a class="acoount__link" href="/#">main page</a>`
-        const text = `Go to the ${shopLink} and select the product you are interested in.`
+    private lang: string;
+
+    constructor() {
+        super()
+        this.lang = localStorage.getItem('current-lang') as string;
+    }
+
+    createEmptyFavAlert() {
+        const title = alertsData['fav-title'][this.lang as keyof typeof alertsData['fav-title']];
+        const text = alertsData['fav-text'][this.lang as keyof typeof alertsData['fav-text']];
+        const container = this.createEl('div', '', `alert alert-warning`, null);
+        this.createEl('h4', title, 'alert-heading', container);
+        this.createEl('p', text, 'alert-text', container);
+        return container
+    }
+
+    createEmptyCartAlert() {
+        const title = alertsData['wl-title'][this.lang as keyof typeof alertsData['wl-title']];
+        const text = alertsData['wl-text'][this.lang as keyof typeof alertsData['wl-text']];
         const container = this.createEl('div', '', `alert alert-warning`, null);
         this.createEl('h4', title, 'alert-heading', container);
         this.createEl('p', text, 'alert-text', container);
@@ -13,10 +29,8 @@ class AlertsView extends Element {
     }
 
     createNotLoginAlert() {
-        const title = 'You are not registred.';
-        const enterLink = `<a class="acoount__link" href="#/login">sign in</a>`
-        const registerLink = `<a class="acoount__link" href="#/register">register</a>`
-        const text = `Please ${enterLink} in your account or ${registerLink} new account.`
+        const title = alertsData['not-login-title'][this.lang as keyof typeof alertsData['not-login-title']];
+        const text = alertsData['not-login-text'][this.lang as keyof typeof alertsData['not-login-text']];
         const container = this.createEl('div', '', `alert alert-warning`, null);
         this.createEl('h4', title, 'alert-heading', container);
         this.createEl('p', text, 'alert-text', container);
@@ -24,8 +38,8 @@ class AlertsView extends Element {
     }
 
     createLoginAlert() {
-        const title = 'You are already logged.';
-        const text = `You are already logged into your current account`
+        const title = alertsData['login-title'][this.lang as keyof typeof alertsData['login-title']];
+        const text = alertsData['login-text'][this.lang as keyof typeof alertsData['login-text']];
         const container = this.createEl('div', '', `alert alert-warning`, null);
         this.createEl('h4', title, 'alert-heading', container);
         this.createEl('p', text, 'alert-text', container);
@@ -33,8 +47,8 @@ class AlertsView extends Element {
     }
 
     createNotAdminAlert() {
-        const title = 'You are not admin.';
-        const text = `You must have administrator rights to access this page.`
+        const title = alertsData['admin-title'][this.lang as keyof typeof alertsData['admin-title']];
+        const text = alertsData['admin-text'][this.lang as keyof typeof alertsData['admin-text']];
         const container = this.createEl('div', '', `alert alert-danger`, null);
         this.createEl('h4', title, 'alert-heading', container);
         this.createEl('p', text, 'alert-text', container);
@@ -42,8 +56,8 @@ class AlertsView extends Element {
     }
 
     create() {
-        const title = 'Page Not Found';
-        const text = `The is not the page you are looking for.`
+        const title = alertsData['404-title'][this.lang as keyof typeof alertsData['404-title']];
+        const text = alertsData['404-text'][this.lang as keyof typeof alertsData['404-text']];
         const container = this.createEl('div', '', `alert alert-danger`, null);
         this.createEl('h4', title, 'alert-heading', container);
         this.createEl('p', text, 'alert-text', container);

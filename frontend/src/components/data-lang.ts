@@ -1,6 +1,42 @@
 import { TLang } from "./types";
 
 const langData: TLang = {
+    "header-phone": {
+        "eng": "Available 24/7 at",
+        "ru": "Доступен 24/7 по телефону",
+    },
+    "header-welcome": {
+        "eng": "Welcome",
+        "ru": "Добро пожаловать",
+    },
+    "header-cart": {
+        "eng": "Cart",
+        "ru": "Корзина",
+    },
+    "header-account": {
+        "eng": "Account",
+        "ru": "Профиль",
+    },
+    "header-favorites": {
+        "eng": "Favorites",
+        "ru": "Избранное",
+    },
+    "header-purchases": {
+        "eng": "Purchases",
+        "ru": "Заказы",
+    },
+    "header-signout": {
+        "eng": "Sign out",
+        "ru": "Выход",
+    },
+    "header-search": {
+        "eng": "Search for products...",
+        "ru": "Поиск одежды...",
+    },
+    "login-page-title": {
+        "eng": "Sign in page",
+        "ru": "Страница входа",
+    },
     "login-title": {
         "eng": "Sign in",
         "ru": "Вход",

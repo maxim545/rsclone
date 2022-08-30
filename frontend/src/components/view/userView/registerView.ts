@@ -3,6 +3,7 @@ import Controller from "../../Controller";
 import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 import AlertsView from "../AlertsView";
+import langData from "../../data-lang";
 
 class RegisterView extends Element {
 
@@ -39,7 +40,6 @@ class RegisterView extends Element {
                 this.createEl('p', name, 'auth__input-title', itemEl);
                 const inputEl = this.createEl('input', '', `form-control auth__input`, itemEl) as HTMLInputElement;
                 inputEl.type = type;
-                inputEl.placeholder = `Your working ${type}`;
                 inputEl.addEventListener('change', () => {
                     inputsValues[key as keyof typeof inputsValues] = inputEl.value
                 })

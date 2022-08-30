@@ -31,6 +31,11 @@ class ChangeProductView extends Element {
   create() {
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     const id = window.location.hash.replace("#", "").slice(28);
+    const main = document.querySelector('.main') as HTMLElement;
+    if (id.length !== 24) {
+      main.append(this.alertView.create())
+      throw new Error(`Page not found`);
+    }
     const container = this.createEl('div', '', 'container_main account', null);
     (async () => {
       if (userData) {
@@ -39,7 +44,11 @@ class ChangeProductView extends Element {
           password: userData.password
         }) as [IUserData];
         if (currentUser.role !== 'user' && currentUser.role !== 'courier') {
-          const [product] = await this.api.getProduct(id) as [IProduct];
+          const [product, status] = await this.api.getProduct(id) as [IProduct, number];
+          if (status === 404) {
+            main.append(this.alertView.create())
+            throw new Error(`Page not found`);
+          }
           container.append(this.sidebarView.create(userData));
           const accountWrap = this.createEl('div', '', 'account__wrapper', container);
           accountWrap.innerHTML = `

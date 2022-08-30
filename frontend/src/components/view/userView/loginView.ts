@@ -1,4 +1,4 @@
-import { TLang, IUserData } from "../../types";
+import { IUserData } from "../../types";
 import Element from "../../common/Element";
 import Controller from "../../Controller";
 import UpdateView from "../../Update";
@@ -24,6 +24,7 @@ class LoginView extends Element {
 
     create() {
         const lang = localStorage.getItem('current-lang') as string;
+        document.title = langData['login-page-title'][lang as keyof typeof langData['login-page-title']];
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const container = this.createEl('div', '', 'container_main', null);
         if (userData) {

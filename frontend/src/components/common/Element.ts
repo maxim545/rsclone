@@ -9,7 +9,6 @@ class Element {
         if (href && element instanceof HTMLAnchorElement) {
             element.href = href;
         }
-        console.log(dataset);
         if (dataset) {
             const [datasetName, datasetValue] = dataset.split(':')
             element.dataset[datasetName] = datasetValue;

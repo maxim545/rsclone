@@ -59,6 +59,9 @@ class CatalogView extends Element {
       const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
       const addCard = (arr: IProduct[]) => {
         getItemsContainer[0].innerHTML = '';
+        getItemsContainer[0].innerHTML = `<section id="nothing-found">
+                                              <span>Извините, совпадений не обнаружено</span>
+                                          </section>`;
         arr.forEach((item, index) => {
           getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
                                                     <div id="image-container-${index}" class="image-container">
@@ -446,6 +449,31 @@ class CatalogView extends Element {
           onFilters();
         });
 
+      const sortSearch = (allCard: IProduct[], valueSearch: string) => {
+        const allCardge: IProduct[] = allCard.filter((e) => e.brand.toLowerCase().includes(valueSearch));
+        addCard(allCardge);
+        if (allCardge.length <= 0 && valueSearch.length > 0) {
+          const nothingFound = document.getElementById("nothing-found") as HTMLElement;
+          nothingFound.style.display = "flex";
+        }
+        else {
+          const nothingFound = document.getElementById("nothing-found") as HTMLElement;
+          nothingFound.style.display = "none";
+        }
+      }
+
+      const formSearch = document.getElementsByClassName("navbar__search-line")[0] as HTMLInputElement;
+      const formSearchMobile = document.getElementsByClassName("navbar__search-line")[1] as HTMLInputElement;
+      if (formSearch !== undefined)
+        formSearch.oninput = () => {
+          const valueSearch: string = formSearch.value;
+          sortSearch(obj.arrFilter, valueSearch.toLowerCase());
+        }
+      if (formSearchMobile !== undefined)
+      formSearchMobile.oninput = () => {
+          const valueSearch: string = formSearchMobile.value;
+          sortSearch(obj.arrFilter, valueSearch.toLowerCase());
+        }
 
     })().catch(err => { console.error(err) });
     return filtersAndCards;

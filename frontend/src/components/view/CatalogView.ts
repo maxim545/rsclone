@@ -1,17 +1,31 @@
 import noUiSlider, { target, API } from 'nouislider';
 import Api from "../api";
 import Element from "../common/Element";
-import { IUserData, IWishListData } from "../types";
+import { IUserData, IWishListData, IProduct } from "../types";
 
 
 interface AllFiltersObj {
   minStock: number,
   maxStock: number,
+  coverPriceFilter: number[],
+  arrFilter: IProduct[],
+  sizeFilter: string[],
+  clothesFilter: string[],
+  colorFilter: string[],
+  brandFilter: string[],
+  searchFilter: string
 }
 
 export const obj: AllFiltersObj = {
   minStock: 0,
   maxStock: 0,
+  coverPriceFilter: [],
+  arrFilter: [],
+  sizeFilter: [],
+  clothesFilter: [],
+  colorFilter: [],
+  brandFilter: [],
+  searchFilter: ''
 };
 
 class CatalogView extends Element {
@@ -34,41 +48,51 @@ class CatalogView extends Element {
       `;
 
     const filtersAndCards = this.createEl('div', '', 'filters__and__cards', null);
-    const itemsContainer = this.createEl('div', '', 'item__container', filtersAndCards);
+    this.createEl('div', '', 'item__container', filtersAndCards);
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-
+    const getItemsContainer = document.getElementsByClassName('item__container') as HTMLCollection;
+    const onFiltersStorage = <AllFiltersObj>JSON.parse(localStorage.getItem('onFilters') || 'null');
+    Object.assign(obj, onFiltersStorage);
 
     (async () => {
       const products = await this.api.getAllProduct();
       const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
-      console.log(products);
-      products.forEach(item => {
-        const itemEl = this.createEl('a', '', 'item', itemsContainer, `/#/p/${item._id}`);
+      const addCard = (arr: IProduct[]) => {
+        getItemsContainer[0].innerHTML = '';
+        arr.forEach((item, index) => {
+          getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
+                                                    <div id="image-container-${index}" class="image-container">
+                                                      <img src="http://localhost:5000${item.image}" class="item__img" alt="image">
+                                                      <div id="favorites-container-${index}" class="favorites-container">
+                                                      </div>
+                                                    </div>
+                                                    <p class="item__name">${item.category} ${item.brand} ${item.year}</p>
+                                                    <div id="item__allprice-${index}" class="item__allprice">
+                                                    </div>
+                                                </a>`;
 
-        const image = `<img src="http://localhost:5000${item.image}" class="item__img" alt="image">`
-        const imageContainer = this.createEl('div', image, 'image-container', itemEl);
-        const isExist = wishList.find(el => el.productId === item._id);
-        if (isExist) {
-          this.createEl('div', '<i class="bi bi-heart-fill"></i>', 'favorites-container', imageContainer);
-        }
-        else {
-          this.createEl('div', '<i class="bi bi-heart"></i>', 'favorites-container', imageContainer);
-        }
+          const isExist = wishList.find(el => el.productId === item._id);
+          const favoritesContainer = document.getElementById(`favorites-container-${index}`) as HTMLElement;
+          if (isExist) {
+            favoritesContainer.innerHTML = `<i class="bi bi-heart-fill"></i>`;
+          }
+          else {
+            favoritesContainer.innerHTML = `<i class="bi bi-heart"></i>`;
+          }
+          const itemAllPrice = document.getElementById(`item__allprice-${index}`) as HTMLElement;
+          if (Number(item.discount) && Number(item.discount) > 0) {
+            const withDiscount = Number(item.price) * (100 - Number(item.discount)) / 100;
+            itemAllPrice.innerHTML = `<div class="item__price item__discount-price">$${String(withDiscount)}</div>`;
+            itemAllPrice.innerHTML += `<div class="item__without-discount">$${item.price}</div>`;
+            const imageContainer = document.getElementById(`image-container-${index}`) as HTMLElement;
+            imageContainer.innerHTML += `<div class="sale-container">-${item.discount}%</div>`;
+          }
+          else {
+            itemAllPrice.innerHTML = `<div class="item__price">$${item.price}</div>`;
+          }
+        });
+      }
 
-        this.createEl('p', item.name, 'item__name', itemEl);
-        const allPrice = this.createEl('div', '', 'item__allprice', itemEl);
-
-        if (Number(item.discount) && Number(item.discount) > 0) {
-          const withDiscount = Number(item.price) * (100 - Number(item.discount)) / 100;
-          const discountPrice = this.createEl('div', `$${String(withDiscount)}`, 'item__price', allPrice);
-          discountPrice.classList.add('item__discount-price');
-          this.createEl('div', `$${item.price}`, 'item__without-discount', allPrice);
-          this.createEl('div', `-${item.discount}%`, 'sale-container', imageContainer);
-        }
-        else {
-          this.createEl('div', `$${item.price}`, 'item__price', allPrice);
-        }
-      });
 
       filtersAndCards.innerHTML += `
             <section class="filters-wrapper">
@@ -164,6 +188,12 @@ class CatalogView extends Element {
                 <label for="${arrCoverClothes[i]}" class="filter-clothes__label filter-label">${arrCoverClothes[i]} (${amount})</label>
                 `;
         }
+        if (obj.clothesFilter.length !== 0) {
+          for (let i = 0; i < obj.clothesFilter.length; i += 1) {
+            const idClothes = document.getElementById(obj.clothesFilter[i][0].toUpperCase() + obj.clothesFilter[i].slice(1)) as HTMLInputElement;
+            idClothes.checked = true;
+          }
+        }
       }
       getClothes();
 
@@ -195,6 +225,12 @@ class CatalogView extends Element {
                     <input type="checkbox" id="${arrCoverSize[i]}" class="filter-size__checkbox filter-checkbox" value="${arrCoverSize[i]}">
                     <label for="${arrCoverSize[i]}" class="filter-size__label filter-label">${arrCoverSize[i]} (${amount})</label>
                     `;
+        }
+        if (obj.sizeFilter.length !== 0) {
+          for (let i = 0; i < obj.sizeFilter.length; i += 1) {
+            const idSize = document.getElementById(obj.sizeFilter[i]) as HTMLInputElement;
+            idSize.checked = true;
+          }
         }
       }
       getSize();
@@ -230,6 +266,12 @@ class CatalogView extends Element {
             }
           })
         }
+        if (obj.colorFilter.length !== 0) {
+          for (let i = 0; i < obj.colorFilter.length; i += 1) {
+            const idColor = document.getElementById(obj.colorFilter[i]) as HTMLInputElement;
+            idColor.checked = true;
+          }
+        }
       }
       getColor();
 
@@ -253,9 +295,15 @@ class CatalogView extends Element {
           if (coverBrand !== null)
             arrCoverBrand[i] = arrCoverBrand[i][0].toUpperCase() + arrCoverBrand[i].slice(1);
           coverBrand.innerHTML += `
-                  <input type="checkbox" id="${arrCoverBrand[i]}" class="filter-clothes__checkbox filter-checkbox" value="${arrCoverBrand[i]}">
-                  <label for="${arrCoverBrand[i]}" class="filter-clothes__label filter-label">${arrCoverBrand[i]} (${amount})</label>
+                  <input type="checkbox" id="${arrCoverBrand[i]}" class="filter-brand__checkbox filter-checkbox" value="${arrCoverBrand[i]}">
+                  <label for="${arrCoverBrand[i]}" class="filter-brand__label filter-label">${arrCoverBrand[i]} (${amount})</label>
                   `;
+        }
+        if (obj.brandFilter.length !== 0) {
+          for (let i = 0; i < obj.brandFilter.length; i += 1) {
+            const idBrand = document.getElementById(obj.brandFilter[i][0].toUpperCase() + obj.brandFilter[i].slice(1)) as HTMLInputElement;
+            idBrand.checked = true;
+          }
         }
       }
       getBrand();
@@ -271,7 +319,7 @@ class CatalogView extends Element {
           obj.maxStock = Math.max(...arrInStock);
         }
         else {
-          // [obj.minStock, obj.maxStock] = onFiltersStorage.amountFilter;
+          [obj.minStock, obj.maxStock] = onFiltersStorage.coverPriceFilter;
         }
         const minAm: number = Math.min(...arrInStock);
         const maxAm: number = Math.max(...arrInStock);
@@ -305,6 +353,99 @@ class CatalogView extends Element {
         });
       }
       getPrice();
+
+      function onFilters() {
+        obj.arrFilter = products.filter((e) => Number(e.price) >= obj.coverPriceFilter[0] && Number(e.price) <= obj.coverPriceFilter[1]);
+        if (obj.clothesFilter.length > 0) {
+          obj.arrFilter = obj.arrFilter.filter((e) => obj.clothesFilter.includes(e.category.toLowerCase()));
+        }
+        if (obj.sizeFilter.length > 0) {
+          obj.arrFilter = obj.arrFilter.filter((e) => {
+            for (let i = 0; i < obj.sizeFilter.length; i += 1) {
+              if (e.variant.includes(obj.sizeFilter[i])) {
+                return e
+              }
+            }
+          });
+        }
+        if (obj.colorFilter.length > 0) {
+          obj.arrFilter = obj.arrFilter.filter((e) => {
+            for (let i = 0; i < obj.colorFilter.length; i += 1) {
+              if (e.color.includes(obj.colorFilter[i])) {
+                return e
+              }
+            }
+          });
+        }
+        if (obj.brandFilter.length > 0) {
+          obj.arrFilter = obj.arrFilter.filter((e) => obj.brandFilter.includes(e.brand));
+        }
+        addCard(obj.arrFilter);
+        localStorage.setItem('onFilters', JSON.stringify(obj));
+      }
+      onFilters();
+
+      const elementClothes = document.querySelectorAll<HTMLInputElement>('.filter-clothes__checkbox');
+      for (let i = 0; i < elementClothes.length; i += 1) {
+        elementClothes[i].addEventListener("click", () => {
+          if (!obj.clothesFilter.includes(elementClothes[i].value.toLowerCase())) {
+            obj.clothesFilter.push(elementClothes[i].value.toLowerCase());
+          }
+          else {
+            obj.clothesFilter = obj.clothesFilter.filter((e) => e !== elementClothes[i].value.toLowerCase());
+          }
+          onFilters();
+        })
+      }
+
+      const elementSize = document.querySelectorAll<HTMLInputElement>('.filter-size__checkbox');
+      for (let i = 0; i < elementSize.length; i += 1) {
+        elementSize[i].addEventListener("click", () => {
+          if (!obj.sizeFilter.includes(elementSize[i].value)) {
+            obj.sizeFilter.push(elementSize[i].value);
+          }
+          else {
+            obj.sizeFilter = obj.sizeFilter.filter((e) => e !== elementSize[i].value);
+          }
+          onFilters();
+        })
+      }
+
+      const elementColor = document.querySelectorAll<HTMLInputElement>('.filter-color__checkbox');
+      for (let i = 0; i < elementColor.length; i += 1) {
+        elementColor[i].addEventListener("click", () => {
+          if (!obj.colorFilter.includes(elementColor[i].value)) {
+            obj.colorFilter.push(elementColor[i].value);
+          }
+          else {
+            obj.colorFilter = obj.colorFilter.filter((e) => e !== elementColor[i].value.toLowerCase());
+          }
+          onFilters();
+        })
+      }
+
+      const elementBrand = document.querySelectorAll<HTMLInputElement>('.filter-brand__checkbox');
+      for (let i = 0; i < elementBrand.length; i += 1) {
+        elementBrand[i].addEventListener("click", () => {
+          if (!obj.brandFilter.includes(elementBrand[i].value.toLowerCase())) {
+            obj.brandFilter.push(elementBrand[i].value.toLowerCase());
+          }
+          else {
+            obj.brandFilter = obj.brandFilter.filter((e) => e !== elementBrand[i].value.toLowerCase());
+          }
+          onFilters();
+        })
+      }
+
+      const coverPrice = document.getElementById('select-price') as target;
+      if (coverPrice !== null)
+        (<API>coverPrice.noUiSlider).on('update', () => {
+          let amountMaxMin: number[] = [];
+          amountMaxMin = coverPrice.noUiSlider?.get(true) as number[];
+          obj.coverPriceFilter = amountMaxMin;
+          onFilters();
+        });
+
 
     })().catch(err => { console.error(err) });
     return filtersAndCards;

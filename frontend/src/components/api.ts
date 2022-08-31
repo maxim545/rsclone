@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ILogin, IOrderData, IOrders, IOrderUpdated, IProduct, IProductCreated, IUserData, IWishListData } from "./types";
 
 class Api {
@@ -100,8 +101,12 @@ class Api {
                 },
                 body: data,
             });
-            const image = await response.json() as Response;
-            return image;
+            if (response.status !== 201) {
+                throw new Error(`Error, status code: ${response.status}`);
+            }
+            const imageUrl = await response.json() as { image: string };
+            return imageUrl;
+
         } catch (err) {
             console.error(err);
             throw err;

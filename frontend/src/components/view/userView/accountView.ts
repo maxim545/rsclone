@@ -4,6 +4,7 @@ import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "./UserSidebarView";
 import AlertsView from "../AlertsView";
+import { accData } from "../../data-lang";
 
 class AccountView extends Element {
 
@@ -27,20 +28,30 @@ class AccountView extends Element {
     create() {
         const container = this.createEl('div', '', 'container_main account', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+        const lang = localStorage.getItem('current-lang') as string;
+        document.title = accData['acc-page-title'][lang as keyof typeof accData['acc-page-title']];
         if (!userData) {
             container.append(this.alertView.createNotLoginAlert())
         }
         else {
             container.append(this.sidebarView.create(userData))
             const accountEl = this.createEl('div', '', 'account__wrapper', container);
-            this.createEl('h2', 'My profile', 'account__title', accountEl);
+            this.createEl('h2', accData['acc-page-title'][lang as keyof typeof accData['acc-page-title']], 'account__title', accountEl);
             const inpustList = this.createEl('div', '', 'account__inputs-list', accountEl);
-            const inputs = ['name:text', 'surname:text', 'thirdname:text', 'email:email', 'password:password', 'repeatPassword:password', 'phone:text', 'adress:text']
+            const inputs = [
+                `name:text:${accData.name[lang as keyof typeof accData['name']]}`,
+                `surname:text:${accData.surname[lang as keyof typeof accData['surname']]}`,
+                `thirdname:text:${accData.thirdname[lang as keyof typeof accData['thirdname']]}`,
+                `email:email:${accData.email[lang as keyof typeof accData['email']]}`,
+                `password:password:${accData.password[lang as keyof typeof accData['password']]}`,
+                `repeatPassword:password:${accData.repPassword[lang as keyof typeof accData['repPassword']]}`,
+                `phone:text:${accData.phone[lang as keyof typeof accData['phone']]}`,
+                `adress:text:${accData.adress[lang as keyof typeof accData['adress']]}`]
             const unputsValues: IUserData = {}
             inputs.forEach(item => {
-                const [name, type] = item.split(':');
+                const [name, type, title] = item.split(':');
                 const inputContainer = this.createEl('div', '', 'account__inputs-item', inpustList);
-                this.createEl('p', `Change ${name}`, 'account__inputs-title', inputContainer);
+                this.createEl('p', title, 'account__inputs-title', inputContainer);
                 const input = this.createEl('input', '', 'form-control account__input', inputContainer) as HTMLInputElement;
                 input.type = type;
                 input.addEventListener('change', () => { unputsValues[name as keyof typeof unputsValues] = input.value })
@@ -52,14 +63,14 @@ class AccountView extends Element {
                     unputsValues[name as keyof typeof unputsValues] = input.value;
                 }
             })
-            const submit = this.createEl('button', 'Save changes', 'btn btn-primary auth__btn', accountEl);
+            const submit = this.createEl('button', accData.btn[lang as keyof typeof accData['btn']], 'btn btn-primary auth__btn', accountEl);
             submit.addEventListener('click', () => {
                 this.controller.changeUserData(unputsValues)
                     .then(() => {
                         this.updateView.updateHeader();
                         const main = document.querySelector('.main') as HTMLElement;
                         main.innerHTML = '';
-                        main.append(this.create())
+                        main.append(this.create());
                     })
             });
         }

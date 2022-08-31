@@ -31,40 +31,46 @@ class AdminProductsView extends Element {
     const container = this.createEl(`div`, ``, `container_main account admin-products-wrapper`, null);
     const userData = <IUserData>JSON.parse(localStorage.getItem(`userData`) || `null`);
     (async () => {
-      const [currentUser] = await this.api.loginUser({
-        email: userData.email,
-        password: userData.password
-      }) as [IUserData];
-      if (!userData || currentUser.role === 'user') {
-        container.append(this.alertView.createNotAdminAlert())
-      }
-      else {
-        container.append(this.sidebarView.create(userData));
-        const productsSection = this.createEl(`section`, ``, `admin-products`, container);
-        const productsEl = this.createEl(`div`, `Admin products`, `admin-products`, null);
-        this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
-        const products = await this.api.getAllProduct();
-        console.dir(products);
-        productsSection.innerHTML = `
-                    <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
+      if (userData) {
+        const [currentUser] = await this.api.loginUser({
+          email: userData.email,
+          password: userData.password
+        }) as [IUserData];
+        if (currentUser.role === 'admin') {
+          container.append(this.sidebarView.create(userData));
+          const productsSection = this.createEl(`section`, ``, `admin-products`, container);
+          const productsEl = this.createEl(`div`, `Admin products`, `admin-products`, null);
+          this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
+          const products = await this.api.getAllProduct();
+          console.dir(products);
+          productsSection.innerHTML = `
+                    <div class="admin-products__header">
+                      <h2 class="admin-products__header-title">All products</h2>
+                      <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
+                    </div>
                     <ul class="admin-products__list">
                       ${this.getProductsHTML(products)}
                     </ul>
                     `;
-        productsSection.addEventListener(`click`, (e) => {
-          const eventTarget = e.target as HTMLElement;
-          const btn = eventTarget?.closest(`[data-delete-btn]`) as HTMLButtonElement;
-          const item = eventTarget?.closest(`.admin-product`) as HTMLLIElement;
-          if (btn && item && (typeof btn.dataset.id === `string`)) {
-            this.api.removeProduct(userData, String(btn.dataset.id)).then(() => {
-              item.style.opacity = `0`;
-              function handleDelete(this: HTMLDivElement) {
-                this.remove()
-              }
-              item.addEventListener(`transitionend`, handleDelete);
-            })
-          }
-        })
+          productsSection.addEventListener(`click`, (e) => {
+            const eventTarget = e.target as HTMLElement;
+            const btn = eventTarget?.closest(`[data-delete-btn]`) as HTMLButtonElement;
+            const item = eventTarget?.closest(`.admin-product`) as HTMLLIElement;
+            if (btn && item && (typeof btn.dataset.id === `string`)) {
+              this.api.removeProduct(userData, String(btn.dataset.id)).then(() => {
+                item.style.opacity = `0`;
+                function handleDelete(this: HTMLDivElement) {
+                  this.remove()
+                }
+                item.addEventListener(`transitionend`, handleDelete);
+              })
+            }
+          })
+        } else {
+          container.append(this.alertView.createNotAdminAlert())
+        }
+      } else {
+        container.append(this.alertView.createNotAdminAlert())
       }
     })();
 
@@ -77,7 +83,7 @@ class AdminProductsView extends Element {
       res = `${res}
                 <li class="admin-product">
                   <div class="admin-product__img-wrapper">
-                    <img src="${product.image}" alt="Product photo">
+                    <img src="http://localhost:5000${product.image}" alt="Product photo">
                   </div>
                   <div class="admin-product__title">
                     <h3>${product.name}</h3>

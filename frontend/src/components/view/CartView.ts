@@ -50,7 +50,7 @@ class CartView extends Element {
                         const prodSizes = productDB.variant.split(',');
                         const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
                         const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();
-                        const cartItemEl = this.createEl('div', `<img src="${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
+                        const cartItemEl = this.createEl('div', `<img src="http://localhost:5000${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
                         const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
                         this.createEl('div', item.name, 'cart__item-name', itemInfo);
                         this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${item.color}`, 'cart__item-name-value', itemInfo);
@@ -91,7 +91,7 @@ class CartView extends Element {
                             this.updateCartPrice(cartsItems, priceEl);
                             if (!cartsItems.length) {
                                 main.innerHTML = '';
-                                main.append(this.alertView.createEmptyAlert('cart'))
+                                main.append(this.alertView.createEmptyCartAlert())
                             }
                         });
                     }
@@ -107,7 +107,7 @@ class CartView extends Element {
                 }
             })().catch(err => { console.error(err) });
         } else {
-            main.append(this.alertView.createEmptyAlert('cart'))
+            main.append(this.alertView.createEmptyCartAlert())
         }
         return container;
     }

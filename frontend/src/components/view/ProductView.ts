@@ -3,6 +3,8 @@ import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
 import UpdateView from "../Update";
+import AlertsView from "./AlertsView";
+
 
 class ProductView extends Element {
 
@@ -12,20 +14,31 @@ class ProductView extends Element {
 
   private updateView: UpdateView;
 
+  private alertsView: AlertsView;
+
   constructor() {
     super();
     this.api = new Api();
     this.controller = new Controller();
     this.updateView = new UpdateView();
+    this.alertsView = new AlertsView();
   }
 
   create() {
     const id = window.location.hash.replace("#", "").slice(3);
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
-
     const productEl = this.createEl('div', '', 'main-container', null);
+    const main = document.querySelector('.main') as HTMLElement;
+    if (id.length !== 24) {
+      main.append(this.alertsView.create())
+      throw new Error(`Page not found`);
+    }
     (async () => {
-      const [product] = await this.api.getProduct(id) as [IProduct];
+      const [product, status] = await this.api.getProduct(id) as [IProduct, number];
+      if (status === 404) {
+        main.append(this.alertsView.create())
+        throw new Error(`Page not found`);
+      }
       const productData: ICartProduct = {
         ...product,
         color: '',
@@ -43,7 +56,7 @@ class ProductView extends Element {
                     </div>
                     <div class="product-item__content">
                       <div class="product-item__imgs">
-                        <img src="${product.image}" alt="Product photo">
+                        <img src="http://localhost:5000${product.image}" alt="Product photo">
                       </div>
                       <div class="product-item__text">
                         <div class="product-item__prices">

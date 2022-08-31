@@ -105,6 +105,15 @@ export interface IWishListData {
   isExist: boolean,
 }
 
+export interface ILang {
+  eng: string,
+  ru: string,
+}
+
+export type TLang = {
+  [prop: string]: ILang;
+};
+
 
 
 

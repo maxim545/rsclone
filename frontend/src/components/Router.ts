@@ -7,9 +7,9 @@ class Router {
         let renderInstanse;
         if (hashArr.includes('p')) {
             renderInstanse = routerData['/p/'].instance;
-        } else if (hashArr.includes('order')) {
+        } /* else if (hashArr.includes('order')) {
             renderInstanse = routerData['/purchases/order/'].instance;
-        } else if (!hashArr.includes('orders') && hashArr.includes('update')) {
+        } */ else if (!hashArr.includes('orders') && hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/products/update/'].instance;
         } /* else if (hashArr.includes('orders') && hashArr.includes('update')) {
             renderInstanse = routerData['/adminpanel/orders/update/'].instance;

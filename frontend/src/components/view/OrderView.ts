@@ -1,4 +1,4 @@
-import Api from "../api";
+/* import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
 import { IOrder, IOrders, IUserData } from "../types";
@@ -35,4 +35,4 @@ class ProductView extends Element {
     }
 }
 
-export default ProductView;
+export default ProductView; */

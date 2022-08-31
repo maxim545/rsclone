@@ -2,7 +2,7 @@ import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
 import { IOrders, IProduct, IUserData } from "../types";
-import monthNames from "../utils";
+import { monthNames } from "../utils";
 import UserSidebarView from "./userView/UserSidebarView";
 import AlertsView from "./AlertsView";
 

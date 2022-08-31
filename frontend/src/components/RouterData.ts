@@ -3,8 +3,7 @@ import UpdateProductView from "./view/adminView/UpdateProductView";
 import CreateProductView from "./view/adminView/CreateProductView";
 import CartView from "./view/CartView";
 import CatalogView from "./view/CatalogView";
-import ErrorView from "./view/ErrorView";
-import OrderView from "./view/OrderView";
+/* import OrderView from "./view/OrderView"; */
 import ProductView from "./view/ProductView";
 import PurchaseView from "./view/PurchaseView";
 import AccountView from "./view/userView/accountView";
@@ -14,7 +13,7 @@ import RegisterView from "./view/userView/registerView";
 import AdminProductsView from "./view/adminView/adminProductsView";
 /* import UpdateOrderView from "./view/adminView/UpdateOrderView"; */
 import WishlistView from "./view/userView/WishlistView";
-
+import AlertsView from "./view/AlertsView";
 
 const renderingData = {
     '/': {
@@ -52,15 +51,15 @@ const renderingData = {
         description: '',
         instance: new PurchaseView(),
     },
-    '/purchases/order/': {
+    /* '/purchases/order/': {
         title: 'Order',
         description: '',
         instance: new OrderView(),
-    },
+    }, */
     '404': {
         title: 'Not found',
         description: '',
-        instance: new ErrorView(),
+        instance: new AlertsView(),
     },
     /* '/adminpanel': {
         title: 'Admin panel',

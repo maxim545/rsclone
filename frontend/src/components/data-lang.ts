@@ -306,3 +306,15 @@ export const proLang: TLang = {
         "ru": "Поделиться:",
     },
 }
+
+
+export const wlLang: TLang = {
+    "wl-title": {
+        "eng": "Wishlist",
+        "ru": "Список желаний",
+    },
+    "wl": {
+        "eng": "Color",
+        "ru": "Выберите цвет:",
+    },
+}

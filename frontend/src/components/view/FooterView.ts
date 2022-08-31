@@ -1,7 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
-import { ICartProduct, IUserData } from "../types";
+import { IUserData } from "../types";
 
 
 class FooterView extends Element {
@@ -96,8 +96,7 @@ class FooterView extends Element {
         behavior: "smooth"
       })
     })
-    const logOut = document.querySelector(`.footer__profile [data-footer-logout]`);
-    logOut?.addEventListener('click', () => { this.controller.logoutUser(); });
+
     return footerInner;
   }
 
@@ -105,7 +104,7 @@ class FooterView extends Element {
     let res = ``;
     let links;
     if (userData) {
-      links = ['Cart:#/cart', 'My profile:#/account', 'Favorites:#/favorites', 'My orders:#/purchases', 'Sign out:/'];
+      links = ['Cart:#/cart', 'My profile:#/account', 'Favorites:#/favorites', 'My orders:#/purchases'];
     } else {
       links = ['Cart:#/cart', 'Login:#/login', 'Sign up:#/register'];
     }
@@ -127,7 +126,7 @@ class FooterView extends Element {
       } else if (name === 'Sign out') {
         res = `${res}
               <li>
-                <a class="footer__link" href="${hash}" data-footer-logout>${name}</a>
+                <a class="footer__link footer__link_logout" href="${hash}" data-footer-logout>${name}</a>
               </li>
               `;
       } else {

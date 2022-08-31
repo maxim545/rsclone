@@ -228,4 +228,81 @@ export const alertsData: TLang = {
         "eng": `The is not the page you are looking for.`,
         "ru": `Это не та страница, которую вы ищете.`,
     },
+
+}
+
+
+export const proLang: TLang = {
+    "pro-color": {
+        "eng": "Color",
+        "ru": "Выберите цвет:",
+    },
+    "pro-size": {
+        "eng": "Size",
+        "ru": "Размеры:",
+    },
+    "pro-select": {
+        "eng": "Please select size",
+        "ru": "Пожалуйста, выберите размер:",
+    },
+    "pro-add": {
+        "eng": "Add to cart",
+        "ru": "Добавить в корзину",
+    },
+    "pro-fav": {
+        "eng": "Favourite",
+        "ru": "Избранное",
+    },
+    "pro-del": {
+        "eng": "Delivery",
+        "ru": "Доставка",
+    },
+    "pro-text": {
+        "eng": "Free standard shipping on orders over $35 before tax, plus free returns.",
+        "ru": "Бесплатная стандартная доставка для заказов на сумму более 35 долларов США до вычета налогов, а также бесплатный возврат.",
+    },
+    "pro-type": {
+        "eng": "TYPE",
+        "ru": "ТИП",
+    },
+    "pro-long": {
+        "eng": "HOW LONG",
+        "ru": "КАК ДОЛГО",
+    },
+    "pro-much": {
+        "eng": "HOW MUCH",
+        "ru": "СКОЛЬКО",
+    },
+    "pro-st": {
+        "eng": "Standard delivery",
+        "ru": "Стандартный комплект поставки",
+    },
+    "pro-ex": {
+        "eng": "Express delivery",
+        "ru": "Экспресс-доставка",
+    },
+    "pro-pi": {
+        "eng": "Pick up in store",
+        "ru": "Возьмите в магазине",
+    },
+    "pro-hst": {
+        "eng": "1-4 business days",
+        "ru": "1-4 рабочих дня",
+    },
+    "pro-hex": {
+        "eng": "1 business day",
+        "ru": "1 рабочий день",
+    },
+    "pro-hpi": {
+        "eng": "1-3 business days",
+        "ru": "1-3 рабочих дня",
+    },
+    "pro-free": {
+        "eng": "Free",
+        "ru": "Беспалтно",
+    },
+    "pro-share": {
+        "eng": "Share:",
+        "ru": "Поделиться:",
+    },
 }

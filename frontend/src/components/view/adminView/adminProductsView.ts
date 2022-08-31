@@ -5,6 +5,8 @@ import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 import AlertsView from "../AlertsView";
+import data from "../../data";
+
 
 class AdminProductsView extends Element {
 
@@ -30,6 +32,14 @@ class AdminProductsView extends Element {
   create() {
     const container = this.createEl(`div`, ``, `container_main account admin-products-wrapper`, null);
     const userData = <IUserData>JSON.parse(localStorage.getItem(`userData`) || `null`);
+    const createAll = this.createEl('button', 'create all product', 'admin-products__name', container);
+    createAll.addEventListener('click', () => {
+      data.forEach((item) => {
+        this.api.createProduct(userData, item)
+      });
+    });
+
+
     (async () => {
       if (userData) {
         const [currentUser] = await this.api.loginUser({
@@ -40,9 +50,15 @@ class AdminProductsView extends Element {
           container.append(this.sidebarView.create(userData));
           const productsSection = this.createEl(`section`, ``, `admin-products`, container);
           const productsEl = this.createEl(`div`, `Admin products`, `admin-products`, null);
+
+
+
+
+
+
+
           this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
           const products = await this.api.getAllProduct();
-          console.dir(products);
           productsSection.innerHTML = `
                     <div class="admin-products__header">
                       <h2 class="admin-products__header-title">All products</h2>

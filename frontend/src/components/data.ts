@@ -1,10 +1,10 @@
 const products = [
     {
         id: '1',
-        name: 'Blue adidas jeans 2010',
+        name: 'Blue adidas jeans 2010:Голубые джинсы адидас 2010',
         year: '2010',
-        color: 'blue, white, yellow, green',
-        category: 'jeans',
+        color: 'blue, white, yellow, green:голубой, белыйб желтый, зеленый',
+        category: 'jeans:джинсы',
         price: '255',
         brand: 'adidas',
         image: '/uploads/1.jpg',

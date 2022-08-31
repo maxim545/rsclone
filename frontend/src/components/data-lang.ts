@@ -318,3 +318,70 @@ export const wlLang: TLang = {
         "ru": "Выберите цвет:",
     },
 }
+
+export const cartLang: TLang = {
+    "cart-title": {
+        "eng": "Cart",
+        "ru": "Корзина",
+    },
+    "cart-items": {
+        "eng": "1. Items Review",
+        "ru": "1. Обзор товаров",
+    },
+    "cart-delete": {
+        "eng": "Delete",
+        "ru": "Удалить",
+    },
+    "cart-subtotal": {
+        "eng": "Subtotal",
+        "ru": "Промежуточная цена",
+    },
+    "cart-ship": {
+        "eng": "2. Shipping & Billing Address",
+        "ru": "2. Адрес доставки и выставления счета",
+    },
+    "cart-name": {
+        "eng": "Your name",
+        "ru": "Ваше имя",
+    },
+    "cart-surname": {
+        "eng": "Your surname",
+        "ru": "Ваша фамилия",
+    },
+    "cart-phone": {
+        "eng": "Your phone",
+        "ru": "Ваш телефон",
+    },
+    "cart-email": {
+        "eng": "Your email",
+        "ru": "Ваша почта",
+    },
+    "cart-thirdname": {
+        "eng": "Your thirdname",
+        "ru": "Ваше отчество",
+    },
+    "cart-adress": {
+        "eng": "Your adress",
+        "ru": "Ваш адрес",
+    },
+    "cart-pass": {
+        "eng": "Password",
+        "ru": "Пароль",
+    },
+    "cart-reppas": {
+        "eng": "Confirm password",
+        "ru": "Подтвердить пароль",
+    },
+    "cart-total": {
+        "eng": "Order totals",
+        "ru": "Сумма заказа",
+    },
+    "cart-shipping": {
+        "eng": "Shipping",
+        "ru": "Доставка",
+    },
+    "cart-btn": {
+        "eng": "Complete order",
+        "ru": "Завершить покупку",
+    },
+}

@@ -418,3 +418,17 @@
 .noUi-touch-area:active+.noUi-tooltip {
   display: block;
 }
+
+#nothing-found {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-family: Calibre, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  color: #369;
+  width: auto;
+  height: 80px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 5px 15px rgb(0 0 0 / 30%);
+}

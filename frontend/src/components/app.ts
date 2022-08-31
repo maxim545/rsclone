@@ -2,10 +2,13 @@
 import Element from "./common/Element";
 import Router from "./Router";
 import HeaderView from "./view/HeaderView";
+import FooterView from "./view/FooterView";
 
 class App {
 
   private header: HeaderView;
+
+  private footer: FooterView;
 
   private router: Router;
 
@@ -13,6 +16,7 @@ class App {
 
   constructor() {
     this.header = new HeaderView();
+    this.footer = new FooterView();
     this.router = new Router();
     this.element = new Element();
   }
@@ -22,7 +26,9 @@ class App {
     const headerEl = this.element.createEl('header', '', 'header', null);
     headerEl.append(this.header.create())
     const mainEl = this.element.createEl('main', '', 'main', null);
-    body.append(headerEl, mainEl);
+    const footerEl = this.element.createEl('footer', '', 'footer', null);
+    footerEl.append(this.footer.create());
+    body.append(headerEl, mainEl, footerEl);
     const events = ['hashchange', 'load'];
     for (const eventName of events) {
       window.addEventListener(eventName, () => { this.router.routing(mainEl) })

@@ -115,6 +115,29 @@ export type TLang = {
 };
 
 
+export interface AllFiltersObj {
+  minStock: number,
+  maxStock: number,
+  coverPriceFilter: number[],
+  arrFilter: IProduct[],
+  sizeFilter: string[],
+  clothesFilter: string[],
+  colorFilter: string[],
+  brandFilter: string[],
+  searchFilter: string
+}
+
+
+export interface ISort {
+  DownYear: string,
+  UpYear: string,
+  DownName: string,
+  UpName: string,
+  UpPrice: string,
+  DownPrice: string
+};
+
+
 
 
 

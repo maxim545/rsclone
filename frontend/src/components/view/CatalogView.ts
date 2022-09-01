@@ -1,20 +1,11 @@
 import noUiSlider, { target, API } from 'nouislider';
 import Api from "../api";
 import Element from "../common/Element";
-import { IUserData, IWishListData, IProduct } from "../types";
+import { IUserData, IWishListData, IProduct, AllFiltersObj, ISort } from "../types";
+import { catLang } from "../data-lang";
 
 
-interface AllFiltersObj {
-  minStock: number,
-  maxStock: number,
-  coverPriceFilter: number[],
-  arrFilter: IProduct[],
-  sizeFilter: string[],
-  clothesFilter: string[],
-  colorFilter: string[],
-  brandFilter: string[],
-  searchFilter: string
-}
+
 
 export const obj: AllFiltersObj = {
   minStock: 0,
@@ -32,20 +23,46 @@ class CatalogView extends Element {
 
   private api: Api
 
+  private lang: string;
+
   constructor() {
     super();
     this.api = new Api();
+    this.lang = localStorage.getItem('current-lang') as string;
   }
 
   create() {
-
-    const mainContent = document.getElementsByTagName('main') as HTMLCollection;
-    mainContent[0].innerHTML += `
-    <div class="main__top-bar">
-      <div id="show-filters" class="show-filters"><i class="bi bi-sliders2-vertical"></i>Hide filters</div>
+    document.title = catLang['cat-page-title'][this.lang as keyof typeof catLang['cat-page-title']];
+    /* const mainContent = document.getElementsByTagName('main') as HTMLCollection; */
+    const main = document.querySelector('.main') as HTMLElement
+    const topBar = this.createEl('div', '', 'main__top-bar', main);
+    topBar.innerHTML += `
+      <div id="show-filters" class="show-filters"><i class="bi bi-sliders2-vertical"></i>${catLang['cat-hide'][this.lang as keyof typeof catLang['cat-hide']]}</div>
       <div id="change-view" class="change-view"><i class="bi bi-grid"></i></div>
-    </div>
       `;
+    if (!localStorage.getItem('sortParam')) {
+      localStorage.setItem('sortParam', 'UpName');
+    }
+    const sortElement = this.createEl('div', '', 'sort', topBar) as HTMLInputElement;
+    const labelElement = this.createEl('label', `<span class="sort__title">${catLang['cat-sort'][this.lang as keyof typeof catLang['cat-sort']]} </span>`, 'sort__label', sortElement) as HTMLLabelElement;
+    const selectElement = this.createEl('select', '', 'form-control sort__select', labelElement) as HTMLSelectElement;
+    const sortParameters: string[] = ['UpName', 'DownName', 'UpYear', 'DownYear', 'UpPrice', 'DownPrice'];
+    const sortNames: ISort = {
+      DownYear: catLang['cat-dyear'][this.lang as keyof typeof catLang['cat-dyear']],
+      UpYear: catLang['cat-uyear'][this.lang as keyof typeof catLang['cat-uyear']],
+      DownName: catLang['cat-dname'][this.lang as keyof typeof catLang['cat-dname']],
+      UpName: catLang['cat-uname'][this.lang as keyof typeof catLang['cat-uname']],
+      UpPrice: catLang['cat-uprice'][this.lang as keyof typeof catLang['cat-uprice']],
+      DownPrice: catLang['cat-dprice'][this.lang as keyof typeof catLang['cat-dprice']],
+    };
+    // Render selects elements
+    sortParameters.forEach((parameter) => {
+      const optionElement = this.createEl('option', sortNames[parameter as keyof ISort], 'sort__option', selectElement) as HTMLOptionElement;
+      optionElement.value = parameter;
+      if (parameter === localStorage.getItem('sortParam')) { optionElement.selected = true; }
+    });
+
+
 
     const filtersAndCards = this.createEl('div', '', 'filters__and__cards', null);
     this.createEl('div', '', 'item__container', filtersAndCards);
@@ -57,30 +74,88 @@ class CatalogView extends Element {
     (async () => {
       const products = await this.api.getAllProduct();
       const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+
       const addCard = (arr: IProduct[]) => {
         getItemsContainer[0].innerHTML = '';
         getItemsContainer[0].innerHTML = `<section id="nothing-found">
                                               <span>Извините, совпадений не обнаружено</span>
                                           </section>`;
         arr.forEach((item, index) => {
-          getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
+          const name = {
+            eng: item.name.split(':')[0],
+            ru: item.name.split(':')[1],
+          }
+          const getColors = () => {
+            const colorsEngArr = item.color.split(':')[0].split(', ');
+            let colorsStr = ``;
+            colorsEngArr.forEach(el => {
+              colorsStr += `<div class="item-column__color" style="background: ${el.trim()}"></div>`
+            });
+            return colorsStr;
+          }
+          const customParameters = localStorage.getItem('custParam');
+          if (!customParameters || customParameters === 'row') {
+            getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
                                                     <div id="image-container-${index}" class="image-container">
                                                       <img src="http://localhost:5000${item.image}" class="item__img" alt="image">
                                                       <div id="favorites-container-${index}" class="favorites-container">
                                                       </div>
                                                     </div>
-                                                    <p class="item__name">${item.category} ${item.brand} ${item.year}</p>
+                                                    <p class="item__name">${name[this.lang as keyof typeof name]}</p>
                                                     <div id="item__allprice-${index}" class="item__allprice">
                                                     </div>
                                                 </a>`;
+          } else if (customParameters === 'column') {
+            const category = {
+              eng: item.category.split(':')[0],
+              ru: item.category.split(':')[1],
+            }
+            getItemsContainer[0].innerHTML += `<div class="item-column">
+            <a class="item-left" href="/#/p/${item._id}">
+              <div id="image-container-${index}" class="item-column__img-wrapper">
+                <img src="http://localhost:5000${item.image}" class="item-column__img" alt="image">
+                <div id="favorites-container-${index}" class="wishlit__item-btn">
+                </div>
+              </div>
+            </a>
+            <div class="item-column__info">
+              <a class="item-column__name" href="/#/p/${item._id}">${name[this.lang as keyof typeof name]}</a>
+
+              <div class="item-column__item item-column__colors">
+                <p class="item-column-title item-column__colors-title">${catLang['cat-colors'][this.lang as keyof typeof catLang['cat-colors']]}</p>
+                <div class="item-column-value item-column__colors">${getColors()}</div>
+              </div>
+
+              <div class="item-column__item item-column__year">
+                <p class="item-column-title item-column__year-title">${catLang['cat-year'][this.lang as keyof typeof catLang['cat-year']]}</p>
+                <div class="item-column-value item-column__year-value">${item.year}</div>
+              </div>
+
+              <div class="item-column__item item-column__category">
+                <p class="item-column-title item-column__category-title">${catLang['cat-cat'][this.lang as keyof typeof catLang['cat-cat']]}</p>
+                <div class="item-column-value item-column__category-value">${category[this.lang as keyof typeof category].toLowerCase()}</div>
+              </div>
+
+              <div class="item-column__item item-column__brand">
+                <p class="item-column-title item-column__brand-title">${catLang['cat-brand'][this.lang as keyof typeof catLang['cat-brand']]}</p>
+                <div class="item-column-value item-column__brand-value">${item.brand}</div>
+              </div>
+
+              <div class="item-column__price"></div>
+              <div id="item__allprice-${index}" class="item-column__price">
+              </div>
+            </div>
+        </div>`;
+          }
+
 
           const isExist = wishList.find(el => el.productId === item._id);
           const favoritesContainer = document.getElementById(`favorites-container-${index}`) as HTMLElement;
           if (isExist) {
-            favoritesContainer.innerHTML = `<i class="bi bi-heart-fill"></i>`;
+            favoritesContainer.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
           }
           else {
-            favoritesContainer.innerHTML = `<i class="bi bi-heart"></i>`;
+            favoritesContainer.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
           }
           const itemAllPrice = document.getElementById(`item__allprice-${index}`) as HTMLElement;
           if (Number(item.discount) && Number(item.discount) > 0) {
@@ -101,22 +176,22 @@ class CatalogView extends Element {
             <section class="filters-wrapper">
               <div class="filters-content">
                 <div class="filter-container"> 
-                  <p class="filters-content_name">Clothes</p>
+                  <p class="filters-content_name">${catLang['cat-cat'][this.lang as keyof typeof catLang['cat-cat']]}</p>
                   <div id="select-clothes" class="filters-content__clother filter-box">
                   </div>
                 </div>
                 <div class="filter-container">
-                  <p class="filters-content_name">Size</p>
+                  <p class="filters-content_name">${catLang['cat-size'][this.lang as keyof typeof catLang['cat-size']]}</p>
                   <div id="select-size" class="filters-content__size filter-box">
                   </div>
                 </div>
                 <div class="filter-container">
-                  <p class="filters-content_name">Color</p>
+                  <p class="filters-content_name">${catLang['cat-color'][this.lang as keyof typeof catLang['cat-color']]}</p>
                   <div id="select-color" class="filters-content__color filter-box">
                   </div>
                 </div>
                 <div class="filter-container">
-                  <p class="filters-content_name">Brand</p>
+                  <p class="filters-content_name">${catLang['cat-brand'][this.lang as keyof typeof catLang['cat-brand']]}</p>
                   <div id="select-brand" class="filters-content__brand filter-box">
                   </div>
                 </div>
@@ -135,21 +210,17 @@ class CatalogView extends Element {
       const changeView = document.getElementById('change-view') as HTMLElement;
       if (changeView !== undefined)
         changeView.addEventListener("click", () => {
-          const filtersWrapper = document.getElementsByClassName("filters-wrapper")[0] as HTMLElement;
-          const filtersContent = document.getElementsByClassName("filters-content")[0] as HTMLElement;
-          if (changeView.classList.contains('change-view__onclick')) {
-            changeView.classList.remove('change-view__onclick');
-            changeView.classList.add('change-view__offclick');
-            filtersAndCards.classList.remove('filters__and__cards__custom');
-            filtersWrapper.classList.remove('filters-wrapper__custom');
-            filtersContent.classList.remove('filters-content__custom')
-          }
-          else {
-            changeView.classList.add('change-view__onclick');
-            changeView.classList.remove('change-view__offclick');
-            filtersAndCards.classList.add('filters__and__cards__custom');
-            filtersWrapper.classList.add('filters-wrapper__custom');
-            filtersContent.classList.add('filters-content__custom')
+          changeView.classList.toggle('change-view__onclick');
+          const currentParam = localStorage.getItem('custParam')
+          if (!currentParam || currentParam === 'column') {
+            localStorage.setItem('custParam', 'row')
+            console.log(1, obj.arrFilter);
+            addCard(obj.arrFilter);
+          } else {
+            localStorage.setItem('custParam', 'column')
+            addCard(obj.arrFilter);
+            console.log(2, obj.arrFilter);
+
           }
         });
 
@@ -170,8 +241,13 @@ class CatalogView extends Element {
       function getClothes() {
         const coverClothes = document.getElementById('select-clothes') as HTMLSelectElement;
         const arrCoverClothes: string[] = [];
+        const lang = localStorage.getItem('current-lang') as string;
         for (let i = 0; i < products.length; i += 1) {
-          const categoryName = products[i].category.toLowerCase();
+          const category = {
+            eng: products[i].category.split(':')[0],
+            ru: products[i].category.split(':')[1],
+          }
+          const categoryName = category[lang as keyof typeof category].toLowerCase();
           if (!arrCoverClothes.includes(categoryName)) {
             arrCoverClothes.push(categoryName);
           }
@@ -180,7 +256,11 @@ class CatalogView extends Element {
         for (let i = 0; i < arrCoverClothes.length; i += 1) {
           let amount = 0;
           products.forEach(e => {
-            if (arrCoverClothes[i] === e.category.toLowerCase()) {
+            const categoryAmount = {
+              eng: e.category.split(':')[0],
+              ru: e.category.split(':')[1],
+            }
+            if (arrCoverClothes[i] === categoryAmount[lang as keyof typeof categoryAmount].toLowerCase()) {
               amount += 1;
             }
           });
@@ -239,10 +319,17 @@ class CatalogView extends Element {
       getSize();
 
       function getColor() {
+        const lang = localStorage.getItem('current-lang') as string;
+
         const coverColor = document.getElementById('select-color') as HTMLSelectElement;
         const arrCoverColor: string[] = [];
         for (let i = 0; i < products.length; i += 1) {
-          const arr = products[i].color.split(',');
+          const color = {
+            eng: products[i].color.split(':')[0],
+            ru: products[i].color.split(':')[1],
+          }
+          const arrEng = color.eng.split(',');
+          const arr = color[lang as keyof typeof color].split(',');
           for (let j = 0; j < arr.length; j += 1) {
             arr[j] = arr[j].trim();
           }
@@ -252,7 +339,7 @@ class CatalogView extends Element {
                 amount += 1;
               }
             }); */
-          arr.forEach(e => {
+          arr.forEach((e, i) => {
             const colorName = e;
             if (!arrCoverColor.includes(colorName)) {
               arrCoverColor.push(colorName);
@@ -260,7 +347,7 @@ class CatalogView extends Element {
                 coverColor.innerHTML += `
                     <div class="color-wrapper">
                       <input type="checkbox" id="${colorName}" class="filter-color__checkbox" value="${colorName}">
-                      <label for="${colorName}" class="filter-color__label" style="background-color: ${colorName};"></label>
+                      <label for="${colorName}" class="filter-color__label" style="background-color: ${arrEng[i]};"></label>
                       <div class="color-checkbox-wrapper">
                       </div>
                       <div class="color-checkbox-name">${colorName}</div>
@@ -328,11 +415,11 @@ class CatalogView extends Element {
         const maxAm: number = Math.max(...arrInStock);
         if (coverPrice !== null)
           noUiSlider.create(coverPrice, {
-            start: [obj.minStock, obj.maxStock],
+            start: [0, obj.maxStock],
             step: 1,
             tooltips: [true, true],
             connect: true,
-            range: { 'min': minAm - minAm, 'max': maxAm + 500 }
+            range: { 'min': 0, 'max': maxAm }
           });
 
         const inputNumberLow = document.getElementById('input-number_low') as HTMLInputElement;
@@ -358,9 +445,18 @@ class CatalogView extends Element {
       getPrice();
 
       function onFilters() {
+        const lang = localStorage.getItem('current-lang') as string;
+
         obj.arrFilter = products.filter((e) => Number(e.price) >= obj.coverPriceFilter[0] && Number(e.price) <= obj.coverPriceFilter[1]);
         if (obj.clothesFilter.length > 0) {
-          obj.arrFilter = obj.arrFilter.filter((e) => obj.clothesFilter.includes(e.category.toLowerCase()));
+          obj.arrFilter = obj.arrFilter.filter((e) => {
+            const category = {
+              eng: e.category.split(':')[0],
+              ru: e.category.split(':')[1],
+            }
+            return obj.clothesFilter.includes(category[lang as keyof typeof category].toLowerCase())
+
+          });
         }
         if (obj.sizeFilter.length > 0) {
           obj.arrFilter = obj.arrFilter.filter((e) => {
@@ -450,7 +546,14 @@ class CatalogView extends Element {
         });
 
       const sortSearch = (allCard: IProduct[], valueSearch: string) => {
-        const allCardge: IProduct[] = allCard.filter((e) => e.brand.toLowerCase().includes(valueSearch));
+        const lang = localStorage.getItem('current-lang') as string;
+        const allCardge: IProduct[] = allCard.filter((e) => {
+          const name = {
+            eng: e.name.split(':')[0],
+            ru: e.name.split(':')[1],
+          }
+          return name[lang as keyof typeof name].toLowerCase().indexOf(valueSearch.toLowerCase()) > -1
+        });
         addCard(allCardge);
         if (allCardge.length <= 0 && valueSearch.length > 0) {
           const nothingFound = document.getElementById("nothing-found") as HTMLElement;
@@ -462,18 +565,73 @@ class CatalogView extends Element {
         }
       }
 
+
+      const sortProducts = () => {
+        const sortParameter = localStorage.getItem('sortParam');
+        const lang = localStorage.getItem('current-lang') as string;
+        if (sortParameter === 'DownYear') {
+          obj.arrFilter.sort((a, b) => (b.year < a.year ? -1 : 1));
+        }
+        if (sortParameter === 'UpYear') {
+          obj.arrFilter.sort((a, b) => (b.year > a.year ? -1 : 1));
+        }
+        if (sortParameter === 'DownPrice') {
+          obj.arrFilter.sort((a, b) => (b.price as unknown as number) - (a.price as unknown as number));
+        }
+        if (sortParameter === 'UpPrice') {
+          obj.arrFilter.sort((a, b) => (a.price as unknown as number) - (b.price as unknown as number));
+        }
+        if (sortParameter === 'UpName') {
+          obj.arrFilter.sort((a, b) => {
+            const nameB = {
+              eng: b.name.split(':')[0],
+              ru: b.name.split(':')[1],
+            }
+            const nameA = {
+              eng: a.name.split(':')[0],
+              ru: a.name.split(':')[1],
+            }
+            return (nameB[this.lang as keyof typeof nameB].toLowerCase() > nameA[this.lang as keyof typeof nameA].toLowerCase() ? -1 : 1)
+          });
+        }
+        if (sortParameter === 'DownName') {
+          obj.arrFilter.sort((a, b) => {
+            const nameB = {
+              eng: b.name.split(':')[0],
+              ru: b.name.split(':')[1],
+            }
+            const nameA = {
+              eng: a.name.split(':')[0],
+              ru: a.name.split(':')[1],
+            }
+            return (nameB[this.lang as keyof typeof nameB].toLowerCase() < nameA[this.lang as keyof typeof nameA].toLowerCase() ? -1 : 1)
+          });
+        }
+        addCard(obj.arrFilter);
+      }
+      sortProducts();
+
+
       const formSearch = document.getElementsByClassName("navbar__search-line")[0] as HTMLInputElement;
       const formSearchMobile = document.getElementsByClassName("navbar__search-line")[1] as HTMLInputElement;
+      const sortSelect = document.querySelector(".sort__select") as HTMLSelectElement;
       if (formSearch !== undefined)
         formSearch.oninput = () => {
           const valueSearch: string = formSearch.value;
           sortSearch(obj.arrFilter, valueSearch.toLowerCase());
         }
       if (formSearchMobile !== undefined)
-      formSearchMobile.oninput = () => {
+        formSearchMobile.oninput = () => {
           const valueSearch: string = formSearchMobile.value;
           sortSearch(obj.arrFilter, valueSearch.toLowerCase());
         }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+          localStorage.setItem('sortParam', sortSelect.value);
+          sortProducts();
+        });
+      }
 
     })().catch(err => { console.error(err) });
     return filtersAndCards;

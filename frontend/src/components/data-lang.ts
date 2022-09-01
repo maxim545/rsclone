@@ -393,3 +393,66 @@ export const cartLang: TLang = {
         "ru": "Размер:",
     },
 }
+
+export const catLang: TLang = {
+    "cat-page-title": {
+        "eng": "Online store",
+        "ru": "Интернет магазин",
+    },
+    "cat-hide": {
+        "eng": "Hide filters",
+        "ru": "Скрыть фильтры",
+    },
+    "cat-sort": {
+        "eng": "Sort by",
+        "ru": "Сорти-ка",
+    },
+    "cat-dyear": {
+        "eng": "Year descending &uarr;",
+        "ru": "По убыванию года &uarr;",
+    },
+    "cat-uyear": {
+        "eng": "Year ascending &darr;;",
+        "ru": "По возрастатнию года &darr;",
+    },
+    "cat-dname": {
+        "eng": "Name descending [Z-A] &uarr;",
+        "ru": "По имени от [Я-А] &uarr;",
+    },
+    "cat-uname": {
+        "eng": "Name ascending [A-Z] &darr;",
+        "ru": "По имени от [А-Я] &uarr;",
+    },
+    "cat-dprice": {
+        "eng": "Price descending &uarr;",
+        "ru": "По убыванию цены &uarr;",
+    },
+    "cat-uprice": {
+        "eng": "Price ascending &darr;",
+        "ru": "По возрастатнию цены &darr;",
+    },
+    "cat-colors": {
+        "eng": "Colors available",
+        "ru": "Цвета в наличии",
+    },
+    "cat-color": {
+        "eng": "Colors",
+        "ru": "Цвета",
+    },
+    "cat-year": {
+        "eng": "Year",
+        "ru": "Год",
+    },
+    "cat-cat": {
+        "eng": "Category",
+        "ru": "Категория",
+    },
+    "cat-brand": {
+        "eng": "Brand",
+        "ru": "Бренд",
+    },
+    "cat-size": {
+        "eng": "Sizes",
+        "ru": "Размеры",
+    },
+}

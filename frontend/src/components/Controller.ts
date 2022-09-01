@@ -107,6 +107,7 @@ class Controller {
         /* const data: TLang = langData */
         const currentLang: string = lang.toLowerCase();
         localStorage.setItem('current-lang', currentLang);
+        localStorage.removeItem('onFilters');
         /* const allElements = document.querySelectorAll('[data-lng]');
         allElements.forEach((el) => {
             if (el instanceof HTMLElement) {

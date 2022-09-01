@@ -91,7 +91,7 @@ export interface IOrderData {
 export interface IOrders {
   _id: string,
   orderItems: ICartProduct[],
-  updatedAt: string,
+  createdAt: string,
   user: IUserData,
   orderStatus: string,
   price: number,

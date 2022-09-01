@@ -47,7 +47,7 @@ class PurchaseView extends Element {
                 }
                 const ordersList = this.createEl('div', '', 'tabs', ordersEl);
                 purchases.forEach((item, i) => {
-                    const orderDate = new Date(item.updatedAt);
+                    const orderDate = new Date(item.createdAt);
                     const day = orderDate.getDate()
                     const year = orderDate.getFullYear();
                     const monthLang = {
@@ -171,10 +171,10 @@ class PurchaseView extends Element {
     sortOrders(data: IOrders[]) {
         const sortParams = localStorage.getItem('userSortParameters');
         if (sortParams === 'dateDesc') {
-            data.sort((a, b) => (new Date(b.updatedAt) < new Date(a.updatedAt) ? -1 : 1));
+            data.sort((a, b) => (new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1));
         }
         if (sortParams === 'dateAsc') {
-            data.sort((a, b) => (new Date(a.updatedAt) < new Date(b.updatedAt) ? -1 : 1));
+            data.sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1));
         }
         if (sortParams === 'priceDesc') {
             data.sort((a, b) => (b.price > a.price ? -1 : 1));

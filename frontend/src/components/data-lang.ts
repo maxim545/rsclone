@@ -522,6 +522,10 @@ export const orderLang: TLang = {
         "eng": "My orders",
         "ru": "Мои заказы",
     },
+    "admin-title": {
+        "eng": "All orders",
+        "ru": "Все заказы",
+    },
     "ddate": {
         "eng": "Date descending &uarr;",
         "ru": "Дата по убыванию &uarr;",
@@ -538,11 +542,54 @@ export const orderLang: TLang = {
         "eng": "Price ascending &darr;",
         "ru": "Цена по возрастанию &darr;",
     },
-
-
-    "status": {
-        "eng": "Price ascending &darr;",
-        "ru": "Цена по возрастанию &darr;",
+    "status-processing": {
+        "eng": "processing",
+        "ru": "В обработке",
     },
+    "status-progressing": {
+        "eng": "progressing",
+        "ru": "Собирается",
+    },
+    "status-in-delivery": {
+        "eng": "in-delivery",
+        "ru": "В доставке",
+    },
+    "status-delivered": {
+        "eng": "delivered",
+        "ru": "Доставлен",
+    },
+    "status-canceled": {
+        "eng": "canceled",
+        "ru": "Отказ",
+    },
+    "user": {
+        "eng": "Buyer Information",
+        "ru": "Информация о покупателе",
+    },
+    "name": {
+        "eng": "Name",
+        "ru": "Имя",
+    },
+    "surname": {
+        "eng": "Surname",
+        "ru": "Фамилия",
+    },
+    "thirdname": {
+        "eng": "Third name",
+        "ru": "Отчество",
+    },
+    "email": {
+        "eng": "Email",
+        "ru": "Почта",
+    },
+    "phone": {
+        "eng": "Phone",
+        "ru": "Телефон",
+    },
+    "adress": {
+        "eng": "Adress",
+        "ru": "Адрес",
+    }
 
 }
+

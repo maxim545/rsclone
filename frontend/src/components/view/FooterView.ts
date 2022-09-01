@@ -1,6 +1,7 @@
 import Api from "../api";
 import Element from "../common/Element";
 import Controller from "../Controller";
+import { footerLang } from "../data-lang";
 import { IUserData } from "../types";
 
 
@@ -10,10 +11,13 @@ class FooterView extends Element {
 
   private api: Api;
 
+  private lang: string;
+
   constructor() {
     super();
     this.api = new Api();
     this.controller = new Controller();
+    this.lang = localStorage.getItem('current-lang') as string;
   }
 
   create() {
@@ -23,19 +27,19 @@ class FooterView extends Element {
         <section class="footer__container footer__top">
           <div class="footer__wrapper">
             <div class="footer__profile">
-              <h3>Profile</h3>
+              <h3>${footerLang['foo-profile'][this.lang as keyof typeof footerLang['foo-profile']]}</h3>
               <ul class="footer__profile-list">
                 ${this.getProfileHTML(userData)}
               </ul>
             </div>
             <div class="footer__contacts">
-              <h3>Get in touch</h3>
+              <h3>${footerLang['foo-get'][this.lang as keyof typeof footerLang['foo-get']]}</h3>
               <div class="footer__phone">
-                <span>Call:</span>
+                <span>${footerLang['foo-call'][this.lang as keyof typeof footerLang['foo-call']]}</span>
                 <a href="tel:84055550128">(405) 555-0128</a>
               </div>
               <div class="footer__email">
-                <span>Email:</span>
+                <span>${footerLang['foo-mail'][this.lang as keyof typeof footerLang['foo-mail']]}</span>
                 <a href="mailto:hello@createx.com">hello@createx.com</a>
               </div>
               <ul class="socials">
@@ -43,7 +47,7 @@ class FooterView extends Element {
               </ul>
             </div>
             <div class="footer__apps">
-              <h3>Download our app</h3>
+              <h3>${footerLang['foo-app'][this.lang as keyof typeof footerLang['foo-app']]}</h3>
               <div>
                 ${this.getAppsHTML()}
               </div>
@@ -78,7 +82,7 @@ class FooterView extends Element {
                 ${this.getRSSsvg()}
               </a>
               <button class="footer__btn" type="button" data-btn-go-top>
-                <span class="footer__btn-span">Go to top</span>
+                <span class="footer__btn-span">${footerLang['foo-top'][this.lang as keyof typeof footerLang['foo-top']]}<i class="bi bi-arrow-up-short"></i></span>
               </button>
             </div>
           </div>
@@ -104,9 +108,18 @@ class FooterView extends Element {
     let res = ``;
     let links;
     if (userData) {
-      links = ['Cart:#/cart', 'My profile:#/account', 'Favorites:#/favorites', 'My orders:#/purchases'];
+      links = [
+        `${footerLang.cart[this.lang as keyof typeof footerLang['cart']]}:#/cart`,
+        `${footerLang.profile[this.lang as keyof typeof footerLang['profile']]}:#/account`,
+        `${footerLang.fav[this.lang as keyof typeof footerLang['fav']]}:#/favorites`,
+        `${footerLang.orders[this.lang as keyof typeof footerLang['orders']]}:#/purchases`
+      ];
     } else {
-      links = ['Cart:#/cart', 'Login:#/login', 'Sign up:#/register'];
+      links = [
+        `${footerLang.cart[this.lang as keyof typeof footerLang['cart']]}:#/cart`,
+        `${footerLang.log[this.lang as keyof typeof footerLang['log']]}:#/login`,
+        `${footerLang.reg[this.lang as keyof typeof footerLang['reg']]}:#/register`
+      ];
     }
     res = this.getProfileItems(links);
     return res;

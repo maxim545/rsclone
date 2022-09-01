@@ -456,3 +456,55 @@ export const catLang: TLang = {
         "ru": "Размеры",
     },
 }
+
+
+export const footerLang: TLang = {
+    "foo-profile": {
+        "eng": "Profile",
+        "ru": "Профиль",
+    },
+    "foo-get": {
+        "eng": "Get in touch",
+        "ru": "Связаться",
+    },
+    "foo-call": {
+        "eng": "Call:",
+        "ru": "Телефон:",
+    },
+    "foo-mail": {
+        "eng": "Email:",
+        "ru": "Почта:",
+    },
+    "foo-app": {
+        "eng": "Download our app",
+        "ru": "Загрузите наше приложение",
+    },
+    "foo-top": {
+        "eng": "Go to top",
+        "ru": "Наверх",
+    },
+    "cart": {
+        "eng": "Сart",
+        "ru": "Корзина",
+    },
+    "profile": {
+        "eng": "My profile",
+        "ru": "Мой профиль",
+    },
+    "reg": {
+        "eng": "Sign up",
+        "ru": "Регистрация",
+    },
+    "log": {
+        "eng": "Sign in",
+        "ru": "Логин",
+    },
+    "fav": {
+        "eng": "Wishlist",
+        "ru": "Избранное",
+    },
+    "orders": {
+        "eng": "Orders",
+        "ru": "Мои заказы",
+    },
+}

@@ -63,9 +63,9 @@ class CartView extends Element {
                             ru: item.name.split(':')[1],
                         }
 
-                        this.createEl('div', name[this.lang as keyof typeof name], 'cart__item-name', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Color:</span> ${item.color}`, 'cart__item-name-value', itemInfo);
-                        this.createEl('div', `<span class="cart__item-name-key">Size:</span> ${item.size}`, 'cart__item-name-value', itemInfo);
+                        this.createEl('a', name[this.lang as keyof typeof name], 'cart__item-name', itemInfo, `/#/p/${item._id}`);
+                        this.createEl('div', `<span class="cart__item-name-key">${cartLang['cart-color'][this.lang as keyof typeof cartLang['cart-color']]}</span> ${item.color}`, 'cart__item-name-value', itemInfo);
+                        this.createEl('div', `<span class="cart__item-name-key">${cartLang['cart-size'][this.lang as keyof typeof cartLang['cart-size']]}</span> ${item.size}`, 'cart__item-name-value', itemInfo);
                         const itemAmount = this.createEl('div', '', 'cart__item-amount', cartItemEl);
                         const inputAmount = this.createEl('input', '', 'cart__item-input', itemAmount) as HTMLInputElement;
                         inputAmount.type = 'number';

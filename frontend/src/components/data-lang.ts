@@ -384,4 +384,12 @@ export const cartLang: TLang = {
         "eng": "Complete order",
         "ru": "Завершить покупку",
     },
+    "cart-color": {
+        "eng": "Color:",
+        "ru": "Цвет:",
+    },
+    "cart-size": {
+        "eng": "Size:",
+        "ru": "Размер:",
+    },
 }

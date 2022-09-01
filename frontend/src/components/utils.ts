@@ -1,8 +1,10 @@
-export const monthNames = ["January", "February", "March", "April", "May", "June",
+export const monthNamesEn = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
 
-export const data = []
+export const monthNamesRu = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+];
 
 
 

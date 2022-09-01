@@ -392,6 +392,14 @@ export const cartLang: TLang = {
         "eng": "Size:",
         "ru": "Размер:",
     },
+    "cart-price": {
+        "eng": "Price",
+        "ru": "Цена",
+    },
+    "cart-quan": {
+        "eng": "Quantity",
+        "ru": "Количество",
+    },
 }
 
 export const catLang: TLang = {
@@ -507,4 +515,34 @@ export const footerLang: TLang = {
         "eng": "Orders",
         "ru": "Мои заказы",
     },
+}
+
+export const orderLang: TLang = {
+    "title": {
+        "eng": "My orders",
+        "ru": "Мои заказы",
+    },
+    "ddate": {
+        "eng": "Date descending &uarr;",
+        "ru": "Дата по убыванию &uarr;",
+    },
+    "adate": {
+        "eng": "Date ascending &darr;",
+        "ru": "Дата по возрастанию &darr;",
+    },
+    "dprice": {
+        "eng": "Price descending &uarr;",
+        "ru": "Цена по убыванию &uarr;",
+    },
+    "aprice": {
+        "eng": "Price ascending &darr;",
+        "ru": "Цена по возрастанию &darr;",
+    },
+
+
+    "status": {
+        "eng": "Price ascending &darr;",
+        "ru": "Цена по возрастанию &darr;",
+    },
+
 }

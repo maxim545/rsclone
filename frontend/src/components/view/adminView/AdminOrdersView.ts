@@ -1,5 +1,5 @@
 import { IUserData, IOrders, IProduct } from "../../types";
-import { monthNames } from "../../utils";
+import { monthNamesEn } from "../../utils";
 import Api from "../../api";
 import UserSidebarView from "../userView/UserSidebarView";
 import Controller from "../../Controller";
@@ -52,7 +52,7 @@ class PurchaseView extends Element {
                             const orderDate = new Date(item.updatedAt);
                             const day = orderDate.getDate()
                             const year = orderDate.getFullYear();
-                            const month = monthNames[orderDate.getMonth()];
+                            const month = monthNamesEn[orderDate.getMonth()];
                             const orderItem = this.createEl('div', '', 'tab', ordersList);
                             orderItem.dataset.num = item._id;
                             const inputEl = this.createEl('input', '', 'tab__input', orderItem) as HTMLInputElement;

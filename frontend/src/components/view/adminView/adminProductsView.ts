@@ -5,6 +5,10 @@ import { IProduct, IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 import AlertsView from "../AlertsView";
+import data from "../../data";
+import { orderLang, adminLang } from "../../data-lang";
+
+
 
 class AdminProductsView extends Element {
 
@@ -18,6 +22,8 @@ class AdminProductsView extends Element {
 
   private alertView: AlertsView;
 
+  private lang: string;
+
   constructor() {
     super();
     this.api = new Api();
@@ -25,11 +31,22 @@ class AdminProductsView extends Element {
     this.updateView = new UpdateView();
     this.sidebarView = new UserSidebarView();
     this.alertView = new AlertsView();
+    this.lang = localStorage.getItem('current-lang') as string;
   }
 
   create() {
+    document.title = adminLang.title[this.lang as keyof typeof adminLang['title']]
     const container = this.createEl(`div`, ``, `container_main account admin-products-wrapper`, null);
     const userData = <IUserData>JSON.parse(localStorage.getItem(`userData`) || `null`);
+
+    /* const createAll = this.createEl('button', 'create all product', 'admin-products__name', container);
+    createAll.addEventListener('click', () => {
+      data.forEach((item) => {
+        this.api.createProduct(userData, item)
+      });
+    }); */
+
+
     (async () => {
       if (userData) {
         const [currentUser] = await this.api.loginUser({
@@ -40,13 +57,19 @@ class AdminProductsView extends Element {
           container.append(this.sidebarView.create(userData));
           const productsSection = this.createEl(`section`, ``, `admin-products`, container);
           const productsEl = this.createEl(`div`, `Admin products`, `admin-products`, null);
+
+
+
+
+
+
+
           this.createEl(`a`, `create new product`, `admin-products__name`, productsEl, `#/adminpanel/createproduct`);
           const products = await this.api.getAllProduct();
-          console.dir(products);
           productsSection.innerHTML = `
                     <div class="admin-products__header">
-                      <h2 class="admin-products__header-title">All products</h2>
-                      <a class="admin-products__create" href="#/adminpanel/createproduct">Create new product</a>
+                      <h2 class="admin-products__header-title">${adminLang.title[this.lang as keyof typeof adminLang['title']]}</h2>
+                      <a class="admin-products__create" href="#/adminpanel/createproduct">${adminLang.create[this.lang as keyof typeof adminLang['create']]}</a>
                     </div>
                     <ul class="admin-products__list">
                       ${this.getProductsHTML(products)}
@@ -80,28 +103,32 @@ class AdminProductsView extends Element {
   getProductsHTML(products: IProduct[]) {
     let res = ``
     for (const product of products) {
+      const name = {
+        eng: product.name.split(':')[0],
+        ru: product.name.split(':')[1],
+      }
       res = `${res}
                 <li class="admin-product">
                   <div class="admin-product__img-wrapper">
                     <img src="http://localhost:5000${product.image}" alt="Product photo">
                   </div>
                   <div class="admin-product__title">
-                    <h3>${product.name}</h3>
+                    <h3>${name[this.lang as keyof typeof name]}</h3>
                     <span>Art. No. ${product._id.slice(-10)}</span>
                   </div>
                   <div class="admin-product__price">
-                    <span>Price:</span>
+                    <span>${adminLang.price[this.lang as keyof typeof adminLang['price']]}</span>
                     <b>$${product.price}</b>
                   </div>
                   <div class="admin-product__quantities">
-                    <span>Quantities in stock:</span>
+                    <span>${adminLang.quan[this.lang as keyof typeof adminLang['quan']]}</span>
                     <div class="admin-product__sizes">
                       ${this.getQuantitiesHTML(product.variant)}
                     </div>
                   </div>
                   <div class="admin-product__btns">
-                    <a class="admin-product__btn" href="/#/adminpanel/products/update/${product._id}">Update</a>
-                    <button class="admin-product__btn admin-product__btn_delete" data-id="${product._id}" data-delete-btn>Delete</button>
+                    <a class="admin-product__btn" href="/#/adminpanel/products/update/${product._id}">${adminLang.update[this.lang as keyof typeof adminLang['update']]}</a>
+                    <button class="admin-product__btn admin-product__btn_delete" data-id="${product._id}" data-delete-btn>${adminLang.delete[this.lang as keyof typeof adminLang['delete']]}</button>
                   </div>
                 </li>
             `;
@@ -113,12 +140,8 @@ class AdminProductsView extends Element {
     const arr = quantities.split(`, `);
     let res = ``;
     for (const size of arr) {
-      let ending = ``;
-      if (+size.split(`:`)[1] > 1) {
-        ending = `s`;
-      }
       res = `${res}
-              <span>Size ${size.split(`:`)[0]}: ${size.split(`:`)[1]} piece${ending}</span>
+              <span>${adminLang.size[this.lang as keyof typeof adminLang['size']]} ${size.split(`:`)[0]} : ${size.split(`:`)[1]} ${adminLang.amount[this.lang as keyof typeof adminLang['amount']]}</span>
               `;
     }
     return res;

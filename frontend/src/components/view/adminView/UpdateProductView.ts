@@ -5,6 +5,7 @@ import { IProduct, IProductCreated, IUserData } from "../../types";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 import AlertsView from "../AlertsView";
+import { orderLang, adminLang } from "../../data-lang";
 
 class ChangeProductView extends Element {
 
@@ -18,6 +19,8 @@ class ChangeProductView extends Element {
 
   private alertView: AlertsView;
 
+  private lang: string;
+
 
   constructor() {
     super();
@@ -26,6 +29,7 @@ class ChangeProductView extends Element {
     this.updateView = new UpdateView();
     this.sidebarView = new UserSidebarView();
     this.alertView = new AlertsView();
+    this.lang = localStorage.getItem('current-lang') as string;
   }
 
   create() {
@@ -51,50 +55,57 @@ class ChangeProductView extends Element {
           }
           container.append(this.sidebarView.create(userData));
           const accountWrap = this.createEl('div', '', 'account__wrapper', container);
+
+          const name = {
+            eng: `Editing of the product "${product.name.split(':')[0]}"`,
+            ru: `Редактирование продукта "${product.name.split(':')[1]}"`,
+          }
+          document.title = name[this.lang as keyof typeof name]
+
           accountWrap.innerHTML = `
-                    <h2 class="account__title">Editing of&nbsp;the&nbsp;product "${product.name}"<h2>
+                    <h2 class="account__title">${name[this.lang as keyof typeof name]}<h2>
                     <span class="account__article">Art. No. ${product._id.slice(-10)}</span>
                     <form data-update-product-form>
                     <div class="account__inputs-list">
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Name</p>
+                        <p class="account__inputs-title">${adminLang.name[this.lang as keyof typeof adminLang['name']]}</p>
                         <input class="form-control account__input" type="text" data-update-input="name" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Year</p>
+                        <p class="account__inputs-title">${adminLang.year[this.lang as keyof typeof adminLang['year']]}</p>
                         <input class="form-control account__input" type="number" data-update-input="year" min="1900" max="2023" step="1" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Color</p>
+                        <p class="account__inputs-title">${adminLang.color[this.lang as keyof typeof adminLang['color']]}</p>
                         <input class="form-control account__input" type="text" data-update-input="color" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Category</p>
+                        <p class="account__inputs-title">${adminLang.category[this.lang as keyof typeof adminLang['catrgory']]}</p>
                         <input class="form-control account__input" type="text" data-update-input="category" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Price</p>
+                        <p class="account__inputs-title">${adminLang.price[this.lang as keyof typeof adminLang['price']]}</p>
                         <input class="form-control account__input" type="number" data-update-input="price" min="1" max="10000" step="0.01" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Brand</p>
+                        <p class="account__inputs-title">${adminLang.brand[this.lang as keyof typeof adminLang['brand']]}</p>
                         <input class="form-control account__input" type="text" data-update-input="brand" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Image</p>
+                        <p class="account__inputs-title">${adminLang.img[this.lang as keyof typeof adminLang['img']]}</p>
                         <input class="form-control account__input account__input_image" type="text" data-update-input="image" required>
                         <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image">
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Variant</p>
+                        <p class="account__inputs-title">${adminLang.variant[this.lang as keyof typeof adminLang['variant']]}</p>
                         <input class="form-control account__input" type="text" data-update-input="variant" required>
                       </div>
                       <div class="account__inputs-item">
-                        <p class="account__inputs-title">Change Discount</p>
+                        <p class="account__inputs-title">${adminLang.dis[this.lang as keyof typeof adminLang['dis']]}</p>
                         <input class="form-control account__input" type="number" data-update-input="discount" min="0" max="100" required>
                       </div>
                     </div>
-                    <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>Update Product</button>
+                    <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>${adminLang.upd[this.lang as keyof typeof adminLang['upd']]}</button>
                     </form>
                     `;
           const inputsValues: IProductCreated = { _id: id }

@@ -41,7 +41,7 @@ class UserSidebarView extends Element {
                     `${accData['all-orders'][lang as keyof typeof accData['all-orders']]}:#/adminpanel/orders`,
                 )
             } else if (currentUser.role === 'courier' || currentUser.role === 'manager') {
-                links.unshift('All orders:#/adminpanel/orders')
+                links.unshift(`${accData['all-orders'][lang as keyof typeof accData['all-orders']]}:#/adminpanel/orders`)
             }
             const currentHash = window.location.hash;
             if (typeof userData.name === 'string' && typeof userData.surname === 'string' && typeof userData.email === 'string') {

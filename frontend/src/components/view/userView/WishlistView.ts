@@ -7,6 +7,7 @@ import UpdateView from "../../Update";
 import UserSidebarView from "./UserSidebarView";
 import Api from "../../api";
 import AlertsView from "../AlertsView";
+import { wlLang } from "../../data-lang";
 
 class AccountView extends Element {
 
@@ -32,17 +33,18 @@ class AccountView extends Element {
     create() {
         const container = this.createEl('div', '', 'container_main wishlist', null);
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
+        const lang = localStorage.getItem('current-lang') as string;
+        document.title = wlLang['wl-title'][lang as keyof typeof wlLang['wl-title']];
         if (!userData) {
             container.append(this.alertView.createNotLoginAlert())
         }
         else {
             container.append(this.sidebarView.create(userData))
             const wrapper = this.createEl('div', '', 'wishlist__wrapper', container);
-            this.createEl('h2', 'Wishlist', 'wishlist__title', wrapper);
+            this.createEl('h2', wlLang['wl-title'][lang as keyof typeof wlLang['wl-title']], 'wishlist__title', wrapper);
             const wishlistItems = this.createEl('div', '', 'wishlist__list', wrapper);
             (async () => {
                 const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
-                console.log(wishList);
                 let itemsAmount = wishList.length;
                 if (!itemsAmount) {
                     wrapper.innerHTML = ''
@@ -58,7 +60,12 @@ class AccountView extends Element {
                         const itemInfoEl = this.createEl('div', '', 'wishlit__item-info', itemEl);
                         const removeBtn = this.createEl('a', '<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>', 'wishlit__item-btn', imageEl);
                         removeBtn.dataset.id = item._id;
-                        this.createEl('a', product.name, 'wishlit__item-name', itemInfoEl, `/#/p/${product._id}`);
+
+                        const name = {
+                            eng: product.name.split(':')[0],
+                            ru: product.name.split(':')[1],
+                        }
+                        this.createEl('a', name[lang as keyof typeof name], 'wishlit__item-name', itemInfoEl, `/#/p/${product._id}`);
 
 
                         const discPrice = (Number(product.price) - Number(product.price) * Number(product.discount) / 100);

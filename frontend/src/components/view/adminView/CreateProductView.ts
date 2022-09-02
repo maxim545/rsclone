@@ -5,6 +5,8 @@ import Controller from "../../Controller";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 import AlertsView from "../AlertsView";
+import { alertsData, adminLang } from "../../data-lang";
+import ModalView from "../ModalView";
 
 class CreateProductView extends Element {
 
@@ -18,6 +20,11 @@ class CreateProductView extends Element {
 
   private alertView: AlertsView;
 
+  private lang: string;
+
+  private modalView: ModalView;
+
+
   constructor() {
     super();
     this.api = new Api();
@@ -25,9 +32,12 @@ class CreateProductView extends Element {
     this.updateView = new UpdateView();
     this.sidebarView = new UserSidebarView();
     this.alertView = new AlertsView();
+    this.lang = localStorage.getItem('current-lang') as string;
+    this.modalView = new ModalView();
   }
 
   create() {
+    document.title = adminLang['create-title'][this.lang as keyof typeof adminLang['create-title']]
     const container = this.createEl('div', '', 'container_main account', null);
     const userData = <IUserData>JSON.parse(localStorage.getItem(`userData`) || `null`);
     (async () => {
@@ -41,48 +51,48 @@ class CreateProductView extends Element {
           const accountWrap = this.createEl('div', '', 'account__wrapper', container);
           const inputsValues: IProductCreated = {};
           accountWrap.innerHTML = `
-                  <h1 class="account__title">Create New Product<h1>
+                  <h1 class="account__title">${adminLang['create-title'][this.lang as keyof typeof adminLang['create-title']]}<h1>
                   <form data-create-product-form>
                   <div class="account__inputs-list">
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Name</p>
+                      <p class="account__inputs-title">${adminLang.name[this.lang as keyof typeof adminLang['name']]}</p>
                       <input class="form-control account__input" type="text" data-create-input="name" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Year</p>
+                      <p class="account__inputs-title">${adminLang.year[this.lang as keyof typeof adminLang['year']]}</p>
                       <input class="form-control account__input" type="number" data-create-input="year" min="1900" max="2023" step="1" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Color</p>
+                      <p class="account__inputs-title">${adminLang.color[this.lang as keyof typeof adminLang['color']]}</p>
                       <input class="form-control account__input" type="text" data-create-input="color" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Category</p>
+                      <p class="account__inputs-title">${adminLang.category[this.lang as keyof typeof adminLang['category']]}</p>
                       <input class="form-control account__input" type="text" data-create-input="category" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Price</p>
+                      <p class="account__inputs-title">${adminLang.price[this.lang as keyof typeof adminLang['price']]}</p>
                       <input class="form-control account__input" type="number" data-create-input="price" min="1" max="10000" step="0.01" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Brand</p>
+                      <p class="account__inputs-title">${adminLang.brand[this.lang as keyof typeof adminLang['brand']]}</p>
                       <input class="form-control account__input" type="text" data-create-input="brand" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Image</p>
+                      <p class="account__inputs-title">${adminLang.img[this.lang as keyof typeof adminLang['img']]}</p>
                       <input class="form-control account__inpu account__input_image" type="text" data-create-input="image" required>
                       <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Variant</p>
+                      <p class="account__inputs-title">${adminLang.variant[this.lang as keyof typeof adminLang['variant']]}</p>
                       <input class="form-control account__input" type="text" data-create-input="variant" required>
                     </div>
                     <div class="account__inputs-item">
-                      <p class="account__inputs-title">Discount</p>
+                      <p class="account__inputs-title">${adminLang.dis[this.lang as keyof typeof adminLang['dis']]}</p>
                       <input class="form-control account__input" type="number" data-create-input="discount" min="0" max="100" required>
                     </div>
                   </div>
-                  <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>Create New Product</button>
+                  <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>${adminLang['create-title'][this.lang as keyof typeof adminLang['create-title']]}</button>
                   </form>
                   `;
           const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`[data-create-input]`);
@@ -111,7 +121,7 @@ class CreateProductView extends Element {
             e.preventDefault();
             this.api.createProduct(userData, inputsValues);
             btn?.blur();
-            alert('Product created successfully');
+            this.modalView.create(alertsData.create[this.lang as keyof typeof alertsData['create']])
             window.location.hash = '#/adminpanel/products'
           });
         } else {

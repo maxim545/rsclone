@@ -45,7 +45,7 @@ class HeaderView extends Element {
     topbarContentRightLang.addEventListener('change', () => {
       this.controller.chageLang(topbarContentRightLang.value)
     })
-    const currentLang = localStorage.getItem('current-lang');
+    let currentLang = localStorage.getItem('current-lang');
     const topbarContentRightLangEng = this.createEl('option', 'Eng', 'topbar__lang__eng', topbarContentRightLang) as HTMLOptionElement;
     const topbarContentRightLangRu = this.createEl('option', 'Ru', 'topbar__lang__ru', topbarContentRightLang) as HTMLOptionElement;
     if (currentLang) {
@@ -58,6 +58,7 @@ class HeaderView extends Element {
       }
     } else {
       localStorage.setItem('current-lang', 'eng');
+      currentLang = 'eng';
       topbarContentRightLangEng.selected = true;
       topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
     }

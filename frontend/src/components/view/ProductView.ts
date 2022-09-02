@@ -4,6 +4,8 @@ import Element from "../common/Element";
 import Controller from "../Controller";
 import UpdateView from "../Update";
 import AlertsView from "./AlertsView";
+import { proLang, alertsData } from "../data-lang";
+import ModalView from './ModalView';
 
 
 class ProductView extends Element {
@@ -16,18 +18,25 @@ class ProductView extends Element {
 
   private alertsView: AlertsView;
 
+  private lang: string
+
+  private modalView: ModalView;
+
   constructor() {
     super();
     this.api = new Api();
     this.controller = new Controller();
     this.updateView = new UpdateView();
     this.alertsView = new AlertsView();
+    this.modalView = new ModalView();
+    this.lang = localStorage.getItem('current-lang') as string;
   }
 
   create() {
     const id = window.location.hash.replace("#", "").slice(3);
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     const productEl = this.createEl('div', '', 'main-container', null);
+
     const main = document.querySelector('.main') as HTMLElement;
     if (id.length !== 24) {
       main.append(this.alertsView.create())
@@ -47,11 +56,16 @@ class ProductView extends Element {
       }
       const itemEl = this.createEl('div', '', 'product-item', productEl);
       if (product) {
+        const name = {
+          eng: product.name.split(':')[0],
+          ru: product.name.split(':')[1],
+        }
         const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
         const stockNumber = +temp;
+        document.title = name[this.lang as keyof typeof name];
         itemEl.innerHTML = `
                     <div class='product-item__heading'>
-                      <h3>${product.name}</h3>
+                      <h3>${name[this.lang as keyof typeof name]}</h3>
                       <span>Art. No. ${product._id.slice(0, 10)}</span>
                     </div>
                     <div class="product-item__content">
@@ -64,13 +78,13 @@ class ProductView extends Element {
                         </div>
                         <form>
                         <div class="product-item__colors">
-                          <span>Color</span>
+                          <span>${proLang['pro-color'][this.lang as keyof typeof proLang['pro-color']]}</span>
                           <div class="product-item__radios">
                             ${this.getColorBtns(product.color)}
                           </div>
                         </div>
                         <div class="product-item__sizes">
-                          <span>Size</span>
+                          <span>${proLang['pro-size'][this.lang as keyof typeof proLang['pro-size']]}</span>
                           ${this.getSizesSelect(product.variant)}
                         </div>
                         <div class="product-item__btns">
@@ -80,33 +94,33 @@ class ProductView extends Element {
                         </div>
                         </form>
                         <div class="product-item__delivery">
-                          <h4>Delivery</h4>
-                          <span>Free standard shipping on orders <b>over $35</b> before tax, plus free returns.</span>
+                          <h4>${proLang['pro-del'][this.lang as keyof typeof proLang['pro-del']]}</h4>
+                          <span>${proLang['pro-text'][this.lang as keyof typeof proLang['pro-text']]}</span>
                           <table>
                             <tr>
-                              <th>Type</th>
-                              <th>How Long</th>
-                              <th>How Much</th>
+                              <th>${proLang['pro-type'][this.lang as keyof typeof proLang['pro-type']]}</th>
+                              <th>${proLang['pro-long'][this.lang as keyof typeof proLang['pro-long']]}</th>
+                              <th>${proLang['pro-much'][this.lang as keyof typeof proLang['pro-much']]}</th>
                             </tr>
                             <tr>
-                              <td>Standard delivery</td>
-                              <td>1-4 business days</td>
-                              <td>$4.50</td>
+                              <td>${proLang['pro-st'][this.lang as keyof typeof proLang['pro-st']]}</td>
+                              <td>${proLang['pro-hst'][this.lang as keyof typeof proLang['pro-hst']]}</td>
+                              <td>$5</td>
                             </tr>
                             <tr>
-                              <td>Express delivery</td>
-                              <td>1 business day</td>
+                              <td>${proLang['pro-ex'][this.lang as keyof typeof proLang['pro-ex']]}</td>
+                              <td>${proLang['pro-hex'][this.lang as keyof typeof proLang['pro-hex']]}</td>
                               <td>$10.00</td>
                             </tr>
                             <tr>
-                              <td>Pick up in store</td>
-                              <td>1-3 business days</td>
-                              <td>Free</td>
+                              <td>${proLang['pro-pi'][this.lang as keyof typeof proLang['pro-pi']]}</td>
+                              <td>${proLang['pro-hpi'][this.lang as keyof typeof proLang['pro-hpi']]}</td>
+                              <td>${proLang['pro-free'][this.lang as keyof typeof proLang['pro-free']]}</td>
                             </tr>
                           </table>
                         </div>
                         <div class="product-item__socials">
-                          <b>Share:</b>
+                          <b>${proLang['pro-share'][this.lang as keyof typeof proLang['pro-share']]}</b>
                           ${this.getSocials()}
                         </div>
                         <div class="product-item__pays">
@@ -126,7 +140,7 @@ class ProductView extends Element {
         })
         const colorRadios = colorBtns?.querySelectorAll(`.product-item__radio`) as NodeListOf<HTMLInputElement>;
         for (const radio of colorRadios) {
-          radio.style.setProperty('--color', `${radio.value}`);
+          radio.style.setProperty('--color', `${radio.id}`);
         }
         const addCartBtn = document.querySelector(`.product-item__cart`);
         const favBtn = document.querySelector('.product-item__favourite')
@@ -161,12 +175,11 @@ class ProductView extends Element {
         addCartBtn?.addEventListener('click', () => {
           if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
             productData.color = colorSpan?.textContent;
-            console.log(productData.stock);
             this.controller.addToCart(productData);
             this.updateView.updateCart();
-            alert('Product successfully added')
+            this.modalView.create(alertsData.add[this.lang as keyof typeof alertsData['add']])
           } else {
-            alert('Please choose color, size and amount')
+            this.modalView.create(alertsData.choose[this.lang as keyof typeof alertsData['choose']])
           }
         });
 
@@ -174,7 +187,7 @@ class ProductView extends Element {
           favBtn.addEventListener('click', () => {
             if (userData) {
               if (isExist) {
-                alert('This product is already in wishlist');
+                this.modalView.create(alertsData.wl[this.lang as keyof typeof alertsData['wl']])
               } else {
                 favBtn.classList.toggle('active')
                 const wishItem = {
@@ -183,12 +196,12 @@ class ProductView extends Element {
                 }
                 this.api.addWishItem(wishItem, userData).then((data) => {
                   this.updateView.updateWishlistNum();
-                  alert('This product has been added to wishlist');
+                  this.modalView.create(alertsData.wladd[this.lang as keyof typeof alertsData['wladd']])
                   isExist = data;
                 })
               }
             } else {
-              alert('If u want add item to your wishList please register or sign in')
+              this.modalView.create(alertsData.wlreg[this.lang as keyof typeof alertsData['wlreg']])
             }
           })
         }
@@ -213,20 +226,23 @@ class ProductView extends Element {
 
   getColorBtns(colors: string) {
     if (typeof colors !== `string` || colors.length === 0) {
-      console.log('Error in ProductView getColorBtns');
       return ``;
     }
-    const arr = colors.split(`, `);
-    let res = `<input class="product-item__radio" type="radio" id="good-color-${arr[0]}" name="good-colors" value="${arr[0]}" checked>`;
+    const [enColors, ruColors] = colors.split(`:`);
+    const arr = {
+      eng: enColors.split(`, `),
+      ru: ruColors.split(`, `),
+    }
+    let res = `<input class="product-item__radio" type="radio" id="${arr.eng[0]}" name="good-colors" value="${arr[this.lang as keyof typeof arr][0]}" checked>`;
     let i = 1;
-    while (i !== arr.length) {
+    while (i !== arr.eng.length) {
       res = `${res}
-              <input class="product-item__radio" type="radio" id="good-color-${arr[i]}" name="good-colors" value="${arr[i]}">
+              <input class="product-item__radio" type="radio" id="${arr.eng[i]}" name="good-colors" value="${arr[this.lang as keyof typeof arr][i]}">
               `;
       i += 1;
     }
     res = `${res}
-              <span class="product-item__color-span">${arr[0]}</span>
+              <span class="product-item__color-span">${arr[this.lang as keyof typeof arr][0]}</span>
               `;
     return res;
   }
@@ -234,7 +250,7 @@ class ProductView extends Element {
   getSizesSelect(sizes: string) {
     const arr = sizes.split(`, `);
     let res = `<select class="product-item__size" name="select-size">
-            <option value="" disabled selected>Please select size</option>
+            <option value="" disabled selected>${proLang['pro-select'][this.lang as keyof typeof proLang['pro-select']]}</option>
             `;
     for (const size of arr) {
       res = `${res}
@@ -261,7 +277,7 @@ class ProductView extends Element {
                       d="M12.5 11.667C12.1318 11.667 11.8333 11.9655 11.8333 12.3337C11.8333 12.7018 12.1318 13.0003 12.5 13.0003C12.8682 13.0003 13.1667 12.7018 13.1667 12.3337C13.1667 11.9655 12.8682 11.667 12.5 11.667ZM10.5 12.3337C10.5 11.2291 11.3954 10.3337 12.5 10.3337C13.6046 10.3337 14.5 11.2291 14.5 12.3337C14.5 13.4382 13.6046 14.3337 12.5 14.3337C11.3954 14.3337 10.5 13.4382 10.5 12.3337Z"
                       fill="white"/>
             </svg>
-            <span>Add to cart</span>
+            <span>${proLang['pro-add'][this.lang as keyof typeof proLang['pro-add']]}</span>
           </button>
         `;
   }
@@ -270,7 +286,7 @@ class ProductView extends Element {
     return `
           <button type="button" class="product-item__favourite">
           <i class="bi bi-heart product-item__bi-heart"></i>
-            <span>Favourite</span>
+            <span>${proLang['pro-fav'][this.lang as keyof typeof proLang['pro-fav']]}</span>
           </button>
         `;
   }

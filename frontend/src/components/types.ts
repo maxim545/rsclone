@@ -91,7 +91,7 @@ export interface IOrderData {
 export interface IOrders {
   _id: string,
   orderItems: ICartProduct[],
-  updatedAt: string,
+  createdAt: string,
   user: IUserData,
   orderStatus: string,
   price: number,
@@ -112,6 +112,29 @@ export interface ILang {
 
 export type TLang = {
   [prop: string]: ILang;
+};
+
+
+export interface AllFiltersObj {
+  minStock: number,
+  maxStock: number,
+  coverPriceFilter: number[],
+  arrFilter: IProduct[],
+  sizeFilter: string[],
+  clothesFilter: string[],
+  colorFilter: string[],
+  brandFilter: string[],
+  searchFilter: string
+}
+
+
+export interface ISort {
+  DownYear: string,
+  UpYear: string,
+  DownName: string,
+  UpName: string,
+  UpPrice: string,
+  DownPrice: string
 };
 
 

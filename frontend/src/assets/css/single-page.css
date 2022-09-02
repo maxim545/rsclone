@@ -59,6 +59,8 @@
     height: auto;
 }
 
+
+
 .product-item__text {
     flex-basis: 43%;
 }
@@ -167,7 +169,6 @@
     position: relative;
     margin-right: 23px;
     cursor: pointer;
-    --color: blue;
 }
 
 .product-item__radio:checked::before {
@@ -195,6 +196,8 @@
     border-radius: 50%;
     background: var(--color);
 }
+
+
 
 .product-item__btns button {
     display: flex;

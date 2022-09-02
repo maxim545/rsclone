@@ -593,3 +593,39 @@ export const orderLang: TLang = {
 
 }
 
+export const adminLang: TLang = {
+
+    "title": {
+        "eng": "All products",
+        "ru": "Все продукты",
+    },
+    "create": {
+        "eng": "Create new product",
+        "ru": "Создать новый продукт",
+    },
+    "price": {
+        "eng": "Price:",
+        "ru": "Цена:",
+    },
+    "quan": {
+        "eng": "Quantities in stock::",
+        "ru": "Количество на складе:",
+    },
+    "size": {
+        "eng": "Size",
+        "ru": "Размер",
+    },
+    "amount": {
+        "eng": "(amount)",
+        "ru": "(коли-во)",
+    },
+    "update": {
+        "eng": "Update",
+        "ru": "Изменить",
+    },
+    "delete": {
+        "eng": "Delete",
+        "ru": "Обновить",
+    },
+}
+

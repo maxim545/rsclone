@@ -604,8 +604,8 @@ export const adminLang: TLang = {
         "ru": "Создать новый продукт",
     },
     "price": {
-        "eng": "Price:",
-        "ru": "Цена:",
+        "eng": "Price",
+        "ru": "Цена",
     },
     "quan": {
         "eng": "Quantities in stock::",
@@ -625,7 +625,47 @@ export const adminLang: TLang = {
     },
     "delete": {
         "eng": "Delete",
-        "ru": "Обновить",
+        "ru": "Удалить",
+    },
+    "create-title": {
+        "eng": "Create new product",
+        "ru": "Создать новый продукт",
+    },
+    "name": {
+        "eng": "Name in format - English name<b>:</b>Russian name",
+        "ru": "Имя в формате - Английское имя<b>:</b>Русское имя",
+    },
+    "year": {
+        "eng": "Year",
+        "ru": "Год",
+    },
+    "color": {
+        "eng": "Color in format - blue, yellow<b>:</b>синий, желтый",
+        "ru": "Цвет в формате - blue, yellow<b>:</b>синий, желтый",
+    },
+    "img": {
+        "eng": "Image (No need to fill in, fills in automatically)",
+        "ru": "Картинка (Заполнять не нужно, заполняется автоматически)",
+    },
+    "dis": {
+        "eng": "Discount",
+        "ru": "Скидка",
+    },
+    "category": {
+        "eng": "Category in format - Jeans<b>:</b>Джинсы",
+        "ru": "Категория в формате - Jeans<b>:</b>Джинсы",
+    },
+    "brand": {
+        "eng": "Brand",
+        "ru": "Бренд",
+    },
+    "variant": {
+        "eng": "Sizes and quantities in format - L:5, M:5, XL:6",
+        "ru": "Размеры и количество в формате - L:5, M:5, XL:6",
+    },
+    "upd": {
+        "eng": "Update Product",
+        "ru": "Обновить продукт",
     },
 }
 

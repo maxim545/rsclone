@@ -4,7 +4,8 @@ import Element from "../common/Element";
 import Controller from "../Controller";
 import UpdateView from "../Update";
 import AlertsView from "./AlertsView";
-import { proLang } from "../data-lang";
+import { proLang, alertsData } from "../data-lang";
+import ModalView from './ModalView';
 
 
 class ProductView extends Element {
@@ -19,12 +20,15 @@ class ProductView extends Element {
 
   private lang: string
 
+  private modalView: ModalView;
+
   constructor() {
     super();
     this.api = new Api();
     this.controller = new Controller();
     this.updateView = new UpdateView();
     this.alertsView = new AlertsView();
+    this.modalView = new ModalView();
     this.lang = localStorage.getItem('current-lang') as string;
   }
 
@@ -171,12 +175,11 @@ class ProductView extends Element {
         addCartBtn?.addEventListener('click', () => {
           if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
             productData.color = colorSpan?.textContent;
-            console.log(productData.stock);
             this.controller.addToCart(productData);
             this.updateView.updateCart();
-            alert('Product successfully added')
+            this.modalView.create(alertsData.add[this.lang as keyof typeof alertsData['add']])
           } else {
-            alert('Please choose color, size and amount')
+            this.modalView.create(alertsData.choose[this.lang as keyof typeof alertsData['choose']])
           }
         });
 
@@ -184,7 +187,7 @@ class ProductView extends Element {
           favBtn.addEventListener('click', () => {
             if (userData) {
               if (isExist) {
-                alert('This product is already in wishlist');
+                this.modalView.create(alertsData.wl[this.lang as keyof typeof alertsData['wl']])
               } else {
                 favBtn.classList.toggle('active')
                 const wishItem = {
@@ -193,12 +196,12 @@ class ProductView extends Element {
                 }
                 this.api.addWishItem(wishItem, userData).then((data) => {
                   this.updateView.updateWishlistNum();
-                  alert('This product has been added to wishlist');
+                  this.modalView.create(alertsData.wladd[this.lang as keyof typeof alertsData['wladd']])
                   isExist = data;
                 })
               }
             } else {
-              alert('If u want add item to your wishList please register or sign in')
+              this.modalView.create(alertsData.wlreg[this.lang as keyof typeof alertsData['wlreg']])
             }
           })
         }

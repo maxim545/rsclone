@@ -5,7 +5,8 @@ import Controller from "../../Controller";
 import UpdateView from "../../Update";
 import UserSidebarView from "../userView/UserSidebarView";
 import AlertsView from "../AlertsView";
-import { orderLang, adminLang } from "../../data-lang";
+import { alertsData, adminLang } from "../../data-lang";
+import ModalView from "../ModalView";
 
 class CreateProductView extends Element {
 
@@ -21,6 +22,9 @@ class CreateProductView extends Element {
 
   private lang: string;
 
+  private modalView: ModalView;
+
+
   constructor() {
     super();
     this.api = new Api();
@@ -29,6 +33,7 @@ class CreateProductView extends Element {
     this.sidebarView = new UserSidebarView();
     this.alertView = new AlertsView();
     this.lang = localStorage.getItem('current-lang') as string;
+    this.modalView = new ModalView();
   }
 
   create() {
@@ -116,7 +121,7 @@ class CreateProductView extends Element {
             e.preventDefault();
             this.api.createProduct(userData, inputsValues);
             btn?.blur();
-            alert('Product created successfully');
+            this.modalView.create(alertsData.create[this.lang as keyof typeof alertsData['create']])
             window.location.hash = '#/adminpanel/products'
           });
         } else {

@@ -46,7 +46,7 @@ export const langData: TLang = {
         "ru": "Страница входа",
     },
     "login-title": {
-        "eng": "Sign in",
+        "eng": "Signin",
         "ru": "Вход",
     },
     "login-subtitle": {
@@ -228,7 +228,46 @@ export const alertsData: TLang = {
         "eng": `The is not the page you are looking for.`,
         "ru": `Это не та страница, которую вы ищете.`,
     },
-
+    "field": {
+        "eng": `Please fill all fields.`,
+        "ru": `Пожалуйста заполните все поля.`,
+    },
+    "pass": {
+        "eng": `The username or password you entered is incorrect.`,
+        "ru": `Неверное имя пользователя или пароль.`,
+    },
+    "reg": {
+        "eng": `Your register is successful.`,
+        "ru": `Ваша регистрация прошла успешно.`,
+    },
+    "order": {
+        "eng": `Your order has been created.`,
+        "ru": `Ваш заказ создан успешно создан.`,
+    },
+    "add": {
+        "eng": `Product successfully added.`,
+        "ru": `Продукт успешно добавлен.`,
+    },
+    "choose": {
+        "eng": `Please choose color, size and amount.`,
+        "ru": `Пожалуйста, выберите цвет, размер и количество.`,
+    },
+    "wl": {
+        "eng": `This product is already in wishlist.`,
+        "ru": `Этот товар уже в избранном.`,
+    },
+    "wladd": {
+        "eng": `This product has been added to wishlist.`,
+        "ru": `Этот товар был добавлен в избранное`,
+    },
+    "wlreg": {
+        "eng": `If u want add item to your wishList please register or sign in.`,
+        "ru": `Если вы хотите добавить товар в свой список желаний, пожалуйста, зарегистрируйтесь или войдите.`,
+    },
+    "create": {
+        "eng": `Product created successfully.`,
+        "ru": `Продукт успешно создан.`,
+    }
 }
 
 
@@ -667,5 +706,14 @@ export const adminLang: TLang = {
         "eng": "Update Product",
         "ru": "Обновить продукт",
     },
+}
+
+export const modalLang: TLang = {
+
+    "btn": {
+        "eng": "I understand",
+        "ru": "Я понял",
+    },
+
 }
 

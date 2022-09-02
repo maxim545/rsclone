@@ -1,14 +1,21 @@
 import Api from './api';
-import { langData } from './data-lang';
+import { alertsData } from './data-lang';
 import { ICartProduct, IOrderData, IUserData, TLang } from './types';
+import ModalView from './view/ModalView';
 
 class Controller {
 
     private api: Api
 
+    private modalView: ModalView;
+
+    private lang: string;
+
 
     constructor() {
         this.api = new Api();
+        this.modalView = new ModalView();
+        this.lang = localStorage.getItem('current-lang') as string;
     }
 
 
@@ -45,14 +52,15 @@ class Controller {
             loginData.password = password;
             const [userData, status] = await this.api.loginUser(loginData) as [IUserData, number];
             if (status === 401) {
-                alert('The username or password you entered is incorrect')
+                this.modalView.create(alertsData.pass[this.lang as keyof typeof alertsData['pass']])
             } else {
                 window.location.hash = '/';
                 delete userData.role;
                 localStorage.setItem('userData', JSON.stringify(userData))
+                window.location.reload();
             }
         } else {
-            alert('Please fill all fields');
+            this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }
     }
 
@@ -66,14 +74,15 @@ class Controller {
             delete registerData.repeatPassword
             const [userData, status] = await this.api.registerUser(registerData) as [IUserData, number];
             if (status === 409) {
-                alert('The username or password you entered is incorrect')
+                this.modalView.create(alertsData.pass[this.lang as keyof typeof alertsData['pass']]);
             } else {
                 window.location.hash = '/';
                 localStorage.setItem('userData', JSON.stringify(userData))
-                alert('You register is successful')
+                this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
+                window.location.reload();
             }
         } else {
-            alert('Please fill all fields');
+            this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }
     }
 
@@ -89,9 +98,9 @@ class Controller {
             unputsValues.token = curUser.token
             const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
             localStorage.setItem('userData', JSON.stringify(userData));
-            alert('Your data has been successfully changed');
+            this.modalView.create(alertsData.user[this.lang as keyof typeof alertsData['user']])
         } else {
-            alert('Please fill all fields');
+            this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }
     }
 
@@ -100,7 +109,9 @@ class Controller {
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');
         window.location.hash = '/purchases'
-        if (status === 201) { alert('Your order has been created') }
+        if (status === 201) {
+            this.modalView.create(alertsData.order[this.lang as keyof typeof alertsData['order']])
+        }
     }
 
     chageLang(lang: string) {
@@ -108,6 +119,7 @@ class Controller {
         const currentLang: string = lang.toLowerCase();
         localStorage.setItem('current-lang', currentLang);
         localStorage.removeItem('onFilters');
+        localStorage.removeItem('cartData');
         /* const allElements = document.querySelectorAll('[data-lng]');
         allElements.forEach((el) => {
             if (el instanceof HTMLElement) {

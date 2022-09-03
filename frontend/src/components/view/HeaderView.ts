@@ -40,7 +40,7 @@ class HeaderView extends Element {
 
     const topbarContentRightLangBox = this.createEl('div', '', 'header__topbar__content_right', topbarContentRight);
     const topbarContentRightLangImg = this.createEl('img', '', 'header__topbar__lang__img', topbarContentRightLangBox) as HTMLImageElement;
-    topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
+    topbarContentRightLangImg.src = './images/usa_lang.png';
     const topbarContentRightLang = this.createEl('select', '', 'header__topbar__lang', topbarContentRightLangBox) as HTMLSelectElement;
     topbarContentRightLang.addEventListener('change', () => {
       this.controller.chageLang(topbarContentRightLang.value)
@@ -51,16 +51,16 @@ class HeaderView extends Element {
     if (currentLang) {
       if (currentLang === 'eng') {
         topbarContentRightLangEng.selected = true;
-        topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
+        topbarContentRightLangImg.src = './images/usa_lang.png';
       } else if (currentLang === 'ru') {
         topbarContentRightLangRu.selected = true;
-        topbarContentRightLangImg.src = './/assets/images/ru_lang.png';
+        topbarContentRightLangImg.src = './images/ru_lang.png';
       }
     } else {
       localStorage.setItem('current-lang', 'eng');
       currentLang = 'eng';
       topbarContentRightLangEng.selected = true;
-      topbarContentRightLangImg.src = './/assets/images/usa_lang.png';
+      topbarContentRightLangImg.src = './images/usa_lang.png';
     }
     topbarPhone.innerHTML = langData['header-phone'][currentLang as keyof typeof langData['header-phone']]
     topbarContentRightLangEng.value = 'Eng';
@@ -68,8 +68,8 @@ class HeaderView extends Element {
     let lang = '';
     topbarContentRightLang.addEventListener('change', () => {
       lang = topbarContentRightLang.value;
-      if (lang === 'Ru') { topbarContentRightLangImg.src = './/assets/images/ru_lang.png'; }
-      else { topbarContentRightLangImg.src = './/assets/images/usa_lang.png'; }
+      if (lang === 'Ru') { topbarContentRightLangImg.src = './images/ru_lang.png'; }
+      else { topbarContentRightLangImg.src = './images/usa_lang.png'; }
     });
 
     const topbarContentRightLogin = this.createEl('div', '', 'header__topbar__login', topbarContentRight);
@@ -79,8 +79,8 @@ class HeaderView extends Element {
     const navbarContentLogo = this.createEl('a', '', 'navbar__content__logo', headerNavbarContent, '#/');
     const navbarLogoImgOne = this.createEl('img', '', 'navbar__logo__img_left', navbarContentLogo) as HTMLImageElement;
     const navbarLogoImgTwo = this.createEl('img', '', 'navbar__logo__img_right', navbarContentLogo) as HTMLImageElement;
-    navbarLogoImgOne.src = './/assets/images/logo_1.png';
-    navbarLogoImgTwo.src = './/assets/images/logo_2.png';
+    navbarLogoImgOne.src = './images/logo_1.png';
+    navbarLogoImgTwo.src = './images/logo_2.png';
 
     /*  const navbarContentNav = this.createEl('nav', '', 'navbar__content__nav', headerNavbarContent); */
     /* this.createEl('a', 'Home', 'navbar__nav__link link__home', navbarContentNav, '#/');
@@ -166,7 +166,7 @@ class HeaderView extends Element {
 
       const topbarContentProfile = this.createEl('a', `${(userData.name) as string}`, 'header__topbar__content__profile', topbarContentRightLogin, '');
       const topbarContentRightLoginImg = this.createEl('img', '', 'header__topbar__login__img', topbarContentProfile) as HTMLImageElement;
-      topbarContentRightLoginImg.src = './/assets/images/login.png';
+      topbarContentRightLoginImg.src = './images/login.png';
       topbarContentProfile.onmouseover = () => {
         topbarContentProfileBox.style.display = 'flex';
       };
@@ -176,7 +176,7 @@ class HeaderView extends Element {
     } else {
       const topbarContentRightLoginLink = this.createEl('a', langData['login-title'][currentLang as keyof typeof langData['login-title']], 'header__topbar__login__link', topbarContentRightLogin, '#/login') as HTMLAnchorElement;
       const topbarContentRightLoginImg = this.createEl('img', '', 'header__topbar__login__img', topbarContentRightLoginLink) as HTMLImageElement;
-      topbarContentRightLoginImg.src = './/assets/images/login.png';
+      topbarContentRightLoginImg.src = './images/login.png';
     }
 
     return headerContainer;

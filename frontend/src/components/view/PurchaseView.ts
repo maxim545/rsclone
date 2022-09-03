@@ -91,7 +91,7 @@ class PurchaseView extends Element {
                     orderItems.forEach((product) => {
                         /* const [currentProduct, status] = await this.api.getProduct(product._id) as [IProduct, number]; */
 
-                        const cartItemEl = this.createEl('div', `<img src="http://localhost:5000${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
+                        const cartItemEl = this.createEl('div', `<img src="https://serverclone1.herokuapp.com${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
                         const itemInfo = this.createEl('div', '', 'cart__row cart__row_info', cartItemEl);
 
                         const name = {

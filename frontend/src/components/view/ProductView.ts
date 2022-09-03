@@ -70,7 +70,7 @@ class ProductView extends Element {
                     </div>
                     <div class="product-item__content">
                       <div class="product-item__imgs">
-                        <img src="http://localhost:5000${product.image}" alt="Product photo">
+                        <img src="https://serverclone1.herokuapp.com${product.image}" alt="Product photo">
                       </div>
                       <div class="product-item__text">
                         <div class="product-item__prices">

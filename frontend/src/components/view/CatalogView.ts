@@ -97,7 +97,7 @@ class CatalogView extends Element {
           if (!customParameters || customParameters === 'row') {
             getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
                                                     <div id="image-container-${index}" class="image-container">
-                                                      <img src="http://localhost:5000${item.image}" class="item__img" alt="image">
+                                                      <img src="https://serverclone1.herokuapp.com${item.image}" class="item__img" alt="image">
                                                       <div id="favorites-container-${index}" class="favorites-container">
                                                       </div>
                                                     </div>
@@ -113,7 +113,7 @@ class CatalogView extends Element {
             getItemsContainer[0].innerHTML += `<div class="item-column">
             <a class="item-left" href="/#/p/${item._id}">
               <div id="image-container-${index}" class="item-column__img-wrapper">
-                <img src="http://localhost:5000${item.image}" class="item-column__img" alt="image">
+                <img src="https://serverclone1.herokuapp.com${item.image}" class="item-column__img" alt="image">
                 <div id="favorites-container-${index}" class="wishlit__item-btn">
                 </div>
               </div>

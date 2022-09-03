@@ -6,7 +6,7 @@ class Api {
     private server: string
 
     constructor() {
-        this.server = 'http://localhost:5000'
+        this.server = 'https://serverclone1.herokuapp.com'
     }
 
     async getAllProduct() {

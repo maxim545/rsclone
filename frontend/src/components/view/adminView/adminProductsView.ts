@@ -110,7 +110,7 @@ class AdminProductsView extends Element {
       res = `${res}
                 <li class="admin-product">
                   <div class="admin-product__img-wrapper">
-                    <img src="http://localhost:5000${product.image}" alt="Product photo">
+                    <img src="https://serverclone1.herokuapp.com${product.image}" alt="Product photo">
                   </div>
                   <div class="admin-product__title">
                     <h3>${name[this.lang as keyof typeof name]}</h3>

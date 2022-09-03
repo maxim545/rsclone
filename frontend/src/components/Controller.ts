@@ -80,10 +80,12 @@ class Controller {
                 localStorage.setItem('userData', JSON.stringify(userData))
                 this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
                 window.location.reload();
+                return userData
             }
         } else {
             this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }
+        return null;
     }
 
     async changeUserData(unputsValues: IUserData) {

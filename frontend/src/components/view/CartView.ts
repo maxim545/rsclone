@@ -130,7 +130,8 @@ class CartView extends Element {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const shippingList = this.createEl('div', '', 'shipping__list', null);
         this.createEl('h2', cartLang['cart-ship'][this.lang as keyof typeof cartLang['cart-ship']], 'cart__list-title', shippingList);
-        const inpustListEl = this.createEl('div', '', 'account__inputs-list', shippingList);
+        const inpustListEl = this.createEl('form', '', 'account__inputs-list', shippingList);
+        inpustListEl.id = "form1"
         const inputs = [
             `name:text:${cartLang['cart-name'][this.lang as keyof typeof cartLang['cart-name']]}`,
             `email:email:${cartLang['cart-email'][this.lang as keyof typeof cartLang['cart-email']]}`,
@@ -139,7 +140,11 @@ class CartView extends Element {
             `phone:text:${cartLang['cart-phone'][this.lang as keyof typeof cartLang['cart-phone']]}`,
             `adress:text:${cartLang['cart-adress'][this.lang as keyof typeof cartLang['cart-adress']]}`
         ];
-        if (!userData) { inputs.push(`password:password`, `repeatPassword:password`) }
+        if (!userData) {
+            inputs.push(
+                `password:password:${cartLang['cart-pass'][this.lang as keyof typeof cartLang['cart-pass']]}`,
+                `repeatPassword:password:${cartLang['cart-reppas'][this.lang as keyof typeof cartLang['cart-reppas']]}`)
+        }
         const unputsValues: IUserData = {}
         inputs.forEach(item => {
             const [name, type, title] = item.split(':');
@@ -147,6 +152,7 @@ class CartView extends Element {
             this.createEl('p', title, 'account__inputs-title', inputContainer);
             const input = this.createEl('input', '', 'form-control account__input', inputContainer) as HTMLInputElement;
             input.type = type;
+            input.required = true;
             input.addEventListener('change', () => { unputsValues[name as keyof typeof unputsValues] = input.value })
             if (userData && userData[name as keyof typeof userData] !== undefined) {
                 const currentValue = userData[name as keyof typeof userData] as string;
@@ -174,7 +180,9 @@ class CartView extends Element {
     }
 
     addOrder(sidebar: HTMLElement, orderData: IOrderData, userData: IUserData, unputsValues: IUserData) {
-        const orderBtn = this.createEl('button', cartLang['cart-btn'][this.lang as keyof typeof cartLang['cart-btn']], 'btn btn-primary auth__btn', sidebar);
+        const orderBtn = this.createEl('button', cartLang['cart-btn'][this.lang as keyof typeof cartLang['cart-btn']], 'btn btn-primary auth__btn', sidebar) as HTMLButtonElement;
+        orderBtn.type = 'submit';
+        orderBtn.setAttribute("Form", 'form1');
         orderBtn.addEventListener('click', () => {
             if (userData) {
                 this.controller.makeOrder(orderData).then(() => {
@@ -182,9 +190,11 @@ class CartView extends Element {
                 })
             } else {
                 this.controller.registerUser(unputsValues)
-                    .then(() => {
-                        this.controller.makeOrder(orderData);
-                        this.updateView.updateHeader();
+                    .then((data) => {
+                        if (data) {
+                            this.controller.makeOrder(orderData);
+                            this.updateView.updateHeader();
+                        }
                     })
             }
         });

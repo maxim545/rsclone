@@ -640,32 +640,34 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
-      const favoriteBtn = document.querySelectorAll(".favorites-container");
-      favoriteBtn.forEach((el) => {
-        el.addEventListener('click', (e) => {
-          const element = el as HTMLElement
-          const datasetId = element.dataset.id as string;
-          e.preventDefault();
-          if (datasetId) {
-            this.api.removeWishItem(userData, datasetId).then(() => {
-              this.updateView.updateWishlistNum();
-              element.dataset.id = '';
-              el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
-            });
-          } else if (element.dataset.productid) {
-            const wishItem = {
-              productId: element.dataset.productid,
-              isExist: true,
+      if (userData) {
+        const favoriteBtn = document.querySelectorAll(".favorites-container");
+        favoriteBtn.forEach((el) => {
+          el.addEventListener('click', (e) => {
+            const element = el as HTMLElement
+            const datasetId = element.dataset.id as string;
+            e.preventDefault();
+            if (datasetId) {
+              this.api.removeWishItem(userData, datasetId).then(() => {
+                this.updateView.updateWishlistNum();
+                element.dataset.id = '';
+                el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
+              });
+            } else if (element.dataset.productid) {
+              const wishItem = {
+                productId: element.dataset.productid,
+                isExist: true,
+              }
+              this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
+                this.updateView.updateWishlistNum();
+                element.dataset.id = data._id;
+                el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
+              })
             }
-            this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
-              this.updateView.updateWishlistNum();
-              element.dataset.id = data._id;
-              el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
-            })
-          }
 
+          })
         })
-      })
+      }
 
     })().catch(err => { console.error(err) });
 

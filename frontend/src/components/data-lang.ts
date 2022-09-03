@@ -267,6 +267,10 @@ export const alertsData: TLang = {
     "create": {
         "eng": `Product created successfully.`,
         "ru": `Продукт успешно создан.`,
+    },
+    "search": {
+        "eng": `Sorry, no matches found.`,
+        "ru": `Извините, совпадений не обнаружено.`,
     }
 }
 

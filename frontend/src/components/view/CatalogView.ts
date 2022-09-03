@@ -2,7 +2,8 @@ import noUiSlider, { target, API } from 'nouislider';
 import Api from "../api";
 import Element from "../common/Element";
 import { IUserData, IWishListData, IProduct, AllFiltersObj, ISort } from "../types";
-import { catLang } from "../data-lang";
+import { catLang, alertsData } from "../data-lang";
+import AlertsView from './AlertsView';
 
 
 
@@ -21,14 +22,17 @@ export const obj: AllFiltersObj = {
 
 class CatalogView extends Element {
 
-  private api: Api
+  private api: Api;
 
   private lang: string;
+
+  private alertsView: AlertsView;
 
   constructor() {
     super();
     this.api = new Api();
     this.lang = localStorage.getItem('current-lang') as string;
+    this.alertsView = new AlertsView();
   }
 
   create() {
@@ -77,9 +81,9 @@ class CatalogView extends Element {
 
       const addCard = (arr: IProduct[]) => {
         getItemsContainer[0].innerHTML = '';
-        getItemsContainer[0].innerHTML = `<section id="nothing-found">
-                                              <span>Извините, совпадений не обнаружено</span>
-                                          </section>`;
+        getItemsContainer[0].innerHTML = `<div id="nothing-found" class="item__notfound">
+                                              ${alertsData.search[this.lang as keyof typeof alertsData['search']]}
+                                          </div>`;
         arr.forEach((item, index) => {
           const name = {
             eng: item.name.split(':')[0],

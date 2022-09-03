@@ -4,8 +4,7 @@ import Element from "../common/Element";
 import { IUserData, IWishListData, IProduct, AllFiltersObj, ISort } from "../types";
 import { catLang, alertsData } from "../data-lang";
 import AlertsView from './AlertsView';
-
-
+import UpdateView from "../Update";
 
 
 export const obj: AllFiltersObj = {
@@ -28,11 +27,15 @@ class CatalogView extends Element {
 
   private alertsView: AlertsView;
 
+  private updateView: UpdateView;
+
+
   constructor() {
     super();
     this.api = new Api();
     this.lang = localStorage.getItem('current-lang') as string;
     this.alertsView = new AlertsView();
+    this.updateView = new UpdateView();
   }
 
   create() {
@@ -102,7 +105,7 @@ class CatalogView extends Element {
             getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
                                                     <div id="image-container-${index}" class="image-container">
                                                       <img src="https://serverclone1.herokuapp.com${item.image}" class="item__img" alt="image">
-                                                      <div id="favorites-container-${index}" class="favorites-container">
+                                                      <div id="favorites-container-${index}" class="favorites-container" data-productid="${item._id}">
                                                       </div>
                                                     </div>
                                                     <p class="item__name">${name[this.lang as keyof typeof name]}</p>
@@ -156,6 +159,7 @@ class CatalogView extends Element {
           const isExist = wishList.find(el => el.productId === item._id);
           const favoritesContainer = document.getElementById(`favorites-container-${index}`) as HTMLElement;
           if (isExist) {
+            favoritesContainer.dataset.id = isExist._id;
             favoritesContainer.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
           }
           else {
@@ -636,8 +640,36 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
+      const favoriteBtn = document.querySelectorAll(".favorites-container");
+      favoriteBtn.forEach((el) => {
+        el.addEventListener('click', (e) => {
+          const element = el as HTMLElement
+          const datasetId = element.dataset.id as string;
+          e.preventDefault();
+          if (datasetId) {
+            this.api.removeWishItem(userData, datasetId).then(() => {
+              this.updateView.updateWishlistNum();
+              element.dataset.id = '';
+              el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
+            });
+          } else if (element.dataset.productid) {
+            const wishItem = {
+              productId: element.dataset.productid,
+              isExist: true,
+            }
+            this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
+              this.updateView.updateWishlistNum();
+              element.dataset.id = data._id;
+              el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
+            })
+          }
+
+        })
+      })
 
     })().catch(err => { console.error(err) });
+
+
     return filtersAndCards;
   }
 }

@@ -23,6 +23,10 @@ class App {
 
   start() {
     const { body } = document;
+    if (!localStorage.getItem('current-lang')) {
+      localStorage.setItem('current-lang', 'eng');
+      window.location.reload();
+    }
     const headerEl = this.element.createEl('header', '', 'header', null);
     headerEl.append(this.header.create())
     const mainEl = this.element.createEl('main', '', 'main', null);

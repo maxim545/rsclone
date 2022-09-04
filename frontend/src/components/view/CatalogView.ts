@@ -5,6 +5,7 @@ import { IUserData, IWishListData, IProduct, AllFiltersObj, ISort } from "../typ
 import { catLang, alertsData } from "../data-lang";
 import AlertsView from './AlertsView';
 import UpdateView from "../Update";
+import ModalView from './ModalView';
 
 
 export const obj: AllFiltersObj = {
@@ -29,6 +30,8 @@ class CatalogView extends Element {
 
   private updateView: UpdateView;
 
+  private modalView: ModalView;
+
 
   constructor() {
     super();
@@ -36,6 +39,7 @@ class CatalogView extends Element {
     this.lang = localStorage.getItem('current-lang') as string;
     this.alertsView = new AlertsView();
     this.updateView = new UpdateView();
+    this.modalView = new ModalView();
   }
 
   create() {
@@ -222,12 +226,10 @@ class CatalogView extends Element {
           const currentParam = localStorage.getItem('custParam')
           if (!currentParam || currentParam === 'column') {
             localStorage.setItem('custParam', 'row')
-            console.log(1, obj.arrFilter);
             addCard(obj.arrFilter);
           } else {
             localStorage.setItem('custParam', 'column')
             addCard(obj.arrFilter);
-            console.log(2, obj.arrFilter);
 
           }
         });
@@ -640,13 +642,13 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
-      if (userData) {
-        const favoriteBtn = document.querySelectorAll(".favorites-container");
-        favoriteBtn.forEach((el) => {
-          el.addEventListener('click', (e) => {
+      const favoriteBtn = document.querySelectorAll(".favorites-container");
+      favoriteBtn.forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (userData) {
             const element = el as HTMLElement
             const datasetId = element.dataset.id as string;
-            e.preventDefault();
             if (datasetId) {
               this.api.removeWishItem(userData, datasetId).then(() => {
                 this.updateView.updateWishlistNum();
@@ -664,10 +666,11 @@ class CatalogView extends Element {
                 el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
               })
             }
-
-          })
+          } else {
+            this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
+          }
         })
-      }
+      })
 
     })().catch(err => { console.error(err) });
 

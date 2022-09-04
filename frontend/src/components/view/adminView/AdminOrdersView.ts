@@ -48,12 +48,9 @@ class PurchaseView extends Element {
                     const ordersTop = this.createEl('div', `<h2 class="orders__title">${orderLang['admin-title'][this.lang as keyof typeof orderLang['admin-title']]}</h2>`, 'orders__top', ordersEl);
                     ordersTop.append(this.createSorting())
                     const purchases = await this.api.getAllPurchases();
-                    console.log(purchases);
                     if (localStorage.getItem('adminSortParameters')) { this.sortOrders(purchases); }
                     const ordersList = this.createEl('div', '', 'tabs', ordersEl);
                     purchases.forEach((item, i) => {
-                        console.log(item);
-
                         if (currentUser.role === 'admin' || currentUser.role === 'manager' || (currentUser.role === 'courier' && (item.orderStatus === 'progressing' || item.orderStatus === 'in-delivery'))) {
                             const orderDate = new Date(item.createdAt);
                             const day = orderDate.getDate()

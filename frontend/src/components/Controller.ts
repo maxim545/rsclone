@@ -76,10 +76,7 @@ class Controller {
             if (status === 409) {
                 this.modalView.create(alertsData.pass[this.lang as keyof typeof alertsData['pass']]);
             } else {
-                window.location.hash = '/';
                 localStorage.setItem('userData', JSON.stringify(userData))
-                this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
-                window.location.reload();
                 return userData
             }
         } else {
@@ -100,7 +97,7 @@ class Controller {
             unputsValues.token = curUser.token
             const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
             localStorage.setItem('userData', JSON.stringify(userData));
-            this.modalView.create(alertsData.user[this.lang as keyof typeof alertsData['user']])
+            this.modalView.create(alertsData.userChange[this.lang as keyof typeof alertsData['userChange']])
         } else {
             this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }

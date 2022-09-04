@@ -271,7 +271,15 @@ export const alertsData: TLang = {
     "search": {
         "eng": `Sorry, no matches found.`,
         "ru": `Извините, совпадений не обнаружено.`,
-    }
+    },
+    "add-btn": {
+        "eng": `To be able to add products to your favorites register.`,
+        "ru": `Для того чтобы иметь возможность добавлять товары в избранное, зарегистрируйтесь.`,
+    },
+    "userChange": {
+        "eng": `Your data has been successfully changed.`,
+        "ru": `Ваши данные успешно изменены.`,
+    },
 }
 
 

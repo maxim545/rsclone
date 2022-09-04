@@ -38,9 +38,11 @@
 
 
 .modal__btn {
+    display: block;
+    margin: 0 auto;
     width: 100%;
     max-width: 200px;
-    margin-top: 30px;
+    margin-top: 10px;
     background: #17696A;
     border-color: #17696A;
     color: #fff;

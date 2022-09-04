@@ -57,7 +57,6 @@ class HeaderView extends Element {
         topbarContentRightLangImg.src = './images/ru_lang.png';
       }
     } else {
-      console.log(1);
       currentLang = 'eng';
       topbarContentRightLangEng.selected = true;
       topbarContentRightLangImg.src = './images/usa_lang.png';

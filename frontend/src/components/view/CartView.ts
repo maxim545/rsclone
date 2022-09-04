@@ -55,7 +55,6 @@ class CartView extends Element {
                         const prodSizes = productDB.variant.split(',');
                         const curSizeIndex = prodSizes.findIndex(el => el.split(':')[0].trim() === item.size);
                         const maxStockValue = prodSizes[curSizeIndex].split(':')[1].trim();
-                        console.log(item);
 
                         const cartItemEl = this.createEl('div', `<img src="https://serverclone1.herokuapp.com${item.image}" class="cart__item-img" alt="image">`, 'cart__item', cartItemsEl);
                         const itemInfo = this.createEl('div', '', 'cart__item-info', cartItemEl);
@@ -193,7 +192,9 @@ class CartView extends Element {
                     .then((data) => {
                         if (data) {
                             this.controller.makeOrder(orderData);
-                            this.updateView.updateHeader();
+                            setTimeout(() => {
+                                this.updateView.updateHeader();
+                            }, 300);
                         }
                     })
             }

@@ -36,10 +36,6 @@ class ChangeProductView extends Element {
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     const id = window.location.hash.replace("#", "").slice(28);
     const main = document.querySelector('.main') as HTMLElement;
-    if (id.length !== 24) {
-      main.append(this.alertView.create())
-      throw new Error(`Page not found`);
-    }
     const container = this.createEl('div', '', 'container_main account', null);
     (async () => {
       if (userData) {
@@ -141,7 +137,7 @@ class ChangeProductView extends Element {
       } else {
         container.append(this.alertView.createNotAdminAlert())
       }
-    })();
+    })().catch(err => { console.error(err) });;
 
     return container;
   }

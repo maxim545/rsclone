@@ -96,6 +96,15 @@ class AccountView extends Element {
                                 }
                             });
                         })
+                    } else if (status === 404) {
+                        this.api.removeWishItem(userData, (item._id) as string).then(() => {
+                            itemsAmount -= 1
+                            if (!itemsAmount) {
+                                wrapper.innerHTML = ''
+                                wrapper.append(this.alertView.createEmptyFavAlert())
+                            }
+                            this.updateView.updateWishlistNum();
+                        });
                     }
                 }
             })()

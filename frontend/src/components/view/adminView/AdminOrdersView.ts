@@ -92,7 +92,7 @@ class PurchaseView extends Element {
                                 this.api.updateOrder(userData, newOrderData)
                             });
 
-                            this.createEl('div', `$${String(item.price)}`, 'tab__header-item tab__header-price', orderbHeader);
+                            this.createEl('div', `$${item.price.toFixed(1)}`, 'tab__header-item tab__header-price', orderbHeader);
                             if (currentUser.role === 'admin') {
                                 const orderBtnEl = this.createEl('div', '<i class="bi bi-trash3"></i>', 'tab__header-item tab__header-delete-btn', orderbHeader);
                                 orderBtnEl.dataset.id = item._id;

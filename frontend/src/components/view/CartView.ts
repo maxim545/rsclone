@@ -39,6 +39,16 @@ class CartView extends Element {
         const orderData: IOrderData = {
             orderItems: [],
         };
+        /* cartsItems.forEach((el, i) => {
+            (async () => {
+                const [productDB, status] = await this.api.getProduct(el._id) as [IProduct, number];
+                if (status === 404) {
+                    cartsItems.splice(i, 1)
+                }
+            })()
+        }) */
+        console.log(cartsItems);
+
         if (cartsItems && cartsItems.length) {
             this.createEl('h2', cartLang['cart-title'][this.lang as keyof typeof cartLang['cart-title']], 'cart__title', cartEl);
             (async () => {
@@ -47,6 +57,8 @@ class CartView extends Element {
                 this.createEl('h3', cartLang['cart-items'][this.lang as keyof typeof cartLang['cart-items']], 'cart__list-title', cartListEl);
                 const cartItemsEl = this.createEl('div', '', 'cart__items', cartListEl);
                 let totalPrice = 0;
+                const indexArr = [];
+                let count = 0;
                 for await (const item of cartsItems) {
                     orderData.status = 'processing';
                     orderData.orderItems.push(item);
@@ -106,8 +118,19 @@ class CartView extends Element {
                                 main.append(this.alertView.createEmptyCartAlert())
                             }
                         });
+                    } else if (status === 404) {
+                        indexArr.push(count)
                     }
+                    count += 1
                 }
+                if (indexArr.length) {
+                    indexArr.forEach(el => {
+                        cartsItems.splice(el, 1)
+                    })
+                    localStorage.setItem('cartData', JSON.stringify(cartsItems));
+                    window.location.reload();
+                }
+
                 const itemsAmount = orderData.orderItems.length;
                 const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
                 orderData.price = finallyPrice;

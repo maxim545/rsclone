@@ -40,7 +40,6 @@ wishlistRouter.post(
 wishlistRouter.delete(
     '/:id',
     verifyToken,
-    isAccess,
     async (req, res) => {
         const wishItem = await Wishlist.findById(req.params.id);
         if (wishItem) {

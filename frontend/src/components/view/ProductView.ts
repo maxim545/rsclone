@@ -38,10 +38,6 @@ class ProductView extends Element {
     const productEl = this.createEl('div', '', 'main-container', null);
 
     const main = document.querySelector('.main') as HTMLElement;
-    if (id.length !== 24) {
-      main.append(this.alertsView.create())
-      throw new Error(`Page not found`);
-    }
     (async () => {
       const [product, status] = await this.api.getProduct(id) as [IProduct, number];
       if (status === 404) {
@@ -205,8 +201,6 @@ class ProductView extends Element {
             }
           })
         }
-
-
       }
     })().catch(err => { console.error(err) });
     return productEl;

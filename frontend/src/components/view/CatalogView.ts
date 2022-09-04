@@ -125,7 +125,7 @@ class CatalogView extends Element {
             <a class="item-left" href="/#/p/${item._id}">
               <div id="image-container-${index}" class="item-column__img-wrapper">
                 <img src="https://serverclone1.herokuapp.com${item.image}" class="item-column__img" alt="image">
-                <div id="favorites-container-${index}" class="wishlit__item-btn">
+                <div id="favorites-container-${index}" class="favorites-container" data-productid="${item._id}">
                 </div>
               </div>
             </a>

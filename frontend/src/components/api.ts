@@ -6,6 +6,7 @@ class Api {
     private server: string
 
     constructor() {
+        /* this.server = 'https://serverclone1.herokuapp.com' */
         this.server = 'http://localhost:5000'
     }
 

@@ -11,7 +11,7 @@ class ModalView extends Element {
            this.lang = localStorage.getItem('current-lang') as string;
        } */
 
-    create(text: string, time = 2000) {
+    create(text: string/* , time = 2000 */) {
         const lang = localStorage.getItem('current-lang') as string;
         const { body } = document;
         const modalEl = this.createEl('div', '', 'modal', null);
@@ -21,14 +21,7 @@ class ModalView extends Element {
         btn.addEventListener('click', () => {
             body.removeChild(modalEl);
         })
-        if (time) {
-            body.append(modalEl);
-            setTimeout(() => {
-                body.removeChild(modalEl);
-            }, time);
-        } else {
-            body.append(modalEl);
-        }
+        body.append(modalEl)
         return modalEl;
     }
 

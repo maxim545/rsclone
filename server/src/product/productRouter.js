@@ -15,11 +15,15 @@ productRouter.get(
 productRouter.get(
     '/:id',
     async (req, res) => {
-        const product = await Product.findById(req.params.id);
-        if (product) {
-            res.send(product);
-        } else {
+        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
             res.status(404).send({ message: 'Product Not Found' });
+        } else {
+            const product = await Product.findById(req.params.id);
+            if (product) {
+                res.send(product);
+            } else {
+                res.status(404).send({ message: 'Product Not Found' });
+            }
         }
     },
 );

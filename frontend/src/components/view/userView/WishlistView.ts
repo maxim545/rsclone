@@ -55,7 +55,7 @@ class AccountView extends Element {
                     if (status !== 404) {
                         const itemEl = this.createEl('div', '', 'wishlit__item', wishlistItems);
                         itemEl.dataset.num = item._id;
-                        const image = `<img src="http://localhost:5000${product.image}" class="wishlit__item-img" alt="image">`
+                        const image = `<img src="https://serverclone1.herokuapp.com${product.image}" class="wishlit__item-img" alt="image">`
                         const imageEl = this.createEl('div', image, 'wishlit__item-img-wrapper', itemEl);
                         const itemInfoEl = this.createEl('div', '', 'wishlit__item-info', itemEl);
                         const removeBtn = this.createEl('a', '<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>', 'wishlit__item-btn', imageEl);
@@ -96,6 +96,15 @@ class AccountView extends Element {
                                 }
                             });
                         })
+                    } else if (status === 404) {
+                        this.api.removeWishItem(userData, (item._id) as string).then(() => {
+                            itemsAmount -= 1
+                            if (!itemsAmount) {
+                                wrapper.innerHTML = ''
+                                wrapper.append(this.alertView.createEmptyFavAlert())
+                            }
+                            this.updateView.updateWishlistNum();
+                        });
                     }
                 }
             })()

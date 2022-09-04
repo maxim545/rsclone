@@ -2,9 +2,10 @@ import noUiSlider, { target, API } from 'nouislider';
 import Api from "../api";
 import Element from "../common/Element";
 import { IUserData, IWishListData, IProduct, AllFiltersObj, ISort } from "../types";
-import { catLang } from "../data-lang";
-
-
+import { catLang, alertsData } from "../data-lang";
+import AlertsView from './AlertsView';
+import UpdateView from "../Update";
+import ModalView from './ModalView';
 
 
 export const obj: AllFiltersObj = {
@@ -21,14 +22,24 @@ export const obj: AllFiltersObj = {
 
 class CatalogView extends Element {
 
-  private api: Api
+  private api: Api;
 
   private lang: string;
+
+  private alertsView: AlertsView;
+
+  private updateView: UpdateView;
+
+  private modalView: ModalView;
+
 
   constructor() {
     super();
     this.api = new Api();
     this.lang = localStorage.getItem('current-lang') as string;
+    this.alertsView = new AlertsView();
+    this.updateView = new UpdateView();
+    this.modalView = new ModalView();
   }
 
   create() {
@@ -77,9 +88,9 @@ class CatalogView extends Element {
 
       const addCard = (arr: IProduct[]) => {
         getItemsContainer[0].innerHTML = '';
-        getItemsContainer[0].innerHTML = `<section id="nothing-found">
-                                              <span>Извините, совпадений не обнаружено</span>
-                                          </section>`;
+        getItemsContainer[0].innerHTML = `<div id="nothing-found" class="item__notfound">
+                                              ${alertsData.search[this.lang as keyof typeof alertsData['search']]}
+                                          </div>`;
         arr.forEach((item, index) => {
           const name = {
             eng: item.name.split(':')[0],
@@ -97,8 +108,8 @@ class CatalogView extends Element {
           if (!customParameters || customParameters === 'row') {
             getItemsContainer[0].innerHTML += `<a class="item" href="/#/p/${item._id}">
                                                     <div id="image-container-${index}" class="image-container">
-                                                      <img src="http://localhost:5000${item.image}" class="item__img" alt="image">
-                                                      <div id="favorites-container-${index}" class="favorites-container">
+                                                      <img src="https://serverclone1.herokuapp.com${item.image}" class="item__img" alt="image">
+                                                      <div id="favorites-container-${index}" class="favorites-container" data-productid="${item._id}">
                                                       </div>
                                                     </div>
                                                     <p class="item__name">${name[this.lang as keyof typeof name]}</p>
@@ -113,8 +124,8 @@ class CatalogView extends Element {
             getItemsContainer[0].innerHTML += `<div class="item-column">
             <a class="item-left" href="/#/p/${item._id}">
               <div id="image-container-${index}" class="item-column__img-wrapper">
-                <img src="http://localhost:5000${item.image}" class="item-column__img" alt="image">
-                <div id="favorites-container-${index}" class="wishlit__item-btn">
+                <img src="https://serverclone1.herokuapp.com${item.image}" class="item-column__img" alt="image">
+                <div id="favorites-container-${index}" class="favorites-container" data-productid="${item._id}">
                 </div>
               </div>
             </a>
@@ -152,6 +163,7 @@ class CatalogView extends Element {
           const isExist = wishList.find(el => el.productId === item._id);
           const favoritesContainer = document.getElementById(`favorites-container-${index}`) as HTMLElement;
           if (isExist) {
+            favoritesContainer.dataset.id = isExist._id;
             favoritesContainer.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
           }
           else {
@@ -214,12 +226,10 @@ class CatalogView extends Element {
           const currentParam = localStorage.getItem('custParam')
           if (!currentParam || currentParam === 'column') {
             localStorage.setItem('custParam', 'row')
-            console.log(1, obj.arrFilter);
             addCard(obj.arrFilter);
           } else {
             localStorage.setItem('custParam', 'column')
             addCard(obj.arrFilter);
-            console.log(2, obj.arrFilter);
 
           }
         });
@@ -632,8 +642,39 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
+      const favoriteBtn = document.querySelectorAll(".favorites-container");
+      favoriteBtn.forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (userData) {
+            const element = el as HTMLElement
+            const datasetId = element.dataset.id as string;
+            if (datasetId) {
+              this.api.removeWishItem(userData, datasetId).then(() => {
+                this.updateView.updateWishlistNum();
+                element.dataset.id = '';
+                el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
+              });
+            } else if (element.dataset.productid) {
+              const wishItem = {
+                productId: element.dataset.productid,
+                isExist: true,
+              }
+              this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
+                this.updateView.updateWishlistNum();
+                element.dataset.id = data._id;
+                el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
+              })
+            }
+          } else {
+            this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
+          }
+        })
+      })
 
     })().catch(err => { console.error(err) });
+
+
     return filtersAndCards;
   }
 }

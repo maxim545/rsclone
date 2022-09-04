@@ -3,7 +3,8 @@ import Controller from "../../Controller";
 import { IUserData } from "../../types";
 import UpdateView from "../../Update";
 import AlertsView from "../AlertsView";
-import { langData } from "../../data-lang";
+import { langData, alertsData } from "../../data-lang";
+import ModalView from "../ModalView";
 
 class RegisterView extends Element {
 
@@ -13,11 +14,17 @@ class RegisterView extends Element {
 
     private alertView: AlertsView;
 
+    private modalView: ModalView;
+
+    private lang: string;
+
     constructor() {
         super()
         this.controller = new Controller();
         this.updateView = new UpdateView();
         this.alertView = new AlertsView();
+        this.modalView = new ModalView();
+        this.lang = localStorage.getItem('current-lang') as string;
     }
 
     create() {
@@ -65,7 +72,11 @@ class RegisterView extends Element {
                     email: inputEmail.value,
                     password: inputPassword.value,
                     repeatPassword: inputRepPassword.value,
-                }).then(() => { this.updateView.updateHeader() })
+                }).then(() => {
+                    window.location.hash = '/';
+                    window.location.reload();
+                    this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
+                })
             });
         }
         return container;

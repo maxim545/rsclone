@@ -255,7 +255,7 @@
 
 .sort__select {
   background-color: transparent;
-  z-index: 99;
+  z-index: 2;
   cursor: pointer;
 }
 
@@ -451,16 +451,15 @@
   display: block;
 }
 
-#nothing-found {
+.item__notfound {
   display: none;
   justify-content: center;
   align-items: center;
-  font-family: Calibre, Arial, Helvetica, sans-serif;
   font-size: 22px;
-  color: #369;
-  width: auto;
-  height: 80px;
+  color: #17696A;
+  grid-column: 12 span;
   padding: 20px;
   background-color: white;
-  box-shadow: 0 5px 15px rgb(0 0 0 / 30%);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 30%);
+  border-radius: 8px;
 }

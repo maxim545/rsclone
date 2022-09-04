@@ -48,12 +48,9 @@ class PurchaseView extends Element {
                     const ordersTop = this.createEl('div', `<h2 class="orders__title">${orderLang['admin-title'][this.lang as keyof typeof orderLang['admin-title']]}</h2>`, 'orders__top', ordersEl);
                     ordersTop.append(this.createSorting())
                     const purchases = await this.api.getAllPurchases();
-                    console.log(purchases);
                     if (localStorage.getItem('adminSortParameters')) { this.sortOrders(purchases); }
                     const ordersList = this.createEl('div', '', 'tabs', ordersEl);
                     purchases.forEach((item, i) => {
-                        console.log(item);
-
                         if (currentUser.role === 'admin' || currentUser.role === 'manager' || (currentUser.role === 'courier' && (item.orderStatus === 'progressing' || item.orderStatus === 'in-delivery'))) {
                             const orderDate = new Date(item.createdAt);
                             const day = orderDate.getDate()
@@ -95,7 +92,7 @@ class PurchaseView extends Element {
                                 this.api.updateOrder(userData, newOrderData)
                             });
 
-                            this.createEl('div', `$${String(item.price)}`, 'tab__header-item tab__header-price', orderbHeader);
+                            this.createEl('div', `$${item.price.toFixed(1)}`, 'tab__header-item tab__header-price', orderbHeader);
                             if (currentUser.role === 'admin') {
                                 const orderBtnEl = this.createEl('div', '<i class="bi bi-trash3"></i>', 'tab__header-item tab__header-delete-btn', orderbHeader);
                                 orderBtnEl.dataset.id = item._id;
@@ -120,7 +117,7 @@ class PurchaseView extends Element {
                             let subtotal = 0;
                             const shipping = orderItems.length * 5;
                             orderItems.forEach(product => {
-                                const cartItemEl = this.createEl('div', `<img src="http://localhost:5000${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
+                                const cartItemEl = this.createEl('div', `<img src="https://serverclone1.herokuapp.com${product.image}" class="cart__item-img" alt="image">`, 'cart__item order__item-product', orderContent);
                                 const itemInfo = this.createEl('div', '', 'cart__row cart__row_info', cartItemEl);
 
                                 const name = {

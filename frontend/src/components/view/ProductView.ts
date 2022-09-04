@@ -37,171 +37,172 @@ class ProductView extends Element {
     const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
     const productEl = this.createEl('div', '', 'main-container', null);
 
-    const main = document.querySelector('.main') as HTMLElement;
+    /* const main = document.querySelector('.main') as HTMLElement; */
     (async () => {
       const [product, status] = await this.api.getProduct(id) as [IProduct, number];
       if (status === 404) {
-        main.append(this.alertsView.create())
-        throw new Error(`Page not found`);
-      }
-      const productData: ICartProduct = {
-        ...product,
-        color: '',
-        size: '',
-        stock: '',
-      }
-      const itemEl = this.createEl('div', '', 'product-item', productEl);
-      if (product) {
-        const name = {
-          eng: product.name.split(':')[0],
-          ru: product.name.split(':')[1],
+        productEl.append(this.alertsView.create())
+      } else {
+        const productData: ICartProduct = {
+          ...product,
+          color: '',
+          size: '',
+          stock: '',
         }
-        const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
-        const stockNumber = +temp;
-        document.title = name[this.lang as keyof typeof name];
-        itemEl.innerHTML = `
-                    <div class='product-item__heading'>
-                      <h3>${name[this.lang as keyof typeof name]}</h3>
-                      <span>Art. No. ${product._id.slice(0, 10)}</span>
-                    </div>
-                    <div class="product-item__content">
-                      <div class="product-item__imgs">
-                        <img src="https://serverclone1.herokuapp.com${product.image}" alt="Product photo">
+        const itemEl = this.createEl('div', '', 'product-item', productEl);
+        if (product) {
+          const name = {
+            eng: product.name.split(':')[0],
+            ru: product.name.split(':')[1],
+          }
+          const temp = product?.variant?.split(`, `)[0].split(`:`)[1];
+          const stockNumber = +temp;
+          document.title = name[this.lang as keyof typeof name];
+          itemEl.innerHTML = `
+                      <div class='product-item__heading'>
+                        <h3>${name[this.lang as keyof typeof name]}</h3>
+                        <span>Art. No. ${product._id.slice(0, 10)}</span>
                       </div>
-                      <div class="product-item__text">
-                        <div class="product-item__prices">
-                          ${this.getPrices(product.price, product.discount)}
+                      <div class="product-item__content">
+                        <div class="product-item__imgs">
+                          <img src="https://serverclone1.herokuapp.com${product.image}" alt="Product photo">
                         </div>
-                        <form>
-                        <div class="product-item__colors">
-                          <span>${proLang['pro-color'][this.lang as keyof typeof proLang['pro-color']]}</span>
-                          <div class="product-item__radios">
-                            ${this.getColorBtns(product.color)}
+                        <div class="product-item__text">
+                          <div class="product-item__prices">
+                            ${this.getPrices(product.price, product.discount)}
+                          </div>
+                          <form>
+                          <div class="product-item__colors">
+                            <span>${proLang['pro-color'][this.lang as keyof typeof proLang['pro-color']]}</span>
+                            <div class="product-item__radios">
+                              ${this.getColorBtns(product.color)}
+                            </div>
+                          </div>
+                          <div class="product-item__sizes">
+                            <span>${proLang['pro-size'][this.lang as keyof typeof proLang['pro-size']]}</span>
+                            ${this.getSizesSelect(product.variant)}
+                          </div>
+                          <div class="product-item__btns">
+                            <input class="product-item__stock" type="number" name="stock-number" min="1" max="${stockNumber}">
+                            ${this.getAddBtn()}
+                            ${this.getFavBtn()}
+                          </div>
+                          </form>
+                          <div class="product-item__delivery">
+                            <h4>${proLang['pro-del'][this.lang as keyof typeof proLang['pro-del']]}</h4>
+                            <span>${proLang['pro-text'][this.lang as keyof typeof proLang['pro-text']]}</span>
+                            <table>
+                              <tr>
+                                <th>${proLang['pro-type'][this.lang as keyof typeof proLang['pro-type']]}</th>
+                                <th>${proLang['pro-long'][this.lang as keyof typeof proLang['pro-long']]}</th>
+                                <th>${proLang['pro-much'][this.lang as keyof typeof proLang['pro-much']]}</th>
+                              </tr>
+                              <tr>
+                                <td>${proLang['pro-st'][this.lang as keyof typeof proLang['pro-st']]}</td>
+                                <td>${proLang['pro-hst'][this.lang as keyof typeof proLang['pro-hst']]}</td>
+                                <td>$5</td>
+                              </tr>
+                              <tr>
+                                <td>${proLang['pro-ex'][this.lang as keyof typeof proLang['pro-ex']]}</td>
+                                <td>${proLang['pro-hex'][this.lang as keyof typeof proLang['pro-hex']]}</td>
+                                <td>$10.00</td>
+                              </tr>
+                              <tr>
+                                <td>${proLang['pro-pi'][this.lang as keyof typeof proLang['pro-pi']]}</td>
+                                <td>${proLang['pro-hpi'][this.lang as keyof typeof proLang['pro-hpi']]}</td>
+                                <td>${proLang['pro-free'][this.lang as keyof typeof proLang['pro-free']]}</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="product-item__socials">
+                            <b>${proLang['pro-share'][this.lang as keyof typeof proLang['pro-share']]}</b>
+                            ${this.getSocials()}
+                          </div>
+                          <div class="product-item__pays">
+                            ${this.getPayIcons()}
                           </div>
                         </div>
-                        <div class="product-item__sizes">
-                          <span>${proLang['pro-size'][this.lang as keyof typeof proLang['pro-size']]}</span>
-                          ${this.getSizesSelect(product.variant)}
-                        </div>
-                        <div class="product-item__btns">
-                          <input class="product-item__stock" type="number" name="stock-number" min="1" max="${stockNumber}">
-                          ${this.getAddBtn()}
-                          ${this.getFavBtn()}
-                        </div>
-                        </form>
-                        <div class="product-item__delivery">
-                          <h4>${proLang['pro-del'][this.lang as keyof typeof proLang['pro-del']]}</h4>
-                          <span>${proLang['pro-text'][this.lang as keyof typeof proLang['pro-text']]}</span>
-                          <table>
-                            <tr>
-                              <th>${proLang['pro-type'][this.lang as keyof typeof proLang['pro-type']]}</th>
-                              <th>${proLang['pro-long'][this.lang as keyof typeof proLang['pro-long']]}</th>
-                              <th>${proLang['pro-much'][this.lang as keyof typeof proLang['pro-much']]}</th>
-                            </tr>
-                            <tr>
-                              <td>${proLang['pro-st'][this.lang as keyof typeof proLang['pro-st']]}</td>
-                              <td>${proLang['pro-hst'][this.lang as keyof typeof proLang['pro-hst']]}</td>
-                              <td>$5</td>
-                            </tr>
-                            <tr>
-                              <td>${proLang['pro-ex'][this.lang as keyof typeof proLang['pro-ex']]}</td>
-                              <td>${proLang['pro-hex'][this.lang as keyof typeof proLang['pro-hex']]}</td>
-                              <td>$10.00</td>
-                            </tr>
-                            <tr>
-                              <td>${proLang['pro-pi'][this.lang as keyof typeof proLang['pro-pi']]}</td>
-                              <td>${proLang['pro-hpi'][this.lang as keyof typeof proLang['pro-hpi']]}</td>
-                              <td>${proLang['pro-free'][this.lang as keyof typeof proLang['pro-free']]}</td>
-                            </tr>
-                          </table>
-                        </div>
-                        <div class="product-item__socials">
-                          <b>${proLang['pro-share'][this.lang as keyof typeof proLang['pro-share']]}</b>
-                          ${this.getSocials()}
-                        </div>
-                        <div class="product-item__pays">
-                          ${this.getPayIcons()}
-                        </div>
                       </div>
-                    </div>
-                `;
-        const colorSpan = document.querySelector(`.product-item__color-span`);
-        const colorBtns = document.querySelector(`.product-item__colors`);
-        colorBtns?.addEventListener(`click`, (e) => {
-          const ev = e?.target as HTMLElement;
-          const radio = ev?.closest(`input`) as HTMLInputElement;
-          if (radio && colorSpan) {
-            colorSpan.textContent = radio.value;
-          }
-        })
-        const colorRadios = colorBtns?.querySelectorAll(`.product-item__radio`) as NodeListOf<HTMLInputElement>;
-        for (const radio of colorRadios) {
-          radio.style.setProperty('--color', `${radio.id}`);
-        }
-        const addCartBtn = document.querySelector(`.product-item__cart`);
-        const favBtn = document.querySelector('.product-item__favourite')
-
-
-        const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
-        let isExist = wishList.find(el => el.productId === id);
-        if (isExist && favBtn) {
-          favBtn.classList.add('active')
-        }
-
-
-        const stock = document.querySelector(`.product-item__stock`) as HTMLInputElement;
-        stock.value = '1';
-        const sizeSelect = document.querySelector(`.product-item__size`);
-        sizeSelect?.addEventListener(`change`, (event) => {
-          const select = event.currentTarget as HTMLSelectElement;
-          const arr = product.variant.split(/:|, /);
-          const ind = arr.indexOf(String(select.value));
-          if (stock) {
-            stock.max = arr[ind + 1];
-            stock.value = String(Math.min(+stock.value, +arr[ind + 1]));
-          }
-          productData.size = select.value;
-          productData.stock = stock.value;
-        });
-
-        stock.addEventListener(`change`, () => {
-          productData.stock = stock.value;
-        })
-
-        addCartBtn?.addEventListener('click', () => {
-          if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
-            productData.color = colorSpan?.textContent;
-            this.controller.addToCart(productData);
-            this.updateView.updateCart();
-            this.modalView.create(alertsData.add[this.lang as keyof typeof alertsData['add']])
-          } else {
-            this.modalView.create(alertsData.choose[this.lang as keyof typeof alertsData['choose']])
-          }
-        });
-
-        if (favBtn) {
-          favBtn.addEventListener('click', () => {
-            if (userData) {
-              if (isExist) {
-                this.modalView.create(alertsData.wl[this.lang as keyof typeof alertsData['wl']])
-              } else {
-                favBtn.classList.toggle('active')
-                const wishItem = {
-                  productId: product._id,
-                  isExist: true,
-                }
-                this.api.addWishItem(wishItem, userData).then((data) => {
-                  this.updateView.updateWishlistNum();
-                  this.modalView.create(alertsData.wladd[this.lang as keyof typeof alertsData['wladd']])
-                  isExist = data;
-                })
-              }
-            } else {
-              this.modalView.create(alertsData.wlreg[this.lang as keyof typeof alertsData['wlreg']])
+                  `;
+          const colorSpan = document.querySelector(`.product-item__color-span`);
+          const colorBtns = document.querySelector(`.product-item__colors`);
+          colorBtns?.addEventListener(`click`, (e) => {
+            const ev = e?.target as HTMLElement;
+            const radio = ev?.closest(`input`) as HTMLInputElement;
+            if (radio && colorSpan) {
+              colorSpan.textContent = radio.value;
             }
           })
+          const colorRadios = colorBtns?.querySelectorAll(`.product-item__radio`) as NodeListOf<HTMLInputElement>;
+          for (const radio of colorRadios) {
+            radio.style.setProperty('--color', `${radio.id}`);
+          }
+          const addCartBtn = document.querySelector(`.product-item__cart`);
+          const favBtn = document.querySelector('.product-item__favourite')
+
+
+          const wishList = await this.api.getAllWishItems(userData) as IWishListData[];
+          let isExist = wishList.find(el => el.productId === id);
+          if (isExist && favBtn) {
+            favBtn.classList.add('active')
+          }
+
+
+          const stock = document.querySelector(`.product-item__stock`) as HTMLInputElement;
+          stock.value = '1';
+          const sizeSelect = document.querySelector(`.product-item__size`);
+          sizeSelect?.addEventListener(`change`, (event) => {
+            const select = event.currentTarget as HTMLSelectElement;
+            const arr = product.variant.split(/:|, /);
+            const ind = arr.indexOf(String(select.value));
+            if (stock) {
+              stock.max = arr[ind + 1];
+              stock.value = String(Math.min(+stock.value, +arr[ind + 1]));
+            }
+            productData.size = select.value;
+            productData.stock = stock.value;
+          });
+
+          stock.addEventListener(`change`, () => {
+            productData.stock = stock.value;
+          })
+
+          addCartBtn?.addEventListener('click', () => {
+            if (typeof colorSpan?.textContent === 'string' && productData.size && productData.stock) {
+              productData.color = colorSpan?.textContent;
+              this.controller.addToCart(productData);
+              this.updateView.updateCart();
+              this.modalView.create(alertsData.add[this.lang as keyof typeof alertsData['add']])
+            } else {
+              this.modalView.create(alertsData.choose[this.lang as keyof typeof alertsData['choose']])
+            }
+          });
+
+          if (favBtn) {
+            favBtn.addEventListener('click', () => {
+              if (userData) {
+                if (isExist) {
+                  this.modalView.create(alertsData.wl[this.lang as keyof typeof alertsData['wl']])
+                } else {
+                  favBtn.classList.toggle('active')
+                  const wishItem = {
+                    productId: product._id,
+                    isExist: true,
+                  }
+                  this.api.addWishItem(wishItem, userData).then((data) => {
+                    this.updateView.updateWishlistNum();
+                    this.modalView.create(alertsData.wladd[this.lang as keyof typeof alertsData['wladd']])
+                    isExist = data;
+                  })
+                }
+              } else {
+                this.modalView.create(alertsData.wlreg[this.lang as keyof typeof alertsData['wlreg']])
+              }
+            })
+          }
         }
       }
+
     })().catch(err => { console.error(err) });
     return productEl;
   }

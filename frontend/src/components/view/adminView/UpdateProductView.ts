@@ -46,19 +46,17 @@ class ChangeProductView extends Element {
         if (currentUser.role !== 'user' && currentUser.role !== 'courier') {
           const [product, status] = await this.api.getProduct(id) as [IProduct, number];
           if (status === 404) {
-            main.append(this.alertView.create())
-            throw new Error(`Page not found`);
-          }
-          container.append(this.sidebarView.create(userData));
-          const accountWrap = this.createEl('div', '', 'account__wrapper', container);
+            container.append(this.alertView.create())
+          } else {
+            container.append(this.sidebarView.create(userData));
+            const accountWrap = this.createEl('div', '', 'account__wrapper', container);
 
-          const name = {
-            eng: `Editing of the product "${product.name.split(':')[0]}"`,
-            ru: `Редактирование продукта "${product.name.split(':')[1]}"`,
-          }
-          document.title = name[this.lang as keyof typeof name]
-
-          accountWrap.innerHTML = `
+            const name = {
+              eng: `Editing of the product "${product.name.split(':')[0]}"`,
+              ru: `Редактирование продукта "${product.name.split(':')[1]}"`,
+            }
+            document.title = name[this.lang as keyof typeof name]
+            accountWrap.innerHTML = `
                     <h2 class="account__title">${name[this.lang as keyof typeof name]}<h2>
                     <span class="account__article">Art. No. ${product._id.slice(-10)}</span>
                     <form data-update-product-form>
@@ -104,33 +102,34 @@ class ChangeProductView extends Element {
                     <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>${adminLang.upd[this.lang as keyof typeof adminLang['upd']]}</button>
                     </form>
                     `;
-          const inputsValues: IProductCreated = { _id: id }
-          const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`[data-update-input]`);
-          for (const input of inputs) {
-            input.value = product[input.dataset.updateInput as keyof typeof product];
-            inputsValues[input.dataset.updateInput as keyof typeof inputsValues] = input.value;
-            input.addEventListener('change', () => {
+            const inputsValues: IProductCreated = { _id: id }
+            const inputs = accountWrap.querySelectorAll<HTMLInputElement>(`[data-update-input]`);
+            for (const input of inputs) {
+              input.value = product[input.dataset.updateInput as keyof typeof product];
               inputsValues[input.dataset.updateInput as keyof typeof inputsValues] = input.value;
+              input.addEventListener('change', () => {
+                inputsValues[input.dataset.updateInput as keyof typeof inputsValues] = input.value;
+              })
+            }
+            const inputFile = accountWrap.querySelector<HTMLInputElement>(`[data-update-file]`);
+            inputFile?.addEventListener('change', () => {
+              const fd = new FormData();
+              const inputImage = document.querySelector('.account__input_image') as HTMLInputElement;
+              const [image] = inputFile.files as FileList;
+              fd.append('image', image);
+              this.api.addProductImage(userData, fd).then((data) => {
+                inputImage.value = data.image;
+                inputsValues.image = data.image;
+              })
             })
+            const form = accountWrap.querySelector(`[data-update-product-form]`);
+            form?.addEventListener('submit', (e) => {
+              e.preventDefault();
+              this.api.updateProduct(userData, inputsValues).then(() => {
+                window.location.hash = '#/adminpanel/products'
+              })
+            });
           }
-          const inputFile = accountWrap.querySelector<HTMLInputElement>(`[data-update-file]`);
-          inputFile?.addEventListener('change', () => {
-            const fd = new FormData();
-            const inputImage = document.querySelector('.account__input_image') as HTMLInputElement;
-            const [image] = inputFile.files as FileList;
-            fd.append('image', image);
-            this.api.addProductImage(userData, fd).then((data) => {
-              inputImage.value = data.image;
-              inputsValues.image = data.image;
-            })
-          })
-          const form = accountWrap.querySelector(`[data-update-product-form]`);
-          form?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.api.updateProduct(userData, inputsValues).then(() => {
-              window.location.hash = '#/adminpanel/products'
-            })
-          });
         } else {
           container.append(this.alertView.createNotAdminAlert())
         }

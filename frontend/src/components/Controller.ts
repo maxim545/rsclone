@@ -77,7 +77,7 @@ class Controller {
                 this.modalView.create(alertsData.pass[this.lang as keyof typeof alertsData['pass']]);
             } else {
                 localStorage.setItem('userData', JSON.stringify(userData))
-                return userData
+                return status;
             }
         } else {
             this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
@@ -107,10 +107,6 @@ class Controller {
         const userData = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         const [orderData, status] = await this.api.makeOrder(cartsData, userData);
         localStorage.removeItem('cartData');
-        window.location.hash = '/purchases'
-        if (status === 201) {
-            this.modalView.create(alertsData.order[this.lang as keyof typeof alertsData['order']])
-        }
     }
 
     chageLang(lang: string) {

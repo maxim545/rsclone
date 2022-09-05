@@ -81,7 +81,7 @@ class CreateProductView extends Element {
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.img[this.lang as keyof typeof adminLang['img']]}</p>
                       <input class="form-control account__inpu account__input_image" type="text" data-create-input="image" disabled required>
-                      <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image" required>
+                      <input class="form-control account__input account__input_file" type="file" accept="image/png, image/jpeg" data-update-file="image" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.variant[this.lang as keyof typeof adminLang['variant']]}</p>

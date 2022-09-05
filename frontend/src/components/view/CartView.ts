@@ -6,7 +6,8 @@ import Element from "../common/Element";
 import Controller from "../Controller";
 import UpdateView from "../Update";
 import AlertsView from "./AlertsView";
-import { cartLang } from "../data-lang";
+import { cartLang, alertsData } from "../data-lang";
+import ModalView from "./ModalView";
 
 class CartView extends Element {
 
@@ -18,6 +19,9 @@ class CartView extends Element {
 
     private alertView: AlertsView;
 
+    private modalView: ModalView;
+
+
     private lang: string;
 
     constructor() {
@@ -27,6 +31,7 @@ class CartView extends Element {
         this.updateView = new UpdateView();
         this.alertView = new AlertsView();
         this.lang = localStorage.getItem('current-lang') as string;
+        this.modalView = new ModalView();
     }
 
     create() {
@@ -47,7 +52,6 @@ class CartView extends Element {
                 }
             })()
         }) */
-        console.log(cartsItems);
 
         if (cartsItems && cartsItems.length) {
             this.createEl('h2', cartLang['cart-title'][this.lang as keyof typeof cartLang['cart-title']], 'cart__title', cartEl);
@@ -182,6 +186,7 @@ class CartView extends Element {
                 unputsValues[name as keyof typeof unputsValues] = input.value;
             }
         })
+
         return [shippingList, unputsValues];
     }
 
@@ -207,17 +212,22 @@ class CartView extends Element {
         orderBtn.setAttribute("Form", 'form1');
         orderBtn.addEventListener('click', () => {
             if (userData) {
-                this.controller.makeOrder(orderData).then(() => {
+                (async () => {
+                    await this.controller.makeOrder(orderData);
                     this.updateView.updateCart();
-                })
+                    this.modalView.create(alertsData.order[this.lang as keyof typeof alertsData['order']]);
+                    window.location.hash = '/purchases';
+                })().catch(err => { console.error(err) });
             } else {
                 this.controller.registerUser(unputsValues)
-                    .then((data) => {
-                        if (data) {
-                            this.controller.makeOrder(orderData);
-                            setTimeout(() => {
+                    .then((status) => {
+                        if (status === 200 || status === 201) {
+                            (async () => {
+                                await this.controller.makeOrder(orderData);
                                 this.updateView.updateHeader();
-                            }, 300);
+                                window.location.hash = '/purchases';
+                                this.modalView.create(alertsData.order[this.lang as keyof typeof alertsData['order']]);
+                            })().catch(err => { console.error(err) });
                         }
                     })
             }

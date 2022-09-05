@@ -212,6 +212,7 @@
   font-size: 12px;
   line-height: 150%;
   color: #787A80;
+  text-transform: capitalize;
 }
 
 .filter-color__label:hover+.color-checkbox-wrapper {

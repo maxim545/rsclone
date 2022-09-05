@@ -196,6 +196,10 @@
         width: 100%;
     }
 
+    .admin-product__title h3 {
+        text-align: center;
+    }
+
     .admin-products__create {
         width: 100%;
         margin-top: 15px;
@@ -205,6 +209,11 @@
         flex-direction: column;
         align-items: center;
         padding: 20px 10px;
+    }
+
+    .admin-product__quantities {
+        width: initial;
+        margin-bottom: 10px;
     }
 
     .admin-product>div {

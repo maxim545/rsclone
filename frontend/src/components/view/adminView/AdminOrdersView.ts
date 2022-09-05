@@ -92,7 +92,7 @@ class PurchaseView extends Element {
                                 this.api.updateOrder(userData, newOrderData)
                             });
 
-                            this.createEl('div', `$${item.price.toFixed(1)}`, 'tab__header-item tab__header-price', orderbHeader);
+                            this.createEl('div', `$${item.price.toFixed(2)}`, 'tab__header-item tab__header-price', orderbHeader);
                             if (currentUser.role === 'admin') {
                                 const orderBtnEl = this.createEl('div', '<i class="bi bi-trash3"></i>', 'tab__header-item tab__header-delete-btn', orderbHeader);
                                 orderBtnEl.dataset.id = item._id;
@@ -131,20 +131,20 @@ class PurchaseView extends Element {
                                 const itemPrice = this.createEl('div', '', 'cart__row cart__row_price', cartItemEl);
 
                                 const discPrice = (Number(product.price) - Number(product.price) * Number(product.discount) / 100);
-                                const withoutDisc = Number(product.price);
+                                const withoutDisc = Number(Number(product.price).toFixed(2));
                                 this.createEl('div', `${cartLang['cart-price'][this.lang as keyof typeof cartLang['cart-price']]}:`, 'cart__item-title', itemPrice);
                                 const prices = this.createEl('div', ``, 'cart__item-text', itemPrice);
                                 if (Number(product.discount)) {
-                                    this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_orange', prices);
-                                    this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'order__item-price_grey', prices);
+                                    this.createEl('span', `$${discPrice.toFixed(2)}`, 'order__item-price_orange', prices);
+                                    this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'order__item-price_grey', prices);
                                 } else {
-                                    this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_black', prices);
+                                    this.createEl('span', `$${discPrice.toFixed(2)}`, 'order__item-price_black', prices);
                                 }
 
                                 const itemQuantity = this.createEl('div', '', 'cart__row cart__row_uantity', cartItemEl);
                                 this.createEl('span', `${cartLang['cart-quan'][this.lang as keyof typeof cartLang['cart-quan']]}:`, 'cart__item-title', itemQuantity);
                                 this.createEl('span', `${product.stock}`, 'cart__item-text', itemQuantity);
-                                const totalItemPrice = (Number(discPrice) * Number(product.stock)).toFixed(1)
+                                const totalItemPrice = (Number(discPrice) * Number(product.stock)).toFixed(2)
                                 const itemSubtotal = this.createEl('div', '', 'cart__row cart__row_subtotal', cartItemEl);
                                 this.createEl('span', `${cartLang['cart-subtotal'][this.lang as keyof typeof cartLang['cart-subtotal']]}:`, 'cart__item-title', itemSubtotal);
                                 this.createEl('span', `$${totalItemPrice} `, 'cart__item-text', itemSubtotal);

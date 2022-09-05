@@ -78,7 +78,7 @@ class PurchaseView extends Element {
                             <div class="tab__header-item tab__header-id">#${item._id.toUpperCase().slice(0, 10)}</div>
                             <div class="tab__header-item tab__header-date"><i class="bi bi-clock"></i>${month} ${day}, ${year}</div>
                             <div class="tab__header-item"><span class="tab__header-status tab__header-status_${item.orderStatus}">${statusLang}</span></div>
-                            <div class="tab__header-item tab__header-price">$${item.price.toFixed(1)}</div>
+                            <div class="tab__header-item tab__header-price">$${item.price.toFixed(2)}</div>
                         </div>
                         `;
                         const orderItem = this.createEl('div', `
@@ -110,16 +110,16 @@ class PurchaseView extends Element {
                             this.createEl('div', `${cartLang['cart-price'][this.lang as keyof typeof cartLang['cart-price']]}:`, 'cart__item-title', itemPrice);
                             const prices = this.createEl('div', ``, 'cart__item-text', itemPrice);
                             if (Number(product.discount)) {
-                                this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_orange', prices);
-                                this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'order__item-price_grey', prices);
+                                this.createEl('span', `$${discPrice.toFixed(2)}`, 'order__item-price_orange', prices);
+                                this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'order__item-price_grey', prices);
                             } else {
-                                this.createEl('span', `$${discPrice.toFixed(1)}`, 'order__item-price_black', prices);
+                                this.createEl('span', `$${discPrice.toFixed(2)}`, 'order__item-price_black', prices);
                             }
 
                             const itemQuantity = this.createEl('div', '', 'cart__row cart__row_uantity', cartItemEl);
                             this.createEl('span', `${cartLang['cart-quan'][this.lang as keyof typeof cartLang['cart-quan']]}:`, 'cart__item-title', itemQuantity);
                             this.createEl('span', `${product.stock}`, 'cart__item-text', itemQuantity);
-                            const totalItemPrice = (Number(discPrice) * Number(product.stock)).toFixed(1)
+                            const totalItemPrice = (Number(discPrice) * Number(product.stock)).toFixed(2)
                             const itemSubtotal = this.createEl('div', '', 'cart__row cart__row_subtotal', cartItemEl);
                             this.createEl('span', cartLang['cart-subtotal'][this.lang as keyof typeof cartLang['cart-subtotal']], 'cart__item-title', itemSubtotal);
                             this.createEl('span', `$${totalItemPrice} `, 'cart__item-text', itemSubtotal);

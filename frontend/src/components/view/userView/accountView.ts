@@ -37,7 +37,7 @@ class AccountView extends Element {
             container.append(this.sidebarView.create(userData))
             const accountEl = this.createEl('div', '', 'account__wrapper', container);
             this.createEl('h2', accData['acc-page-title'][lang as keyof typeof accData['acc-page-title']], 'account__title', accountEl);
-            const inpustList = this.createEl('div', '', 'account__inputs-list', accountEl);
+            const inpustList = this.createEl('form', '', 'account__inputs-list', accountEl);
             const inputs = [
                 `name:text:${accData.name[lang as keyof typeof accData['name']]}`,
                 `surname:text:${accData.surname[lang as keyof typeof accData['surname']]}`,
@@ -45,7 +45,7 @@ class AccountView extends Element {
                 `email:email:${accData.email[lang as keyof typeof accData['email']]}`,
                 `password:password:${accData.password[lang as keyof typeof accData['password']]}`,
                 `repeatPassword:password:${accData.repPassword[lang as keyof typeof accData['repPassword']]}`,
-                `phone:text:${accData.phone[lang as keyof typeof accData['phone']]}`,
+                `phone:tel:${accData.phone[lang as keyof typeof accData['phone']]}`,
                 `adress:text:${accData.adress[lang as keyof typeof accData['adress']]}`]
             const unputsValues: IUserData = {}
             inputs.forEach(item => {
@@ -63,8 +63,13 @@ class AccountView extends Element {
                     unputsValues[name as keyof typeof unputsValues] = input.value;
                 }
             })
-            const submit = this.createEl('button', accData.btn[lang as keyof typeof accData['btn']], 'btn btn-primary auth__btn', accountEl);
-            submit.addEventListener('click', () => {
+            const tel = inpustList.querySelector(`[type="tel"]`) as HTMLInputElement;
+            console.dir(tel);
+            tel.pattern = "[+]{1}[0-9]{8,15}";
+            const submit = this.createEl('button', accData.btn[lang as keyof typeof accData['btn']], 'btn btn-primary auth__btn', inpustList) as HTMLButtonElement;
+            submit.type = `submit`;
+            inpustList?.addEventListener('submit', (e) => {
+                e.preventDefault();
                 this.controller.changeUserData(unputsValues)
                     .then(() => {
                         this.updateView.updateHeader();

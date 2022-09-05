@@ -514,6 +514,10 @@ export const catLang: TLang = {
         "eng": "Sizes",
         "ru": "Размеры",
     },
+    "cat-price": {
+        "eng": "Price",
+        "ru": "Цена",
+    },
 }
 
 
@@ -695,8 +699,8 @@ export const adminLang: TLang = {
         "ru": "Цвет в формате - blue, yellow<b>:</b>синий, желтый",
     },
     "img": {
-        "eng": "Image (No need to fill in, fills in automatically)",
-        "ru": "Картинка (Заполнять не нужно, заполняется автоматически)",
+        "eng": "Image",
+        "ru": "Картинка",
     },
     "dis": {
         "eng": "Discount",

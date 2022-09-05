@@ -118,7 +118,7 @@ class AdminProductsView extends Element {
                   </div>
                   <div class="admin-product__price">
                     <span>${adminLang.price[this.lang as keyof typeof adminLang['price']]}</span>
-                    <b>$${product.price}</b>
+                    <b>$${Number(product.price).toFixed(2)}</b>
                   </div>
                   <div class="admin-product__quantities">
                     <span>${adminLang.quan[this.lang as keyof typeof adminLang['quan']]}</span>

@@ -172,13 +172,13 @@ class CatalogView extends Element {
           const itemAllPrice = document.getElementById(`item__allprice-${index}`) as HTMLElement;
           if (Number(item.discount) && Number(item.discount) > 0) {
             const withDiscount = Number(item.price) * (100 - Number(item.discount)) / 100;
-            itemAllPrice.innerHTML = `<div class="item__price item__discount-price">$${String(withDiscount)}</div>`;
-            itemAllPrice.innerHTML += `<div class="item__without-discount">$${item.price}</div>`;
+            itemAllPrice.innerHTML = `<div class="item__price item__discount-price">$${String(withDiscount.toFixed(2))}</div>`;
+            itemAllPrice.innerHTML += `<div class="item__without-discount">$${Number(item.price).toFixed(2)}</div>`;
             const imageContainer = document.getElementById(`image-container-${index}`) as HTMLElement;
             imageContainer.innerHTML += `<div class="sale-container">-${item.discount}%</div>`;
           }
           else {
-            itemAllPrice.innerHTML = `<div class="item__price">$${item.price}</div>`;
+            itemAllPrice.innerHTML = `<div class="item__price">$${Number(item.price).toFixed(2)}</div>`;
           }
         });
       }
@@ -208,6 +208,7 @@ class CatalogView extends Element {
                   </div>
                 </div>
                 <div class="filter-container__price">
+                  <p class="filters-content_name">${catLang['cat-price'][this.lang as keyof typeof catLang['cat-brand']]}</p>
                   <div id="select-price" class="filters-content__price"></div>
                   <div class="input-price">
                     <input type="number" id="input-number_low" class="input-number__price">

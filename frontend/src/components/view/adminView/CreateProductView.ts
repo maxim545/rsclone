@@ -56,7 +56,7 @@ class CreateProductView extends Element {
                   <div class="account__inputs-list">
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.name[this.lang as keyof typeof adminLang['name']]}</p>
-                      <input class="form-control account__input" type="text" data-create-input="name" required>
+                      <input class="form-control account__input" type="text" pattern=".{2,}:.{2,}" data-create-input="name" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.year[this.lang as keyof typeof adminLang['year']]}</p>
@@ -64,11 +64,11 @@ class CreateProductView extends Element {
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.color[this.lang as keyof typeof adminLang['color']]}</p>
-                      <input class="form-control account__input" type="text" data-create-input="color" required>
+                      <input class="form-control account__input" type="text" pattern="(\\b[a-z]{2,}\\b, )*[a-z]{2,}:([а-я]{2,}, )*([а-я]{2,})" data-create-input="color" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.category[this.lang as keyof typeof adminLang['category']]}</p>
-                      <input class="form-control account__input" type="text" data-create-input="category" required>
+                      <input class="form-control account__input" type="text" pattern="[A-Za-z-]{2,}:[А-Яа-яЁё-]{2,}" data-create-input="category" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.price[this.lang as keyof typeof adminLang['price']]}</p>
@@ -76,20 +76,20 @@ class CreateProductView extends Element {
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.brand[this.lang as keyof typeof adminLang['brand']]}</p>
-                      <input class="form-control account__input" type="text" data-create-input="brand" required>
+                      <input class="form-control account__input" type="text" pattern="[A-Za-zА-Яа-яЁё0-9-]{2,}" data-create-input="brand" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.img[this.lang as keyof typeof adminLang['img']]}</p>
-                      <input class="form-control account__inpu account__input_image" type="text" data-create-input="image" required>
+                      <input class="form-control account__inpu account__input_image" type="text" data-create-input="image" disabled required>
                       <input class="form-control account__input account__input_file" type="file" accept="image/png, image/jpeg" data-update-file="image" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.variant[this.lang as keyof typeof adminLang['variant']]}</p>
-                      <input class="form-control account__input" type="text" data-create-input="variant" required>
+                      <input class="form-control account__input" type="text" pattern="([A-Za-zА-Яа-яЁё0-9-]{1,}:([0-9]{1,}), )*([A-Za-zА-Яа-яЁё0-9-]{1,}:([0-9]{1,}))" data-create-input="variant" required>
                     </div>
                     <div class="account__inputs-item">
                       <p class="account__inputs-title">${adminLang.dis[this.lang as keyof typeof adminLang['dis']]}</p>
-                      <input class="form-control account__input" type="number" data-create-input="discount" min="0" max="100" required>
+                      <input class="form-control account__input" type="number" data-create-input="discount" min="0" max="100" step="1" required>
                     </div>
                   </div>
                   <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>${adminLang['create-title'][this.lang as keyof typeof adminLang['create-title']]}</button>

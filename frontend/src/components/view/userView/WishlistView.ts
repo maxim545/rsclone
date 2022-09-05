@@ -73,10 +73,10 @@ class AccountView extends Element {
                         if (Number(product.discount)) {
                             this.createEl('div', `-${product.discount}%`, 'wishlit__item-discount', imageEl);
                             const discWrapperEl = this.createEl('div', '', 'wishlit__item-discount-wrapper', itemInfoEl);
-                            this.createEl('div', `$${discPrice.toFixed(1)}`, 'wishlit__item-price wishlit__item-price_orange', discWrapperEl);
-                            this.createEl('div', `$${withoutDisc.toFixed(1)}`, 'wishlit__item-price wishlit__item-price_gray', discWrapperEl);
+                            this.createEl('div', `$${discPrice.toFixed(2)}`, 'wishlit__item-price wishlit__item-price_orange', discWrapperEl);
+                            this.createEl('div', `$${withoutDisc.toFixed(2)}`, 'wishlit__item-price wishlit__item-price_gray', discWrapperEl);
                         } else {
-                            this.createEl('div', `$${discPrice.toFixed(1)}`, 'wishlit__item-price wishlit__item-price_bold', itemInfoEl);
+                            this.createEl('div', `$${discPrice.toFixed(2)}`, 'wishlit__item-price wishlit__item-price_bold', itemInfoEl);
                         }
 
 

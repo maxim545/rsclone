@@ -211,12 +211,12 @@ class ProductView extends Element {
     const discPrice = (Number(price) - Number(price) * Number(discount) / 100);
     if (Number(discount)) {
       return `
-      <div class="product-item__price product-item__price_orange">$${discPrice}</div>
-      <div class="product-item__price product-item__price_grey">$${price}</div>
+      <div class="product-item__price product-item__price_orange">$${Number(discPrice).toFixed(2)}</div>
+      <div class="product-item__price product-item__price_grey">$${Number(price).toFixed(2)}</div>
       <div class="product-item__price product-item__price_discount">-${discount}%</div>
       `
     }
-    return `<div class="product-item__price product-item__price_bold">$${price}</div>`
+    return `<div class="product-item__price product-item__price_bold">$${Number(price).toFixed(2)}</div>`
   }
 
   getColorBtns(colors: string) {

@@ -608,6 +608,8 @@ class CatalogView extends Element {
 
 
       const sortProducts = () => {
+        console.log(obj.arrFilter);
+
         const sortParameter = localStorage.getItem('sortParam');
         const lang = localStorage.getItem('current-lang') as string;
         if (sortParameter === 'DownYear') {
@@ -617,10 +619,18 @@ class CatalogView extends Element {
           obj.arrFilter.sort((a, b) => (b.year > a.year ? -1 : 1));
         }
         if (sortParameter === 'DownPrice') {
-          obj.arrFilter.sort((a, b) => (b.price as unknown as number) - (a.price as unknown as number));
+          obj.arrFilter.sort((a, b) => {
+            const priceA = Number(a.price) * (100 - Number(a.discount)) / 100
+            const priceB = Number(b.price) * (100 - Number(b.discount)) / 100
+            return priceB - priceA;
+          });
         }
         if (sortParameter === 'UpPrice') {
-          obj.arrFilter.sort((a, b) => (a.price as unknown as number) - (b.price as unknown as number));
+          obj.arrFilter.sort((a, b) => {
+            const priceA = Number(a.price) * (100 - Number(a.discount)) / 100
+            const priceB = Number(b.price) * (100 - Number(b.discount)) / 100
+            return priceA - priceB;
+          });
         }
         if (sortParameter === 'UpName') {
           obj.arrFilter.sort((a, b) => {

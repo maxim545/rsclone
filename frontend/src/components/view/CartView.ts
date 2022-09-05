@@ -96,16 +96,16 @@ class CartView extends Element {
                         totalPrice += discPrice;
                         const priceEl = this.createEl('div', ``, 'cart__item-price', cartItemEl);
                         if (Number(item.discount)) {
-                            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
-                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
+                            this.createEl('span', `$${discPrice.toFixed(2)}`, 'cart__item-price_orange', priceEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'cart__item-price_grey', priceEl);
                         } else {
-                            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
+                            this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'cart__item-price_black', priceEl);
                         }
 
                         inputAmount.addEventListener('change', () => {
                             item.stock = inputAmount.value;
                             const finallyPrice = this.updateCartPrice(cartsItems, priceEl, item.discount, item.stock, item.price);
-                            orderData.price = Number(finallyPrice.toFixed(1));
+                            orderData.price = Number(finallyPrice.toFixed(2));
                         });
 
 
@@ -138,7 +138,7 @@ class CartView extends Element {
                 const itemsAmount = orderData.orderItems.length;
                 const [sidebar, finallyPrice] = this.createSideBar(container, totalPrice, itemsAmount) as [HTMLElement, number];
                 orderData.price = finallyPrice;
-                this.createEl('div', `${cartLang['cart-subtotal'][this.lang as keyof typeof cartLang['cart-subtotal']]}: $${totalPrice.toFixed(1)}`, 'cart__subtotal', cartListEl);
+                this.createEl('div', `${cartLang['cart-subtotal'][this.lang as keyof typeof cartLang['cart-subtotal']]}: $${totalPrice.toFixed(2)}`, 'cart__subtotal', cartListEl);
 
                 cartEl.append(inpustList)
                 if (itemsAmount) {
@@ -198,11 +198,11 @@ class CartView extends Element {
         const shippingPrice = itemsAmount * 5;
         const finallyPrice = price + shippingPrice
         this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">${cartLang['cart-subtotal'][this.lang as keyof typeof cartLang['cart-subtotal']]}:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_value">$${price.toFixed(1)}</div>`, 'cart__sidebar-item', itemsListEl);
+        <div class="cart__sidebar-price cart__sidebar-price_value">$${price.toFixed(2)}</div>`, 'cart__sidebar-item', itemsListEl);
         this.createEl('div', `<div class="cart__sidebar-price">${cartLang['cart-shipping'][this.lang as keyof typeof cartLang['cart-shipping']]}:</div>
         <div class="cart__sidebar-price cart__sidebar-price_shipping">$${shippingPrice}</div>`, 'cart__sidebar-item', itemsListEl);
         this.createEl('div', `<div class="cart__sidebar-price cart__sidebar-price_title">${cartLang['cart-total'][this.lang as keyof typeof cartLang['cart-total']]}:</div>
-        <div class="cart__sidebar-price cart__sidebar-price_bold">$${finallyPrice.toFixed(1)}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
+        <div class="cart__sidebar-price cart__sidebar-price_bold">$${finallyPrice.toFixed(2)}</div>`, 'cart__sidebar-item cart__sidebar-item_bold', wrapperEl);
         return [sidebar, finallyPrice];
     }
 
@@ -244,10 +244,10 @@ class CartView extends Element {
         const discPrice = ((Number(sumPrice) - Number(sumPrice) * Number(discount) / 100) * Number(stock));
         const withoutDisc = Number(price) * Number(stock)
         if (Number(discount)) {
-            this.createEl('span', `$${discPrice.toFixed(1)}`, 'cart__item-price_orange', priceEl);
-            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_grey', priceEl);
+            this.createEl('span', `$${discPrice.toFixed(2)}`, 'cart__item-price_orange', priceEl);
+            this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'cart__item-price_grey', priceEl);
         } else {
-            this.createEl('span', `$${withoutDisc.toFixed(1)}`, 'cart__item-price_black', priceEl);
+            this.createEl('span', `$${withoutDisc.toFixed(2)}`, 'cart__item-price_black', priceEl);
         }
 
         let totalPrice = 0;
@@ -258,7 +258,7 @@ class CartView extends Element {
 
         const subTotal = document.querySelector('.cart__subtotal');
         if (subTotal) {
-            subTotal.innerHTML = `Subtotal: $${totalPrice.toFixed(1)}`
+            subTotal.innerHTML = `Subtotal: $${totalPrice.toFixed(2)}`
         }
 
         const shippingPrice = cartsItems.length * 5;
@@ -268,13 +268,13 @@ class CartView extends Element {
         const sidebarFinallyPrice = document.querySelector('.cart__sidebar-price_bold');
 
         if (sidebarOrdersPrice) {
-            sidebarOrdersPrice.innerHTML = `$${totalPrice.toFixed(1)}`
+            sidebarOrdersPrice.innerHTML = `$${totalPrice.toFixed(2)}`
         }
         if (sidebarShipingPrice) {
-            sidebarShipingPrice.innerHTML = `$${shippingPrice.toFixed(1)}`
+            sidebarShipingPrice.innerHTML = `$${shippingPrice.toFixed(2)}`
         }
         if (sidebarFinallyPrice) {
-            sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(1)}`
+            sidebarFinallyPrice.innerHTML = `$${finallyPrice.toFixed(2)}`
         }
         return finallyPrice;
     }

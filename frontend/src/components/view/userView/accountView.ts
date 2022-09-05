@@ -63,8 +63,11 @@ class AccountView extends Element {
                     unputsValues[name as keyof typeof unputsValues] = input.value;
                 }
             })
+            const inps = inpustList.querySelectorAll<HTMLInputElement>(`input.form-control.account__input`);
+            for (const inp of inps) {
+                inp.required = true;
+            }
             const tel = inpustList.querySelector(`[type="tel"]`) as HTMLInputElement;
-            console.dir(tel);
             tel.pattern = "[+]{1}[0-9]{8,15}";
             const submit = this.createEl('button', accData.btn[lang as keyof typeof accData['btn']], 'btn btn-primary auth__btn', inpustList) as HTMLButtonElement;
             submit.type = `submit`;

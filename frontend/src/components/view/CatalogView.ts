@@ -181,6 +181,36 @@ class CatalogView extends Element {
             itemAllPrice.innerHTML = `<div class="item__price">$${Number(item.price).toFixed(2)}</div>`;
           }
         });
+
+        const favoriteBtn = document.querySelectorAll(".favorites-container");
+        favoriteBtn.forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (userData) {
+              const element = el as HTMLElement
+              const datasetId = element.dataset.id as string;
+              if (datasetId) {
+                this.api.removeWishItem(userData, datasetId).then(() => {
+                  this.updateView.updateWishlistNum();
+                  element.dataset.id = '';
+                  el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
+                });
+              } else if (element.dataset.productid) {
+                const wishItem = {
+                  productId: element.dataset.productid,
+                  isExist: true,
+                }
+                this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
+                  this.updateView.updateWishlistNum();
+                  element.dataset.id = data._id;
+                  el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
+                })
+              }
+            } else {
+              this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
+            }
+          })
+        })
       }
 
 
@@ -643,35 +673,7 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
-      const favoriteBtn = document.querySelectorAll(".favorites-container");
-      favoriteBtn.forEach((el) => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (userData) {
-            const element = el as HTMLElement
-            const datasetId = element.dataset.id as string;
-            if (datasetId) {
-              this.api.removeWishItem(userData, datasetId).then(() => {
-                this.updateView.updateWishlistNum();
-                element.dataset.id = '';
-                el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
-              });
-            } else if (element.dataset.productid) {
-              const wishItem = {
-                productId: element.dataset.productid,
-                isExist: true,
-              }
-              this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
-                this.updateView.updateWishlistNum();
-                element.dataset.id = data._id;
-                el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
-              })
-            }
-          } else {
-            this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
-          }
-        })
-      })
+
 
     })().catch(err => { console.error(err) });
 

@@ -181,6 +181,36 @@ class CatalogView extends Element {
             itemAllPrice.innerHTML = `<div class="item__price">$${Number(item.price).toFixed(2)}</div>`;
           }
         });
+
+        const favoriteBtn = document.querySelectorAll(".favorites-container");
+        favoriteBtn.forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (userData) {
+              const element = el as HTMLElement
+              const datasetId = element.dataset.id as string;
+              if (datasetId) {
+                this.api.removeWishItem(userData, datasetId).then(() => {
+                  this.updateView.updateWishlistNum();
+                  element.dataset.id = '';
+                  el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
+                });
+              } else if (element.dataset.productid) {
+                const wishItem = {
+                  productId: element.dataset.productid,
+                  isExist: true,
+                }
+                this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
+                  this.updateView.updateWishlistNum();
+                  element.dataset.id = data._id;
+                  el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
+                })
+              }
+            } else {
+              this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
+            }
+          })
+        })
       }
 
 
@@ -578,6 +608,8 @@ class CatalogView extends Element {
 
 
       const sortProducts = () => {
+        console.log(obj.arrFilter);
+
         const sortParameter = localStorage.getItem('sortParam');
         const lang = localStorage.getItem('current-lang') as string;
         if (sortParameter === 'DownYear') {
@@ -587,10 +619,18 @@ class CatalogView extends Element {
           obj.arrFilter.sort((a, b) => (b.year > a.year ? -1 : 1));
         }
         if (sortParameter === 'DownPrice') {
-          obj.arrFilter.sort((a, b) => (b.price as unknown as number) - (a.price as unknown as number));
+          obj.arrFilter.sort((a, b) => {
+            const priceA = Number(a.price) * (100 - Number(a.discount)) / 100
+            const priceB = Number(b.price) * (100 - Number(b.discount)) / 100
+            return priceB - priceA;
+          });
         }
         if (sortParameter === 'UpPrice') {
-          obj.arrFilter.sort((a, b) => (a.price as unknown as number) - (b.price as unknown as number));
+          obj.arrFilter.sort((a, b) => {
+            const priceA = Number(a.price) * (100 - Number(a.discount)) / 100
+            const priceB = Number(b.price) * (100 - Number(b.discount)) / 100
+            return priceA - priceB;
+          });
         }
         if (sortParameter === 'UpName') {
           obj.arrFilter.sort((a, b) => {
@@ -643,35 +683,7 @@ class CatalogView extends Element {
           sortProducts();
         });
       }
-      const favoriteBtn = document.querySelectorAll(".favorites-container");
-      favoriteBtn.forEach((el) => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (userData) {
-            const element = el as HTMLElement
-            const datasetId = element.dataset.id as string;
-            if (datasetId) {
-              this.api.removeWishItem(userData, datasetId).then(() => {
-                this.updateView.updateWishlistNum();
-                element.dataset.id = '';
-                el.innerHTML = `<i class="bi bi-heart wishlit__bi-heart-fill"></i>`;
-              });
-            } else if (element.dataset.productid) {
-              const wishItem = {
-                productId: element.dataset.productid,
-                isExist: true,
-              }
-              this.api.addWishItem(wishItem, userData).then((data: IWishListData) => {
-                this.updateView.updateWishlistNum();
-                element.dataset.id = data._id;
-                el.innerHTML = `<i class="bi bi-heart-fill wishlit__bi-heart-fill"></i>`;
-              })
-            }
-          } else {
-            this.modalView.create(alertsData['add-btn'][this.lang as keyof typeof alertsData['add-btn']])
-          }
-        })
-      })
+
 
     })().catch(err => { console.error(err) });
 

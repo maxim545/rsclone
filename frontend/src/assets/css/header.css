@@ -351,13 +351,13 @@ header {
   text-decoration: underline;
   text-underline-offset: 4px;
   color: #FFFFFF;
-  cursor: pointer;
+  /*   cursor: pointer; */
   padding-left: 5px;
+  text-decoration: none;
 }
 
 .bottom__link-offer_right:hover {
   color: #FFFFFF;
-  opacity: 0.6;
 }
 
 .header__topbar__content__profile {

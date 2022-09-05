@@ -63,7 +63,7 @@ class ChangeProductView extends Element {
                     <div class="account__inputs-list">
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.name[this.lang as keyof typeof adminLang['name']]}</p>
-                        <input class="form-control account__input" type="text" data-update-input="name" required>
+                        <input class="form-control account__input" type="text" pattern=".{2,}:.{2,}" data-update-input="name" required>
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.year[this.lang as keyof typeof adminLang['year']]}</p>
@@ -71,11 +71,11 @@ class ChangeProductView extends Element {
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.color[this.lang as keyof typeof adminLang['color']]}</p>
-                        <input class="form-control account__input" type="text" data-update-input="color" required>
+                        <input class="form-control account__input" type="text" pattern="(\\b[a-z]{2,}\\b, )*[a-z]{2,}:([а-я]{2,}, )*([а-я]{2,})" data-update-input="color" required>
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.category[this.lang as keyof typeof adminLang['catrgory']]}</p>
-                        <input class="form-control account__input" type="text" data-update-input="category" required>
+                        <input class="form-control account__input" type="text" pattern="[A-Za-z-]{2,}:[А-Яа-яЁё-]{2,}" data-update-input="category" required>
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.price[this.lang as keyof typeof adminLang['price']]}</p>
@@ -83,20 +83,20 @@ class ChangeProductView extends Element {
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.brand[this.lang as keyof typeof adminLang['brand']]}</p>
-                        <input class="form-control account__input" type="text" data-update-input="brand" required>
+                        <input class="form-control account__input" type="text" pattern="[A-Za-zА-Яа-яЁё0-9-]{2,}" data-update-input="brand" required>
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.img[this.lang as keyof typeof adminLang['img']]}</p>
-                        <input class="form-control account__input account__input_image" type="text" data-update-input="image" required>
-                        <input class="form-control account__input account__input_file" type="file" accept="image/*" data-update-file="image">
+                        <input class="form-control account__input account__input_image" type="text" data-update-input="image" disabled required>
+                        <input class="form-control account__input account__input_file" type="file" accept="image/png, image/jpeg" data-update-file="image">
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.variant[this.lang as keyof typeof adminLang['variant']]}</p>
-                        <input class="form-control account__input" type="text" data-update-input="variant" required>
+                        <input class="form-control account__input" type="text" pattern="([A-Za-zА-Яа-яЁё0-9-]{1,}:([0-9]{1,}), )*([A-Za-zА-Яа-яЁё0-9-]{1,}:([0-9]{1,}))" data-update-input="variant" required>
                       </div>
                       <div class="account__inputs-item">
                         <p class="account__inputs-title">${adminLang.dis[this.lang as keyof typeof adminLang['dis']]}</p>
-                        <input class="form-control account__input" type="number" data-update-input="discount" min="0" max="100" required>
+                        <input class="form-control account__input" type="number" data-update-input="discount" min="0" max="100" step="1" required>
                       </div>
                     </div>
                     <button class="btn btn-primary auth__btn" type="submit" data-submit-btn>${adminLang.upd[this.lang as keyof typeof adminLang['upd']]}</button>

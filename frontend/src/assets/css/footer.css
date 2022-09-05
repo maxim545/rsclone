@@ -271,6 +271,11 @@ a.footer__link:hover,
         align-items: center;
     }
 
+    .footer h3 {
+        text-align: center;
+    }
+
+
     .footer__apps a:first-child {
         margin-right: 0;
         margin-bottom: 10px;

@@ -63,8 +63,15 @@ class AccountView extends Element {
                     unputsValues[name as keyof typeof unputsValues] = input.value;
                 }
             })
+            const passwords = inpustList.querySelectorAll<HTMLInputElement>(`[type="password"]`);
+            for (const p of passwords) {
+                p.required = true;
+            }
+            const email = inpustList.querySelector(`[type="email"]`) as HTMLInputElement;
+            email.required = true;
+            const name = inpustList.querySelector(`.account__inputs-item:first-child input`) as HTMLInputElement;
+            name.required = true;
             const tel = inpustList.querySelector(`[type="tel"]`) as HTMLInputElement;
-            console.dir(tel);
             tel.pattern = "[+]{1}[0-9]{8,15}";
             const submit = this.createEl('button', accData.btn[lang as keyof typeof accData['btn']], 'btn btn-primary auth__btn', inpustList) as HTMLButtonElement;
             submit.type = `submit`;

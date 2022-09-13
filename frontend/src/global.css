@@ -1,0 +1,49 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('./assets/css/fonts.css');
+@import url('./assets/css/normalize.css');
+@import url('./assets/css/reboot.css');
+
+
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+    background: #fff;
+    font-family: Lato, Arial, sans-serif;
+}
+
+footer {
+    margin-top: auto;
+}
+
+header h1 {
+    font-size: 40px;
+    font-weight: 800;
+}
+
+/* .container_main {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    max-width: 1230px;
+} */
+
+
+@import 'nouislider/dist/nouislider.css';
+@import url('./assets/css/auth.css');
+@import url('./assets/css/sidebar.css');
+@import url('./assets/css/account.css');
+@import url('./assets/css/cart.css');
+@import url('./assets/css/single-page.css');
+@import url('./assets/css/orders.css');
+@import url('./assets/css/admin-products.css');
+@import url('./assets/css/alerts.css');
+@import url('./assets/css/header.css');
+@import url('./assets/css/maim-page-filters.css');
+@import url('./assets/css/wishlist.css');
+@import url('./assets/css/main-page-cards.css');
+@import url('./assets/css/footer.css');
+@import url('./assets/css/modal.css');

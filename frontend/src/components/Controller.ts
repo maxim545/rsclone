@@ -85,7 +85,7 @@ class Controller {
         return null;
     }
 
-    async changeUserData(unputsValues: IUserData) {
+    async changeUserData(unputsValues: IUserData, isCart = true) {
         const curUser = <IUserData>JSON.parse(localStorage.getItem('userData') || 'null');
         if (!unputsValues.password) {
             unputsValues.password = curUser.password;
@@ -97,7 +97,9 @@ class Controller {
             unputsValues.token = curUser.token
             const [userData] = await this.api.updateUser(unputsValues, (curUser._id as string)) as [IUserData, number];
             localStorage.setItem('userData', JSON.stringify(userData));
-            this.modalView.create(alertsData.userChange[this.lang as keyof typeof alertsData['userChange']])
+            if (isCart) {
+                this.modalView.create(alertsData.userChange[this.lang as keyof typeof alertsData['userChange']])
+            }
         } else {
             this.modalView.create(alertsData.field[this.lang as keyof typeof alertsData['field']])
         }
@@ -114,7 +116,6 @@ class Controller {
         const currentLang: string = lang.toLowerCase();
         localStorage.setItem('current-lang', currentLang);
         localStorage.removeItem('onFilters');
-        localStorage.removeItem('cartData');
         /* const allElements = document.querySelectorAll('[data-lng]');
         allElements.forEach((el) => {
             if (el instanceof HTMLElement) {

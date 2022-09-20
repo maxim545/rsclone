@@ -213,6 +213,7 @@ class CartView extends Element {
         orderBtn.addEventListener('click', () => {
             if (userData) {
                 (async () => {
+                    await this.controller.changeUserData(unputsValues, false)
                     await this.controller.makeOrder(orderData);
                     this.updateView.updateCart();
                     this.modalView.create(alertsData.order[this.lang as keyof typeof alertsData['order']]);

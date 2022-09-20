@@ -608,8 +608,6 @@ class CatalogView extends Element {
 
 
       const sortProducts = () => {
-        console.log(obj.arrFilter);
-
         const sortParameter = localStorage.getItem('sortParam');
         const lang = localStorage.getItem('current-lang') as string;
         if (sortParameter === 'DownYear') {

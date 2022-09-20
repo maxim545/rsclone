@@ -67,16 +67,19 @@ class RegisterView extends Element {
             const submit = this.createEl('button', langData['reg-title'][lang as keyof typeof langData['reg-title']], 'btn btn-primary auth__btn', registerEl);
             this.createEl('p', langData['reg-register'][lang as keyof typeof langData['reg-register']], 'auth__info', registerEl);
             submit.addEventListener('click', () => {
-                this.controller.registerUser({
-                    name: inputName.value,
-                    email: inputEmail.value,
-                    password: inputPassword.value,
-                    repeatPassword: inputRepPassword.value,
-                }).then(() => {
-                    window.location.hash = '/';
-                    window.location.reload();
-                    this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
-                })
+                (async () => {
+                    const status = await this.controller.registerUser({
+                        name: inputName.value,
+                        email: inputEmail.value,
+                        password: inputPassword.value,
+                        repeatPassword: inputRepPassword.value,
+                    })
+                    if (status === 200 || status === 201) {
+                        window.location.hash = '/';
+                        window.location.reload();
+                        this.modalView.create(alertsData.reg[this.lang as keyof typeof alertsData['reg']])
+                    }
+                })()
             });
         }
         return container;
